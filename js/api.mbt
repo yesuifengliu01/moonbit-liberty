@@ -15,6 +15,20 @@ pub fn check_netlist_json(netlist : String) -> String {
 }
 
 ///|
+/// Preserve SDC verbatim while accepting the existing library/netlist file BOM.
+pub fn analyze_constraint_context_json(
+  library : String,
+  netlist : String,
+  sdc : String,
+) -> String {
+  @sta.analyze_constraint_context_json(
+    without_initial_bom(library),
+    without_initial_bom(netlist),
+    sdc,
+  )
+}
+
+///|
 /// Standalone SDC-file checking. Preserve SDC source units exactly for positions.
 pub fn check_sdc_json(
   library : String,

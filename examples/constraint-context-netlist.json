@@ -1,0 +1,54 @@
+{
+  "ports": [
+    {
+      "name": "clk",
+      "net": "ck",
+      "direction": "input"
+    },
+    {
+      "name": "a/~😀",
+      "net": "a",
+      "direction": "input"
+    },
+    {
+      "name": "out/~😀",
+      "net": "y",
+      "direction": "output"
+    },
+    {
+      "name": "alias/#",
+      "net": "a",
+      "direction": "output"
+    }
+  ],
+  "gates": [
+    {
+      "name": "inv/~😀",
+      "cell": "INV",
+      "connections": [
+        {
+          "pin": "A",
+          "net": "a"
+        },
+        {
+          "pin": "Y",
+          "net": "y"
+        }
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "name": "ck",
+      "wire_cap_farads": 0
+    },
+    {
+      "name": "a",
+      "wire_cap_farads": 0
+    },
+    {
+      "name": "y",
+      "wire_cap_farads": 0
+    }
+  ]
+}

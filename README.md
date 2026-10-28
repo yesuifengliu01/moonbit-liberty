@@ -192,6 +192,27 @@ node tools/check-netlist.cjs examples/netlist-diagnostic-error.json
 
 此检查只解码已有 Netlist 结构，不执行图、驱动、引脚/库匹配、数值范围或时序分析；例如负线电容仍能被结构解码，后续 STA 保留原来的数值校验。原分析 API、默认错误 JSON、SDC 诊断及所有时序结果合同不变。
 
+## 未约束端点的因果见证
+
+原报告已经能按 pin/edge 定位未知 slack，也能区分 arrival 和 required 缺失。需要解释缺失 arrival 的上游来源时，可选调用 `engine.run_setup_with_constraint_context()`：在同一次 setup 传播中返回原 `timing` 和 `constraint_context`，不改变默认分析、摘要、周期预算、JSON 或错误合同。
+
+每个原有未知 slack 端点边沿最多带一条 `launch_witness`：原始输入端口 `port`、既有转义报告身份 `pin`、源 `edge`、实际接受的 net/时序弧路径。`MissingInputDelay` 表示该输入边沿未设 delay；`IdealClockNoDataArrival` 表示理想 clock 端口本来不作为数据 arrival，不能据此给 clock 添加被禁止的 input delay。DFF 的 Q 从时钟发射，切断 D 的缺失来源。缺少输出 delay 的端口另以原始名 `missing_output_delay_port` 标出，两类原因可同时存在。
+
+见证的 `path` 不伪造 arrival：source 步没有 `delay_seconds`，net 步按现有模型为 0，时序弧步保留本次已查表的延迟，单位为秒。它按引擎既有接受弧/相关输入/边沿顺序选择一条缺失来源，不是最坏时序路径、全部缺失输入清单或完整路径覆盖认证。若另一路已有 arrival，保持原端点覆盖规则，不把该端点重新归类为未覆盖。
+
+```sh
+moon build --target js --release
+node tools/constraint-context.cjs --help
+node tools/constraint-context.cjs examples/constraint-context.lib examples/constraint-context-netlist.json examples/constraint-context-partial.sdc
+node tools/constraint-context.cjs examples/constraint-context.lib examples/constraint-context-netlist.json examples/constraint-context-complete.sdc
+```
+
+自编常数 1D 反相器例子中，partial 输出 `out~1~0😀/Rise` 追到输入 `a~1~0😀/Fall`，经 `inv~1~0😀/A`、`inv~1~0😀/Y` 的 0.2ns 反相弧；直连 `alias~1#/Fall` 还缺自身的 output delay。完整对照输入为 0.6ns、反相器 arrival 为 0.8ns、required 为 1.8ns、slack 为 1.0ns，context 为空。该合成数据只用于手算验证，来源见 SOURCES。
+
+独立三文本核心/JS 入口 `analyze_constraint_context_json(library, netlist, sdc)` 使用默认 Extrapolate，返回 `moonbit.sta.constraint-context.v1`，包含原 `result`、原方法派生的 `setup_summary` 和 `constraint_context`。网表是独立 Netlist JSON，SDC 保持原文；库/网表文件允许单个首 BOM，所有文件须为 UTF-8，文件不改写。它不接收旧 request flags 或计算周期预算；原入口继续提供那些能力。
+
+文件工具退出 0 表示分析完成，包含 PartialCoverage 或负 slack 的情况；输入/分析/输出错误退出 2，主机 IO/编码诊断写 stderr。`--help` 无需构建。这是对现有受限模型报告的因果解释，不是时序闭合、所有路径约束完整或生产签核保证。
+
 ## 受限 SDC profile
 
 这是逐行读取的数据 profile，**不执行 Tcl**。数值按库 `time_unit` 和 `capacitive_load_unit` 转成 SI。先创建一个真实输入端口时钟，`-name` 与正 `-period` 必填；可选 `-waveform {0 T/2}`。对象仅 `[get_ports exact_name]`、列表 `{a b}`、或 `*`（筛选适用输入/输出且不含 clock）；时钟对象仅 `[get_clocks exact_clock_name]`。
@@ -275,6 +296,6 @@ python3 tools/verify-opensta.py --sta /path/to/sta --request examples/four_paths
 
 [CI 工作流](https://github.com/yesuifengliu01/moonbit-liberty/actions/workflows/ci.yml)使用普通 Ubuntu 24.04 runner，固定 MoonBit `0.10.13+cbb11c36f`、对应 core 及 Node `24.11.0`。SDK/core 官方下载地址与 SHA256 在 `tools/ci-toolchain.json`，Actions 引用也固定到提交。
 
-工作流执行全目标 check、格式检查、JS/Wasm-GC/native 测试及 release 构建，再以 `python3 tools/ci-consumers.py` 启动真实 CLI 验证示例、普通/检查退出码、BOM stdin、输入错误及关闭报告接收端。另运行 `python3 tools/ci-sdc-diagnostics.py` 和 `python3 tools/ci-netlist-diagnostics.py`，验证 SDC 命令起点、Netlist 语义路径及真实文件/API 消费。位置与路径预期独立手工确定，原状态、计数与裕量预期来自示例直连约束；失败会使 job 失败，三个报告保存在 `_build/ci-*.json`。这不替代完整时序签核或历史外部 OpenSTA 对照。
+工作流执行全目标 check、格式检查、JS/Wasm-GC/native 测试及 release 构建，再以 `python3 tools/ci-consumers.py` 启动真实 CLI 验证示例、普通/检查退出码、BOM stdin、输入错误及关闭报告接收端。另运行 `python3 tools/ci-sdc-diagnostics.py`、`python3 tools/ci-netlist-diagnostics.py` 和 `python3 tools/ci-constraint-context.py`，验证 SDC 命令起点、Netlist 语义路径、缺失 launch 的因果见证及真实文件/API 消费。位置、路径和常数弧 SI 预期独立手工确定，原状态、计数与裕量预期来自示例直连约束；失败会使 job 失败，报告保存在 `_build/ci-*.json`。这不替代完整时序签核或历史外部 OpenSTA 对照。
 
 `tools/bootstrap-ci.py`只把官方 SDK 安装到显式指定的新目录并验证归档 SHA，不覆盖已有 SDK。CI 在 runner 临时目录安装；已有本机工具链可直接运行以上常规命令。

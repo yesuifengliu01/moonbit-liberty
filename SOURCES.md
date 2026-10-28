@@ -18,3 +18,6 @@
 参考：https://github.com/The-OpenROAD-Project/OpenSTA 。本期以实际固定 Ubuntu 包为数值参考，未冒称当前 master 运行结果。
 
 没有取得 Synopsys 官方完整手册下载授权或签核认证；行为边界是本项目公开的受限 profile 和真实互操作证据。IEEE 1481 是 OLA，未用作 Liberty 格式编号。实现、规范、数据和 oracle 的许可各自独立，参考工具不作为运行时组件。
+
+
+The constraint-context demo (`examples/constraint-context.lib` and its testdata literal) is self-authored synthetic constant1D NLDM data: INV/OR2 delay0.2ns and transition0.1ns, zero input capacitance. It exists for hand-checkable causal-witness and SI tests, is not a PDK or physical accuracy reference, and uses the root Apache-2.0 license. Its netlist/SDC examples are also self-authored. No external reference generator was run for this capability.

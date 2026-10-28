@@ -7,6 +7,8 @@ import {
 }
 
 // Values
+pub fn analyze_constraint_context_json(String, String, String) -> String
+
 pub fn analyze_json(String, String) -> String
 
 pub fn check_netlist_json(String) -> String
@@ -56,6 +58,18 @@ pub(all) struct Connection {
   net : String
 } derive(ToJson, @debug.Debug)
 
+pub(all) struct ConstraintContextAnalysis {
+  timing : STAResult
+  constraint_context : Array[EndpointConstraintContext]
+} derive(ToJson, @debug.Debug)
+
+pub(all) struct ConstraintWitnessStep {
+  pin : String
+  edge : Edge
+  arc : String
+  delay_seconds : Double?
+} derive(ToJson, @debug.Debug)
+
 pub(all) enum Direction {
   Input
   Output
@@ -65,6 +79,13 @@ pub(all) enum Edge {
   Rise
   Fall
 } derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct EndpointConstraintContext {
+  pin : String
+  edge : Edge
+  missing_output_delay_port : String?
+  launch_witness : MissingLaunchWitness?
+} derive(ToJson, @debug.Debug)
 
 pub(all) struct EndpointPeriodBound {
   pin : String
@@ -86,6 +107,19 @@ pub(all) struct GateInstance {
   name : String
   cell : String
   connections : Array[Connection]
+} derive(ToJson, @debug.Debug)
+
+pub(all) enum MissingLaunchKind {
+  MissingInputDelay
+  IdealClockNoDataArrival
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct MissingLaunchWitness {
+  kind : MissingLaunchKind
+  port : String
+  pin : String
+  edge : Edge
+  path : Array[ConstraintWitnessStep]
 } derive(ToJson, @debug.Debug)
 
 pub(all) struct Net {
@@ -161,6 +195,7 @@ pub struct STAEngine {
 pub fn STAEngine::new(@moon-liberty.Library, Netlist, TimingConstraints, policy? : @moon-liberty.RangePolicy) -> Self
 pub fn STAEngine::run_period_analysis(Self) -> PeriodAnalysis raise STAError
 pub fn STAEngine::run_setup_analysis(Self) -> STAResult raise STAError
+pub fn STAEngine::run_setup_with_constraint_context(Self) -> ConstraintContextAnalysis raise STAError
 
 pub(all) struct STAResult {
   nodes : Array[NodeTiming]

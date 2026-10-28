@@ -102,7 +102,10 @@ pub fn STAEngine::run_setup_analysis(
 }
 
 ///|
-fn STAEngine::analyze_setup(self : STAEngine) -> SetupAnalysis raise STAError {
+fn STAEngine::analyze_setup(
+  self : STAEngine,
+  context? : ConstraintTrace,
+) -> SetupAnalysis raise STAError {
   let library = self.library
   let netlist = self.netlist
   let c = self.constraints
@@ -190,6 +193,9 @@ fn STAEngine::analyze_setup(self : STAEngine) -> SetupAnalysis raise STAError {
     }
     states[p.net] = pair
     relative_states[p.net] = relative_pair
+    if context is Some(context) {
+      context_seed_input(context, p, clock, pair)
+    }
   }
   // Register outputs launch from the ideal clock and cut sequential feedback.
   for i, r in graph.registers {
@@ -292,6 +298,10 @@ fn STAEngine::analyze_setup(self : STAEngine) -> SetupAnalysis raise STAError {
     }
     states[net] = pair
     relative_states[net] = relative_pair
+    if context is Some(context) {
+      // Q launches from the ideal clock, independently of D's data arrival.
+      context.missing[net] = [None, None]
+    }
   }
   let evaluation_order : Array[String] = []
   for (i, output_name) in graph.order {
@@ -310,6 +320,7 @@ fn STAEngine::analyze_setup(self : STAEngine) -> SetupAnalysis raise STAError {
       let mut best : Double? = None
       let mut best_relative : Double? = None
       let mut best_path = []
+      let mut missing_launch : ConstraintTraceLink? = None
       let mut worst_slew = 0.0
       let mut slew_contributor = ""
       let mut found = false
@@ -405,6 +416,26 @@ fn STAEngine::analyze_setup(self : STAEngine) -> SetupAnalysis raise STAError {
                   arc: related + "->" + output.name,
                 })
               }
+            } else if context is Some(context) && missing_launch is None {
+              if context.missing[input_net][edge_index(from_edge)]
+                is Some(parent) {
+                missing_launch = Some(
+                  Hop(
+                    Hop(parent, {
+                      pin: input.pin,
+                      edge: from_edge,
+                      arc: "net",
+                      delay_seconds: Some(0.0),
+                    }),
+                    {
+                      pin: report_pin(gate.name, output.name),
+                      edge,
+                      arc: related + "->" + output.name,
+                      delay_seconds: Some(d),
+                    },
+                  ),
+                )
+              }
             }
           }
         }
@@ -424,6 +455,18 @@ fn STAEngine::analyze_setup(self : STAEngine) -> SetupAnalysis raise STAError {
       pair.push(s)
       relative_pair.push(best_relative)
       nodes.push(s)
+      if context is Some(context) {
+        context_output_edge(
+          context,
+          net,
+          edge,
+          if best is None {
+            missing_launch
+          } else {
+            None
+          },
+        )
+      }
     }
     states[net] = pair
     relative_states[net] = relative_pair
@@ -526,6 +569,14 @@ fn STAEngine::analyze_setup(self : STAEngine) -> SetupAnalysis raise STAError {
       endpoint_relative.push(
         relative_states[graph.connections[i][r.data]][edge_index(edge)],
       )
+      if context is Some(context) {
+        context_endpoint(
+          context,
+          endpoints[endpoints.length() - 1],
+          graph.connections[i][r.data],
+          None,
+        )
+      }
     }
   }
   for p in netlist.ports {
@@ -553,6 +604,14 @@ fn STAEngine::analyze_setup(self : STAEngine) -> SetupAnalysis raise STAError {
         endpoint(report_part(p.name), s, required, None, stable_slack),
       )
       endpoint_relative.push(relative_arrival)
+      if context is Some(context) {
+        context_endpoint(
+          context,
+          endpoints[endpoints.length() - 1],
+          p.net,
+          Some(p.name),
+        )
+      }
     }
   }
   let mut worst : Double? = None
