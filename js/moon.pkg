@@ -9,7 +9,11 @@ options(
   link: {
     "js": {
       "format": "cjs",
-      "exports": [ "analyze_json", "analyze_json_for_setup_check" ],
+      "exports": [
+        "analyze_json",
+        "analyze_json_for_setup_check",
+        "check_sdc_json",
+      ],
     },
   },
 )

@@ -9,9 +9,13 @@ import {
 // Values
 pub fn analyze_json(String, String) -> String
 
+pub fn check_sdc_json(String, String, String) -> String
+
 pub fn netlist_from_json(Json) -> Netlist raise STAError
 
 pub fn parse_sdc(String, @moon-liberty.Library, Netlist) -> TimingConstraints raise STAError
+
+pub fn parse_sdc_with_diagnostics(String, @moon-liberty.Library, Netlist) -> TimingConstraints raise SdcDiagnostic
 
 // Errors
 pub suberror STAError {
@@ -22,6 +26,10 @@ pub suberror STAError {
   CombinationalLoopDetected(Array[String])
   MissingTimingArc(String, String, String)
   LibraryFailure(String)
+} derive(@debug.Debug)
+
+pub suberror SdcDiagnostic {
+  SdcDiagnostic(STAError, SdcSourcePosition?)
 } derive(@debug.Debug)
 
 // Types and methods
@@ -154,6 +162,12 @@ pub(all) struct STAResult {
   topological_order : Array[String]
 } derive(ToJson, @debug.Debug)
 pub fn STAResult::setup_summary(Self) -> SetupSummary raise STAError
+
+pub(all) struct SdcSourcePosition {
+  line : Int
+  column : Int
+  offset : Int
+} derive(Eq, ToJson, @debug.Debug)
 
 pub(all) struct SetupSummary {
   status : SetupSummaryStatus

@@ -27,7 +27,7 @@ CLI 的相对输入路径相对于调用者当前目录，编译核心按工具�
 
 Node CLI 的库/请求文件及请求 stdin 必须是合法 UTF-8。坏字节在核心解析前以 `Invalid UTF-8 in Liberty input` 或 `Invalid UTF-8 in request input` 报到 stderr、退出 2，stdout 为空，避免名称被静默替换为 `�`。合法编码的字面 U+FFFD、中文、emoji 和内部 U+FEFF 保留；不按字符内容拒绝名称。直接 JS API 接收已解码的 String，原始字节验证属于 CLI IO 边界。
 
-Node CLI 及两个 JS 适配入口可读取 UTF-8 或带单个 UTF-8 BOM 的库/请求文本。只处理整个输入文本最开头的 U+FEFF；内部名称、SDC 字符串中的字符和源文件字节保留。默认可选 JSON、显式检查和错误优先级不变，实际依赖仍为 MoonLiberty 0.4.1。物理带 BOM 的请求例程可直接运行：
+Node 分析 CLI 及两个分析 JS 适配入口可读取 UTF-8 或带单个 UTF-8 BOM 的库/请求文本。只处理整个输入文本最开头的 U+FEFF；内部名称、SDC 字符串中的字符和源文件字节保留。默认可选 JSON、显式检查和错误优先级不变，实际依赖仍为 MoonLiberty 0.4.1。物理带 BOM 的请求例程可直接运行：
 
 ```sh
 node tools/sta.cjs --check-setup examples/sky130-demo.lib examples/setup-check-utf8bom.json
@@ -186,6 +186,25 @@ flag 放在两个文件路径之前。检查模式在 MoonBit JS 适配层请求
 | set_clock_uncertainty | -setup |
 
 无边沿 flag 表示两沿；同字段重复命令覆盖，其他边沿保留。允许整行注释及空白后、分组外的行尾 `#` 注释；名称词中的 `#` 和选择器列表内的 `#` 保留为名称，例如 `[get_ports {a#b}]`、`[get_ports {#data}]`、`[get_clocks core#clk]`。含方括号的独立标量名称需放在花括号中，例如 `[get_ports {data[0]}]`、`[get_ports {data[0] data[1]}]`；花括号内的方括号按名称字符保留，不作嵌套命令解释。此处没有向量声明、位展开或总线运算。这是受限 profile 的名称/注释规则，不执行完整 Tcl。允许空白，不允许变量、引号、续行、分号脚本和嵌套命令。未知命令/flag、-min、-add_delay、第二时钟、错误对象、空选择器、错误方向都拒绝；create_clock 在解析时检查真实输入端口与非空 plain name。未设置 clock slew 为 0 并按选定范围策略查询；实际例子显式给出 clock/input slew。
+
+### SDC 源位置诊断与文件检查
+
+`parse_sdc` 继续抛出原 `STAError`。需要在较长文件中定位失败命令时，新增的 `parse_sdc_with_diagnostics(text, library, netlist)` 抛出 `SdcDiagnostic(original_error, position)`，保留原错误类别、消息和优先级；合法输入得到相同 `TimingConstraints`。
+
+`position` 是失败命令的起点，**不是坏 token 的精确范围**。`line`、`column` 从 1 开始，`offset` 从 0 开始；列与 offset 都按原始 MoonBit/JavaScript String 的 **UTF-16 code unit** 计数。LF 开始新行，CRLF 占两个 offset 单位，tab 占一列，补充平面字符占两个单位，不按终端视觉宽度计算。行内分词/分组、未知命令/flag、数值、选择器及端口绑定错误均指向该命令；文本预算、库前置校验、缺少 clock 等没有具体失败命令的错误位置为 `None`。源文本不做换行、Unicode 或 BOM 归一化。
+
+独立文件消费者读取 Liberty、一个包含 `ports/gates/nets` 的独立网表 JSON 对象及原始 SDC 文件：
+
+```sh
+moon build --target js --release
+node tools/check-sdc.cjs --help
+# 故意含不支持的 -min：退出 2，位置为 line6/column3/offset115
+node tools/check-sdc.cjs examples/sky130-demo.lib examples/sdc-diagnostic-netlist.json examples/sdc-diagnostic-error.sdc
+```
+
+输出采用独立 `moonbit.sta.sdc.v1` JSON schema。有效约束退出 0 并返回 `constraints`；SDC/JSON/库错误退出 2 并返回原 `error` 和 `position`（无位置时为 `null`）。文件/编码/输出错误退出 2，诊断写入 stderr。输入须为合法 UTF-8；库和网表允许单个首 BOM，SDC 原文完整保留。`--help` 无需构建。JS 导出 `check_sdc_json(library, netlist, sdc)` 提供同一边界。
+
+此入口仅做已有受限 SDC 的解析和约束绑定，不执行时序分析、完整网表图校验或 Tcl；它的通过不代表完整 STA 能运行或时序满足。原 `analyze_json`、`tools/sta.cjs` 及其默认错误 JSON 保持原合同。
 
 ## 验证
 

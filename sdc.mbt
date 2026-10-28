@@ -138,6 +138,16 @@ pub fn parse_sdc(
   library : @liberty.Library,
   netlist : Netlist,
 ) -> TimingConstraints raise STAError {
+  parse_sdc_impl(text, library, netlist, None)
+}
+
+///|
+fn parse_sdc_impl(
+  text : String,
+  library : @liberty.Library,
+  netlist : Netlist,
+  cursor : SdcCursor?,
+) -> TimingConstraints raise STAError {
   if text.length() > 1000000 {
     raise InvalidInput("SDC text budget exceeded")
   }
@@ -147,7 +157,23 @@ pub fn parse_sdc(
   let outputs = []
   let slews = []
   let loads = []
+  let mut line_number = 1
+  let mut offset = 0
   for line in text.split("\n") {
+    if cursor is Some(cursor) {
+      let mut first = 0
+      while first < line.length() &&
+            (line[first] == ' ' || line[first] == '\t' || line[first] == '\r') {
+        first += 1
+      }
+      cursor.position = if first == line.length() || line[first] == '#' {
+        None
+      } else {
+        Some({ line: line_number, column: first + 1, offset: offset + first, })
+      }
+    }
+    line_number += 1
+    offset += line.length() + 1
     let tokens = sdc_tokens(line.to_owned())
     if tokens.is_empty() {
       continue
@@ -339,6 +365,9 @@ pub fn parse_sdc(
         }
       }
     }
+  }
+  if cursor is Some(cursor) {
+    cursor.position = None
   }
   let clock = match clock {
     Some(c) => c

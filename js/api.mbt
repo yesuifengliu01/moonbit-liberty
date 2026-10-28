@@ -9,6 +9,20 @@ fn without_initial_bom(text : String) -> String {
 }
 
 ///|
+/// Standalone SDC-file checking. Preserve SDC source units exactly for positions.
+pub fn check_sdc_json(
+  library : String,
+  netlist : String,
+  sdc : String,
+) -> String {
+  @sta.check_sdc_json(
+    without_initial_bom(library),
+    without_initial_bom(netlist),
+    sdc,
+  )
+}
+
+///|
 /// JavaScript export adapter; domain computation belongs to the root package.
 pub fn analyze_json(library : String, request : String) -> String {
   @sta.analyze_json(without_initial_bom(library), without_initial_bom(request))

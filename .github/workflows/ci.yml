@@ -52,5 +52,7 @@ jobs:
         run: moon build --target all --release --deny-warn
       - name: Exercise real CLI consumers
         run: python3 tools/ci-consumers.py
+      - name: Exercise SDC file diagnostics
+        run: python3 tools/ci-sdc-diagnostics.py
       - name: Ensure checks did not modify tracked sources
         run: git diff --exit-code
