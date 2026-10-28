@@ -1,0 +1,73 @@
+{
+  "commit": "ac7fb61f06e6470b94e8afdf7c25268f62fbd7b1",
+  "created_at": "2026-10-27T16:54:52.733995+00:00",
+  "sources": [
+    {
+      "url": "https://api.github.com/repos/google/skywater-pdk-libs-sky130_fd_sc_hd/commits/main",
+      "file": "D:\\CodexLocal\\ban\\work\\isolated14-20261027\\reports\\liberty\\implementation-03\\dependencies\\sky130\\head.json",
+      "sha256": "b2dbf6bfc27a01b83a7438999a969efa72a5651543126ff06275196b32a63cea",
+      "bytes": 8359
+    },
+    {
+      "url": "https://raw.githubusercontent.com/google/skywater-pdk-libs-sky130_fd_sc_hd/ac7fb61f06e6470b94e8afdf7c25268f62fbd7b1/timing/sky130_fd_sc_hd__common.lib.json",
+      "file": "D:\\CodexLocal\\ban\\work\\isolated14-20261027\\reports\\liberty\\implementation-03\\dependencies\\sky130\\sky130_fd_sc_hd__common.lib.json",
+      "sha256": "f2e44ee9535bca3badb2748c12f7bf90c0cd1a67d01e5ed7659e43d964a791de",
+      "bytes": 2624
+    },
+    {
+      "url": "https://raw.githubusercontent.com/google/skywater-pdk-libs-sky130_fd_sc_hd/ac7fb61f06e6470b94e8afdf7c25268f62fbd7b1/cells/inv/sky130_fd_sc_hd__inv_1__tt_025C_1v80.lib.json",
+      "file": "D:\\CodexLocal\\ban\\work\\isolated14-20261027\\reports\\liberty\\implementation-03\\dependencies\\sky130\\sky130_fd_sc_hd__inv_1__tt_025C_1v80.lib.json",
+      "sha256": "2ebd0770e6de56dd67ce2c46c3d242be923778492c2ab814dfd3741445f8f86d",
+      "bytes": 11743
+    },
+    {
+      "url": "https://raw.githubusercontent.com/google/skywater-pdk-libs-sky130_fd_sc_hd/ac7fb61f06e6470b94e8afdf7c25268f62fbd7b1/timing/sky130_fd_sc_hd__tt_025C_1v80.lib.json",
+      "file": "D:\\CodexLocal\\ban\\work\\isolated14-20261027\\reports\\liberty\\implementation-03\\dependencies\\sky130\\sky130_fd_sc_hd__tt_025C_1v80.lib.json",
+      "sha256": "2a662ba8d3324c982d9a0c4e90302728db9d5fed34ffda90c63400e1c08cbd7e",
+      "bytes": 2753
+    },
+    {
+      "url": "https://raw.githubusercontent.com/google/skywater-pdk-libs-sky130_fd_sc_hd/ac7fb61f06e6470b94e8afdf7c25268f62fbd7b1/LICENSE",
+      "file": "D:\\CodexLocal\\ban\\work\\isolated14-20261027\\reports\\liberty\\implementation-03\\dependencies\\sky130\\LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "bytes": 11358
+    },
+    {
+      "url": "https://raw.githubusercontent.com/google/skywater-pdk-libs-sky130_fd_sc_hd/ac7fb61f06e6470b94e8afdf7c25268f62fbd7b1/cells/nand2/sky130_fd_sc_hd__nand2_1__tt_025C_1v80.lib.json",
+      "file": "D:\\CodexLocal\\ban\\work\\isolated14-20261027\\reports\\liberty\\implementation-03\\dependencies\\sky130\\sky130_fd_sc_hd__nand2_1__tt_025C_1v80.lib.json",
+      "sha256": "711e6d445b53abceb2cf126022d6cc4892fc670cb49bbf3ee1bd9319b18dd632",
+      "bytes": 26273
+    },
+    {
+      "url": "https://raw.githubusercontent.com/google/skywater-pdk-libs-sky130_fd_sc_hd/ac7fb61f06e6470b94e8afdf7c25268f62fbd7b1/cells/xor2/sky130_fd_sc_hd__xor2_1__tt_025C_1v80.lib.json",
+      "file": "D:\\CodexLocal\\ban\\work\\isolated14-20261027\\reports\\liberty\\implementation-03\\dependencies\\sky130\\sky130_fd_sc_hd__xor2_1__tt_025C_1v80.lib.json",
+      "sha256": "9f6bf47336f68a76abbc5297ab0a3988611727663ca9f4166ac250264729f09f",
+      "bytes": 39919
+    },
+    {
+      "url": "https://raw.githubusercontent.com/google/skywater-pdk-libs-sky130_fd_sc_hd/ac7fb61f06e6470b94e8afdf7c25268f62fbd7b1/cells/and2/sky130_fd_sc_hd__and2_1__tt_025C_1v80.lib.json",
+      "file": "D:\\CodexLocal\\ban\\work\\isolated14-20261027\\reports\\liberty\\implementation-03\\dependencies\\sky130\\sky130_fd_sc_hd__and2_1__tt_025C_1v80.lib.json",
+      "sha256": "1d05a8f751e2fb1030ac056989936f1c4b1e73c4cd7e43060433e64383773e03",
+      "bytes": 26221
+    },
+    {
+      "url": "https://raw.githubusercontent.com/google/skywater-pdk-libs-sky130_fd_sc_hd/ac7fb61f06e6470b94e8afdf7c25268f62fbd7b1/cells/or2/sky130_fd_sc_hd__or2_1__tt_025C_1v80.lib.json",
+      "file": "D:\\CodexLocal\\ban\\work\\isolated14-20261027\\reports\\liberty\\implementation-03\\dependencies\\sky130\\sky130_fd_sc_hd__or2_1__tt_025C_1v80.lib.json",
+      "sha256": "aa222387bc482e6f559e66d2fcf037b695a284fd82d24c93ee81f6bf88784b6d",
+      "bytes": 26248
+    },
+    {
+      "url": "https://raw.githubusercontent.com/google/skywater-pdk-libs-sky130_fd_sc_hd/ac7fb61f06e6470b94e8afdf7c25268f62fbd7b1/cells/dfxtp/sky130_fd_sc_hd__dfxtp_1__tt_025C_1v80.lib.json",
+      "file": "D:\\CodexLocal\\ban\\work\\isolated14-20261027\\reports\\liberty\\implementation-03\\dependencies\\sky130\\sky130_fd_sc_hd__dfxtp_1__tt_025C_1v80.lib.json",
+      "sha256": "6f7793786ce917e03b70c2420e6ca202f42a361f9d453739f71fba44832e1b7f",
+      "bytes": 17318
+    }
+  ],
+  "failures": [],
+  "generated_file": "sky130-demo.lib",
+  "generated_sha256": "2b4023c2d29355587503d6ab3b2583327529f1224e0012975925603956f39fac",
+  "transformation": "Deterministic serialization of complete selected per-cell/common/corner JSON; no table numeric transformations.",
+  "generator": "implementation-03/make-fixtures.py",
+  "license": "Apache-2.0",
+  "not_full_pdk": true
+}

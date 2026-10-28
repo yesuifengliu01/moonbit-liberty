@@ -1,0 +1,187 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "yesuifengliu01/sta"
+
+import {
+  "SongYZZZ/moon-liberty",
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn analyze_json(String, String) -> String
+
+pub fn netlist_from_json(Json) -> Netlist raise STAError
+
+pub fn parse_sdc(String, @moon-liberty.Library, Netlist) -> TimingConstraints raise STAError
+
+// Errors
+pub suberror STAError {
+  InvalidInput(String)
+  Unsupported(String)
+  UnresolvedNet(String)
+  MultipleDrivers(String)
+  CombinationalLoopDetected(Array[String])
+  MissingTimingArc(String, String, String)
+  LibraryFailure(String)
+} derive(@debug.Debug)
+
+// Types and methods
+pub(all) struct Clock {
+  name : String
+  port : String
+  period_seconds : Double
+  rise_slew_seconds : Double
+  fall_slew_seconds : Double
+  latency_seconds : Double
+  uncertainty_seconds : Double
+} derive(ToJson, @debug.Debug)
+
+pub(all) struct Connection {
+  pin : String
+  net : String
+} derive(ToJson, @debug.Debug)
+
+pub(all) enum Direction {
+  Input
+  Output
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) enum Edge {
+  Rise
+  Fall
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct EndpointPeriodBound {
+  pin : String
+  edge : Edge
+  bound_seconds : Double?
+} derive(ToJson, @debug.Debug)
+
+pub(all) struct EndpointTiming {
+  pin : String
+  edge : Edge
+  arrival_seconds : Double?
+  required_seconds : Double?
+  slack_seconds : Double?
+  setup_seconds : Double?
+  path : Array[PathStep]
+} derive(ToJson, @debug.Debug)
+
+pub(all) struct GateInstance {
+  name : String
+  cell : String
+  connections : Array[Connection]
+} derive(ToJson, @debug.Debug)
+
+pub(all) struct Net {
+  name : String
+  wire_cap_farads : Double
+} derive(ToJson, @debug.Debug)
+
+pub(all) struct Netlist {
+  ports : Array[Port]
+  gates : Array[GateInstance]
+  nets : Array[Net]
+} derive(ToJson, @debug.Debug)
+
+pub(all) struct NodeTiming {
+  pin : String
+  edge : Edge
+  arrival_seconds : Double?
+  slew_seconds : Double
+  load_farads : Double
+  path : Array[PathStep]
+  slew_contributor : String
+} derive(ToJson, @debug.Debug)
+
+pub(all) struct PathStep {
+  pin : String
+  edge : Edge
+  delay_seconds : Double
+  arrival_seconds : Double
+  arc : String
+} derive(ToJson, @debug.Debug)
+
+pub(all) struct PeriodAnalysis {
+  timing : STAResult
+  budget : PeriodBudget
+} derive(ToJson, @debug.Debug)
+
+pub(all) struct PeriodBudget {
+  status : PeriodBudgetStatus
+  constrained_endpoint_edges : Int
+  unconstrained_endpoint_edges : Int
+  endpoint_bounds : Array[EndpointPeriodBound]
+  minimum_period_seconds : Double?
+  maximum_frequency_hz : Double?
+  limiting_endpoints : Array[EndpointPeriodBound]
+} derive(ToJson, @debug.Debug)
+
+pub(all) enum PeriodBudgetStatus {
+  Complete
+  Partial
+  Unconstrained
+  NoPositiveLimit
+  FrequencyOverflow
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct Port {
+  name : String
+  net : String
+  direction : Direction
+} derive(ToJson, @debug.Debug)
+
+pub(all) struct PortValue {
+  port : String
+  rise : Double?
+  fall : Double?
+} derive(ToJson, @debug.Debug)
+
+pub struct STAEngine {
+  library : @moon-liberty.Library
+  netlist : Netlist
+  constraints : TimingConstraints
+  policy : @moon-liberty.RangePolicy
+}
+pub fn STAEngine::new(@moon-liberty.Library, Netlist, TimingConstraints, policy? : @moon-liberty.RangePolicy) -> Self
+pub fn STAEngine::run_period_analysis(Self) -> PeriodAnalysis raise STAError
+pub fn STAEngine::run_setup_analysis(Self) -> STAResult raise STAError
+
+pub(all) struct STAResult {
+  nodes : Array[NodeTiming]
+  endpoints : Array[EndpointTiming]
+  worst_slack_seconds : Double?
+  diagnostics : Array[String]
+  topological_order : Array[String]
+} derive(ToJson, @debug.Debug)
+pub fn STAResult::setup_summary(Self) -> SetupSummary raise STAError
+
+pub(all) struct SetupSummary {
+  status : SetupSummaryStatus
+  endpoint_count : Int
+  constrained_endpoint_edges : Int
+  unconstrained_endpoint_edges : Int
+  violating_endpoint_edges : Int
+  violating_endpoints : Int
+  worst_slack_seconds : Double?
+  worst_negative_slack_seconds : Double?
+} derive(ToJson, @debug.Debug)
+
+pub(all) enum SetupSummaryStatus {
+  Met
+  Violated
+  PartialCoverage
+  NoCoverage
+  NoEndpoints
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct TimingConstraints {
+  clock : Clock
+  input_delays : Array[PortValue]
+  output_delays : Array[PortValue]
+  input_slews : Array[PortValue]
+  output_loads : Array[PortValue]
+} derive(ToJson, @debug.Debug)
+
+// Type aliases
+
+// Traits

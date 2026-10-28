@@ -1,0 +1,23 @@
+module rca4(input clk, input a0, input a1, input a2, input a3, input b0, input b1, input b2, input b3, input cin, output s0, output s1, output s2, output s3, output cout);
+wire p0, g0, t0, c1, p1, g1, t1, c2, p2, g2, t2, c3, p3, g3, t3;
+sky130_fd_sc_hd__xor2_1 px0 (.A(a0), .B(b0), .X(p0));
+sky130_fd_sc_hd__xor2_1 sx0 (.A(p0), .B(cin), .X(s0));
+sky130_fd_sc_hd__and2_1 ga0 (.A(a0), .B(b0), .X(g0));
+sky130_fd_sc_hd__and2_1 ta0 (.A(p0), .B(cin), .X(t0));
+sky130_fd_sc_hd__or2_1 co0 (.A(g0), .B(t0), .X(c1));
+sky130_fd_sc_hd__xor2_1 px1 (.A(a1), .B(b1), .X(p1));
+sky130_fd_sc_hd__xor2_1 sx1 (.A(p1), .B(c1), .X(s1));
+sky130_fd_sc_hd__and2_1 ga1 (.A(a1), .B(b1), .X(g1));
+sky130_fd_sc_hd__and2_1 ta1 (.A(p1), .B(c1), .X(t1));
+sky130_fd_sc_hd__or2_1 co1 (.A(g1), .B(t1), .X(c2));
+sky130_fd_sc_hd__xor2_1 px2 (.A(a2), .B(b2), .X(p2));
+sky130_fd_sc_hd__xor2_1 sx2 (.A(p2), .B(c2), .X(s2));
+sky130_fd_sc_hd__and2_1 ga2 (.A(a2), .B(b2), .X(g2));
+sky130_fd_sc_hd__and2_1 ta2 (.A(p2), .B(c2), .X(t2));
+sky130_fd_sc_hd__or2_1 co2 (.A(g2), .B(t2), .X(c3));
+sky130_fd_sc_hd__xor2_1 px3 (.A(a3), .B(b3), .X(p3));
+sky130_fd_sc_hd__xor2_1 sx3 (.A(p3), .B(c3), .X(s3));
+sky130_fd_sc_hd__and2_1 ga3 (.A(a3), .B(b3), .X(g3));
+sky130_fd_sc_hd__and2_1 ta3 (.A(p3), .B(c3), .X(t3));
+sky130_fd_sc_hd__or2_1 co3 (.A(g3), .B(t3), .X(cout));
+endmodule

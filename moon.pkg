@@ -1,0 +1,13 @@
+import {
+  "SongYZZZ/moon-liberty" @liberty,
+  "moonbitlang/core/json",
+  "moonbitlang/core/string",
+  "moonbitlang/core/debug",
+}
+
+import {
+  "yesuifengliu01/sta/testdata",
+  "SongYZZZ/moon-liberty" @liberty,
+  "moonbitlang/core/json",
+  "moonbitlang/core/debug",
+} for "test"

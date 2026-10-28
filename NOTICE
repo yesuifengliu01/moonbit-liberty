@@ -1,0 +1,16 @@
+MoonBit STA
+Copyright 2026 MoonBit STA contributors
+Participant/project identity: yesuifengliu01 / liberty
+
+Original MoonBit graph, constraint, propagation and adapter implementation.
+Runtime dependency: SongYZZZ/moon-liberty 0.4.1, Apache License 2.0.
+Upstream author and copyright remain with SongYZZZ; dependency authorship is
+not attributed to this project's participant. See upstream NOTICE/LICENSE.
+
+examples/sky130-demo.lib and generated testdata/sky130.mbt contain derived
+Google/SkyWater SKY130 standard-cell data, Copyright 2020 SkyWater PDK Authors,
+Apache License 2.0. Their separate license and provenance are in examples/.
+
+OpenSTA is an external GPL-3.0-or-later test executable, not linked, vendored,
+ported or included in the runtime implementation. No OpenSTA timing source
+was copied into the MoonBit core.

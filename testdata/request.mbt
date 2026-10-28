@@ -1,0 +1,101 @@
+///|
+pub fn request() -> String {
+  let text =
+    #|{
+    #|  "netlist": {
+    #|    "ports": [
+    #|      {
+    #|        "name": "clk",
+    #|        "net": "clk",
+    #|        "direction": "input"
+    #|      },
+    #|      {
+    #|        "name": "a",
+    #|        "net": "a",
+    #|        "direction": "input"
+    #|      },
+    #|      {
+    #|        "name": "y",
+    #|        "net": "y",
+    #|        "direction": "output"
+    #|      }
+    #|    ],
+    #|    "gates": [
+    #|      {
+    #|        "name": "launch",
+    #|        "cell": "sky130_fd_sc_hd__dfxtp_1",
+    #|        "connections": [
+    #|          {
+    #|            "pin": "CLK",
+    #|            "net": "clk"
+    #|          },
+    #|          {
+    #|            "pin": "D",
+    #|            "net": "a"
+    #|          },
+    #|          {
+    #|            "pin": "Q",
+    #|            "net": "q"
+    #|          }
+    #|        ]
+    #|      },
+    #|      {
+    #|        "name": "i0",
+    #|        "cell": "sky130_fd_sc_hd__inv_1",
+    #|        "connections": [
+    #|          {
+    #|            "pin": "A",
+    #|            "net": "q"
+    #|          },
+    #|          {
+    #|            "pin": "Y",
+    #|            "net": "d"
+    #|          }
+    #|        ]
+    #|      },
+    #|      {
+    #|        "name": "capture",
+    #|        "cell": "sky130_fd_sc_hd__dfxtp_1",
+    #|        "connections": [
+    #|          {
+    #|            "pin": "CLK",
+    #|            "net": "clk"
+    #|          },
+    #|          {
+    #|            "pin": "D",
+    #|            "net": "d"
+    #|          },
+    #|          {
+    #|            "pin": "Q",
+    #|            "net": "y"
+    #|          }
+    #|        ]
+    #|      }
+    #|    ],
+    #|    "nets": [
+    #|      {
+    #|        "name": "clk",
+    #|        "wire_cap_farads": 0
+    #|      },
+    #|      {
+    #|        "name": "a",
+    #|        "wire_cap_farads": 0
+    #|      },
+    #|      {
+    #|        "name": "q",
+    #|        "wire_cap_farads": 0
+    #|      },
+    #|      {
+    #|        "name": "d",
+    #|        "wire_cap_farads": 0
+    #|      },
+    #|      {
+    #|        "name": "y",
+    #|        "wire_cap_farads": 0
+    #|      }
+    #|    ]
+    #|  },
+    #|  "sdc": "create_clock -name clk -period 2 [get_ports clk]\nset_clock_transition 0.1 [get_clocks clk]\nset_input_delay -clock clk -max 0.05 [get_ports a]\nset_input_transition 0.1 [get_ports a]\nset_output_delay -clock clk -max 0.1 [get_ports y]\nset_load 0.01 [get_ports y]\nset_clock_uncertainty -setup 0.02 [get_clocks clk]\n"
+    #|}
+  text
+}

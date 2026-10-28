@@ -1,0 +1,44 @@
+{
+  "netlist": {
+    "ports": [
+      {
+        "name": "clk",
+        "net": "clk",
+        "direction": "input"
+      },
+      {
+        "name": "a",
+        "net": "a",
+        "direction": "input"
+      },
+      {
+        "name": "y",
+        "net": "a",
+        "direction": "output"
+      },
+      {
+        "name": "z",
+        "net": "a",
+        "direction": "output"
+      },
+      {
+        "name": "w",
+        "net": "a",
+        "direction": "output"
+      }
+    ],
+    "gates": [],
+    "nets": [
+      {
+        "name": "clk",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "a",
+        "wire_cap_farads": 0
+      }
+    ]
+  },
+  "sdc": "create_clock -name main -period 2 [get_ports clk]\nset_clock_transition 0.1 [get_clocks main]\nset_input_delay -clock main 0.6 [get_ports a]\nset_input_transition 0.1 [get_ports a]\nset_output_delay -rise -clock main 0.5 [get_ports y]\nset_output_delay -fall -clock main 0.6 [get_ports y]\nset_output_delay -clock main 0.2 [get_ports z]\nset_output_delay -rise -clock main 0.5 [get_ports w]\nset_output_delay -fall -clock main 0 [get_ports w]\n",
+  "period_budget": true
+}

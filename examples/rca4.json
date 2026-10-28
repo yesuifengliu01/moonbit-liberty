@@ -1,0 +1,566 @@
+{
+  "netlist": {
+    "ports": [
+      {
+        "name": "clk",
+        "net": "clk",
+        "direction": "input"
+      },
+      {
+        "name": "a0",
+        "net": "a0",
+        "direction": "input"
+      },
+      {
+        "name": "a1",
+        "net": "a1",
+        "direction": "input"
+      },
+      {
+        "name": "a2",
+        "net": "a2",
+        "direction": "input"
+      },
+      {
+        "name": "a3",
+        "net": "a3",
+        "direction": "input"
+      },
+      {
+        "name": "b0",
+        "net": "b0",
+        "direction": "input"
+      },
+      {
+        "name": "b1",
+        "net": "b1",
+        "direction": "input"
+      },
+      {
+        "name": "b2",
+        "net": "b2",
+        "direction": "input"
+      },
+      {
+        "name": "b3",
+        "net": "b3",
+        "direction": "input"
+      },
+      {
+        "name": "cin",
+        "net": "cin",
+        "direction": "input"
+      },
+      {
+        "name": "s0",
+        "net": "s0",
+        "direction": "output"
+      },
+      {
+        "name": "s1",
+        "net": "s1",
+        "direction": "output"
+      },
+      {
+        "name": "s2",
+        "net": "s2",
+        "direction": "output"
+      },
+      {
+        "name": "s3",
+        "net": "s3",
+        "direction": "output"
+      },
+      {
+        "name": "cout",
+        "net": "cout",
+        "direction": "output"
+      }
+    ],
+    "gates": [
+      {
+        "name": "px0",
+        "cell": "sky130_fd_sc_hd__xor2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "a0"
+          },
+          {
+            "pin": "B",
+            "net": "b0"
+          },
+          {
+            "pin": "X",
+            "net": "p0"
+          }
+        ]
+      },
+      {
+        "name": "sx0",
+        "cell": "sky130_fd_sc_hd__xor2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "p0"
+          },
+          {
+            "pin": "B",
+            "net": "cin"
+          },
+          {
+            "pin": "X",
+            "net": "s0"
+          }
+        ]
+      },
+      {
+        "name": "ga0",
+        "cell": "sky130_fd_sc_hd__and2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "a0"
+          },
+          {
+            "pin": "B",
+            "net": "b0"
+          },
+          {
+            "pin": "X",
+            "net": "g0"
+          }
+        ]
+      },
+      {
+        "name": "ta0",
+        "cell": "sky130_fd_sc_hd__and2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "p0"
+          },
+          {
+            "pin": "B",
+            "net": "cin"
+          },
+          {
+            "pin": "X",
+            "net": "t0"
+          }
+        ]
+      },
+      {
+        "name": "co0",
+        "cell": "sky130_fd_sc_hd__or2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "g0"
+          },
+          {
+            "pin": "B",
+            "net": "t0"
+          },
+          {
+            "pin": "X",
+            "net": "c1"
+          }
+        ]
+      },
+      {
+        "name": "px1",
+        "cell": "sky130_fd_sc_hd__xor2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "a1"
+          },
+          {
+            "pin": "B",
+            "net": "b1"
+          },
+          {
+            "pin": "X",
+            "net": "p1"
+          }
+        ]
+      },
+      {
+        "name": "sx1",
+        "cell": "sky130_fd_sc_hd__xor2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "p1"
+          },
+          {
+            "pin": "B",
+            "net": "c1"
+          },
+          {
+            "pin": "X",
+            "net": "s1"
+          }
+        ]
+      },
+      {
+        "name": "ga1",
+        "cell": "sky130_fd_sc_hd__and2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "a1"
+          },
+          {
+            "pin": "B",
+            "net": "b1"
+          },
+          {
+            "pin": "X",
+            "net": "g1"
+          }
+        ]
+      },
+      {
+        "name": "ta1",
+        "cell": "sky130_fd_sc_hd__and2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "p1"
+          },
+          {
+            "pin": "B",
+            "net": "c1"
+          },
+          {
+            "pin": "X",
+            "net": "t1"
+          }
+        ]
+      },
+      {
+        "name": "co1",
+        "cell": "sky130_fd_sc_hd__or2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "g1"
+          },
+          {
+            "pin": "B",
+            "net": "t1"
+          },
+          {
+            "pin": "X",
+            "net": "c2"
+          }
+        ]
+      },
+      {
+        "name": "px2",
+        "cell": "sky130_fd_sc_hd__xor2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "a2"
+          },
+          {
+            "pin": "B",
+            "net": "b2"
+          },
+          {
+            "pin": "X",
+            "net": "p2"
+          }
+        ]
+      },
+      {
+        "name": "sx2",
+        "cell": "sky130_fd_sc_hd__xor2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "p2"
+          },
+          {
+            "pin": "B",
+            "net": "c2"
+          },
+          {
+            "pin": "X",
+            "net": "s2"
+          }
+        ]
+      },
+      {
+        "name": "ga2",
+        "cell": "sky130_fd_sc_hd__and2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "a2"
+          },
+          {
+            "pin": "B",
+            "net": "b2"
+          },
+          {
+            "pin": "X",
+            "net": "g2"
+          }
+        ]
+      },
+      {
+        "name": "ta2",
+        "cell": "sky130_fd_sc_hd__and2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "p2"
+          },
+          {
+            "pin": "B",
+            "net": "c2"
+          },
+          {
+            "pin": "X",
+            "net": "t2"
+          }
+        ]
+      },
+      {
+        "name": "co2",
+        "cell": "sky130_fd_sc_hd__or2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "g2"
+          },
+          {
+            "pin": "B",
+            "net": "t2"
+          },
+          {
+            "pin": "X",
+            "net": "c3"
+          }
+        ]
+      },
+      {
+        "name": "px3",
+        "cell": "sky130_fd_sc_hd__xor2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "a3"
+          },
+          {
+            "pin": "B",
+            "net": "b3"
+          },
+          {
+            "pin": "X",
+            "net": "p3"
+          }
+        ]
+      },
+      {
+        "name": "sx3",
+        "cell": "sky130_fd_sc_hd__xor2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "p3"
+          },
+          {
+            "pin": "B",
+            "net": "c3"
+          },
+          {
+            "pin": "X",
+            "net": "s3"
+          }
+        ]
+      },
+      {
+        "name": "ga3",
+        "cell": "sky130_fd_sc_hd__and2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "a3"
+          },
+          {
+            "pin": "B",
+            "net": "b3"
+          },
+          {
+            "pin": "X",
+            "net": "g3"
+          }
+        ]
+      },
+      {
+        "name": "ta3",
+        "cell": "sky130_fd_sc_hd__and2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "p3"
+          },
+          {
+            "pin": "B",
+            "net": "c3"
+          },
+          {
+            "pin": "X",
+            "net": "t3"
+          }
+        ]
+      },
+      {
+        "name": "co3",
+        "cell": "sky130_fd_sc_hd__or2_1",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "g3"
+          },
+          {
+            "pin": "B",
+            "net": "t3"
+          },
+          {
+            "pin": "X",
+            "net": "cout"
+          }
+        ]
+      }
+    ],
+    "nets": [
+      {
+        "name": "clk",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "a0",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "a1",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "a2",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "a3",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "b0",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "b1",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "b2",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "b3",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "cin",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "s0",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "s1",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "s2",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "s3",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "cout",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "p0",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "g0",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "t0",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "c1",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "p1",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "g1",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "t1",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "c2",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "p2",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "g2",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "t2",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "c3",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "p3",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "g3",
+        "wire_cap_farads": 0.0
+      },
+      {
+        "name": "t3",
+        "wire_cap_farads": 0.0
+      }
+    ]
+  },
+  "sdc": "create_clock -name clk -period 2.0 [get_ports clk]\nset_clock_transition 0.1 [get_clocks clk]\nset_clock_uncertainty -setup 0.02 [get_clocks clk]\nset_input_delay -clock clk -max 0.0300 [get_ports a0]\nset_input_transition 0.0800 [get_ports a0]\nset_input_delay -clock clk -max 0.0400 [get_ports a1]\nset_input_transition 0.0900 [get_ports a1]\nset_input_delay -clock clk -max 0.0500 [get_ports a2]\nset_input_transition 0.1000 [get_ports a2]\nset_input_delay -clock clk -max 0.0600 [get_ports a3]\nset_input_transition 0.1100 [get_ports a3]\nset_input_delay -clock clk -max 0.0700 [get_ports b0]\nset_input_transition 0.1200 [get_ports b0]\nset_input_delay -clock clk -max 0.0800 [get_ports b1]\nset_input_transition 0.1300 [get_ports b1]\nset_input_delay -clock clk -max 0.0900 [get_ports b2]\nset_input_transition 0.1400 [get_ports b2]\nset_input_delay -clock clk -max 0.1000 [get_ports b3]\nset_input_transition 0.1500 [get_ports b3]\nset_input_delay -clock clk -max 0.1100 [get_ports cin]\nset_input_transition 0.1600 [get_ports cin]\nset_output_delay -clock clk -max 0.1 [get_ports s0]\nset_load 0.01 [get_ports s0]\nset_output_delay -clock clk -max 0.1 [get_ports s1]\nset_load 0.01 [get_ports s1]\nset_output_delay -clock clk -max 0.1 [get_ports s2]\nset_load 0.01 [get_ports s2]\nset_output_delay -clock clk -max 0.1 [get_ports s3]\nset_load 0.01 [get_ports s3]\nset_output_delay -clock clk -max 0.1 [get_ports cout]\nset_load 0.01 [get_ports cout]\n"
+}

@@ -1,0 +1,6 @@
+import {
+  "yesuifengliu01/sta",
+  "yesuifengliu01/sta/testdata",
+}
+
+pkgtype(kind: "executable")

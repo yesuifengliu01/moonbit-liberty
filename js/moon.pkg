@@ -1,0 +1,15 @@
+supported_targets = "js"
+
+import {
+  "yesuifengliu01/sta",
+  "moonbitlang/core/json",
+}
+
+options(
+  link: {
+    "js": {
+      "format": "cjs",
+      "exports": [ "analyze_json", "analyze_json_for_setup_check" ],
+    },
+  },
+)

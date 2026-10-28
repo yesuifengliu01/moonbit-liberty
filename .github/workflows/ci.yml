@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Check, three backends, and CLI consumers
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      MOON_HOME: ${{ runner.temp }}/liberty-moon
+      XDG_CACHE_HOME: ${{ runner.temp }}/liberty-cache
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24.11.0
+      - name: Install pinned official MoonBit SDK
+        run: |
+          python3 tools/bootstrap-ci.py --destination "$MOON_HOME"
+          echo "$MOON_HOME/bin" >> "$GITHUB_PATH"
+      - name: Record actual source and runtime versions
+        run: |
+          git rev-parse HEAD
+          moon version --all
+          node --version
+      - name: Resolve declared dependencies
+        run: |
+          moon update
+          moon tree
+      - name: Check supported targets
+        run: moon check --target all --deny-warn
+      - name: Verify formatting
+        run: moon fmt --check
+      - name: Test JavaScript
+        run: moon test --target js --deny-warn
+      - name: Test Wasm GC
+        run: moon test --target wasm-gc --deny-warn
+      - name: Test native
+        run: moon test --target native --deny-warn
+      - name: Build release targets
+        run: moon build --target all --release --deny-warn
+      - name: Exercise real CLI consumers
+        run: python3 tools/ci-consumers.py
+      - name: Ensure checks did not modify tracked sources
+        run: git diff --exit-code
