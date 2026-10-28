@@ -54,5 +54,7 @@ jobs:
         run: python3 tools/ci-consumers.py
       - name: Exercise SDC file diagnostics
         run: python3 tools/ci-sdc-diagnostics.py
+      - name: Exercise Netlist field diagnostics
+        run: python3 tools/ci-netlist-diagnostics.py
       - name: Ensure checks did not modify tracked sources
         run: git diff --exit-code

@@ -28,35 +28,59 @@ fn json_array(j : Json) -> Array[Json] raise STAError {
 
 ///|
 pub fn netlist_from_json(j : Json) -> Netlist raise STAError {
-  let ports = json_array(json_field(j, "ports")).map(p => {
-    let direction = match json_string(json_field(p, "direction")) {
+  netlist_from_json_impl(j, None)
+}
+
+///|
+fn netlist_from_json_impl(
+  j : Json,
+  cursor : NetlistJsonCursor?,
+) -> Netlist raise STAError {
+  let ports = json_array(netlist_json_field(j, "ports", "", cursor)).mapi((i, p) => {
+    let path = if cursor is Some(_) { "/ports/" + i.to_string() } else { "" }
+    let direction = match
+      json_string(netlist_json_field(p, "direction", path, cursor)) {
       "input" | "Input" => Input
       "output" | "Output" => Output
       _ => raise InvalidInput("JSON port direction")
     }
     {
-      name: json_string(json_field(p, "name")),
-      net: json_string(json_field(p, "net")),
+      name: json_string(netlist_json_field(p, "name", path, cursor)),
+      net: json_string(netlist_json_field(p, "net", path, cursor)),
       direction,
     }
   })
-  let gates = json_array(json_field(j, "gates")).map(g => {
-    let connections = json_array(json_field(g, "connections")).map(c => {
-      pin: json_string(json_field(c, "pin")),
-      net: json_string(json_field(c, "net")),
+  let gates = json_array(netlist_json_field(j, "gates", "", cursor)).mapi((i, g) => {
+    let path = if cursor is Some(_) { "/gates/" + i.to_string() } else { "" }
+    let connections = json_array(
+      netlist_json_field(g, "connections", path, cursor),
+    ).mapi((k, c) => {
+      let connection_path = if cursor is Some(_) {
+        path + "/connections/" + k.to_string()
+      } else {
+        ""
+      }
+      {
+        pin: json_string(netlist_json_field(c, "pin", connection_path, cursor)),
+        net: json_string(netlist_json_field(c, "net", connection_path, cursor)),
+      }
     })
     {
-      name: json_string(json_field(g, "name")),
-      cell: json_string(json_field(g, "cell")),
+      name: json_string(netlist_json_field(g, "name", path, cursor)),
+      cell: json_string(netlist_json_field(g, "cell", path, cursor)),
       connections,
     }
   })
-  let nets = json_array(json_field(j, "nets")).map(n => {
-    let cap = match json_field(n, "wire_cap_farads") {
+  let nets = json_array(netlist_json_field(j, "nets", "", cursor)).mapi((i, n) => {
+    let path = if cursor is Some(_) { "/nets/" + i.to_string() } else { "" }
+    let cap = match netlist_json_field(n, "wire_cap_farads", path, cursor) {
       Number(v, ..) => v
       _ => raise InvalidInput("JSON wire capacitance number")
     }
-    { name: json_string(json_field(n, "name")), wire_cap_farads: cap, }
+    {
+      name: json_string(netlist_json_field(n, "name", path, cursor)),
+      wire_cap_farads: cap,
+    }
   })
   { ports, gates, nets, }
 }

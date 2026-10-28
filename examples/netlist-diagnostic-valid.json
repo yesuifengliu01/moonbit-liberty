@@ -1,0 +1,97 @@
+{
+  "ports": [
+    {
+      "name": "clk",
+      "net": "clk",
+      "direction": "input"
+    },
+    {
+      "name": "a",
+      "net": "a",
+      "direction": "input",
+      "未知😀": "合法扩展值"
+    },
+    {
+      "name": "y",
+      "net": "y",
+      "direction": "output"
+    }
+  ],
+  "gates": [
+    {
+      "name": "launch",
+      "cell": "sky130_fd_sc_hd__dfxtp_1",
+      "connections": [
+        {
+          "pin": "CLK",
+          "net": "clk"
+        },
+        {
+          "pin": "D",
+          "net": "a"
+        },
+        {
+          "pin": "Q",
+          "net": "q"
+        }
+      ]
+    },
+    {
+      "name": "i0",
+      "cell": "sky130_fd_sc_hd__inv_1",
+      "connections": [
+        {
+          "pin": "A",
+          "net": "q"
+        },
+        {
+          "pin": "Y",
+          "net": "d"
+        }
+      ]
+    },
+    {
+      "name": "捕获😀/~",
+      "cell": "sky130_fd_sc_hd__dfxtp_1",
+      "connections": [
+        {
+          "pin": "CLK",
+          "net": "clk"
+        },
+        {
+          "pin": "D",
+          "net": "d"
+        },
+        {
+          "pin": "Q",
+          "net": "y"
+        }
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "name": "clk",
+      "wire_cap_farads": 0
+    },
+    {
+      "name": "a",
+      "wire_cap_farads": 0
+    },
+    {
+      "name": "q",
+      "wire_cap_farads": 0
+    },
+    {
+      "name": "d",
+      "wire_cap_farads": 0
+    },
+    {
+      "name": "y",
+      "wire_cap_farads": 0
+    }
+  ],
+  "备注/键~😀": {
+    "ignored": true
+  }
+}

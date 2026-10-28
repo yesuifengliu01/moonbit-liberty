@@ -13,7 +13,7 @@ MoonBit STA（项目liberty，账号yesuifengliu01）将Liberty、已映射标�
 - 周期预算：固定非周期参数，给逐端点周期下界与限制沿；仅在约束覆盖完整、存在正下界且频率可表示时给整体频率，保留覆盖不足和无正限制等状态。
 - 摘要与CI：统计端点/沿、违例、最坏裕量和WNS；显式检查Met退出0、违例3、覆盖不足或空端点4、输入/输出错误2；普通分析保留负裕量报告。
 
-主实现为MoonBit的图、约束、传播和报告API，可复用STAEngine/STAResult；JS适配调用同一核心，Node仅承担文件/stdin、严格UTF-8与单首BOM输入、帮助和退出策略。
+主实现为MoonBit的图、约束、传播和报告API，可复用STAEngine/STAResult；JS适配调用同一核心，Node仅承担文件/stdin、严格UTF-8与单首BOM输入、帮助和退出策略。可选Netlist字段诊断保留原错误并返回0-based语义JSON Pointer，附独立文件检查器；仅检查既有结构，不代替图/数值/时序校验，旧分析和SDC入口保留。
 最短分析例：装好MoonBit与Node后，在项目根依次执行 `moon update`、`moon build --target js --release`、`node tools/sta.cjs --check-setup examples/sky130-demo.lib examples/setup-check-met.json`，得到完整JSON及Met摘要、退出0；`--help`无需构建。
 
 与成熟OpenSTA功能有重叠，本项目提供限定模型下可嵌入MoonBit的接口、显式覆盖解释和JSON消费链。独立贡献是图校验、SI负载、弧级双沿传播、触发器适配、短约束精确累加后一次舍入、周期预算与摘要；未重写上游Liberty解析器。

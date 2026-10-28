@@ -9,15 +9,23 @@ import {
 // Values
 pub fn analyze_json(String, String) -> String
 
+pub fn check_netlist_json(String) -> String
+
 pub fn check_sdc_json(String, String, String) -> String
 
 pub fn netlist_from_json(Json) -> Netlist raise STAError
+
+pub fn netlist_from_json_with_diagnostics(Json) -> Netlist raise NetlistJsonDiagnostic
 
 pub fn parse_sdc(String, @moon-liberty.Library, Netlist) -> TimingConstraints raise STAError
 
 pub fn parse_sdc_with_diagnostics(String, @moon-liberty.Library, Netlist) -> TimingConstraints raise SdcDiagnostic
 
 // Errors
+pub suberror NetlistJsonDiagnostic {
+  NetlistJsonDiagnostic(STAError, String)
+} derive(@debug.Debug)
+
 pub suberror STAError {
   InvalidInput(String)
   Unsupported(String)

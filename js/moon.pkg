@@ -13,6 +13,7 @@ options(
         "analyze_json",
         "analyze_json_for_setup_check",
         "check_sdc_json",
+        "check_netlist_json",
       ],
     },
   },

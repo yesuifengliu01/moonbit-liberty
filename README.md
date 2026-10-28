@@ -171,6 +171,27 @@ node tools/sta.cjs --check-setup examples/sky130-demo.lib examples/setup-summary
 
 flag 放在两个文件路径之前。检查模式在 MoonBit JS 适配层请求现有摘要：缺省或合法 false 都强制为 true，不改写原文件；坏类型仍由原核心报错。可选 period_budget 不变。旧双路径调用与普通 JS 导出 `analyze_json` 保持原行为；两个路径参数中即使库的字面文件名是 `--check-setup`，也仍按旧模式读取。检查只判断现有受限 setup 模型的摘要。
 
+## Netlist JSON 字段路径诊断
+
+`netlist_from_json` 保留原 `STAError`。可选的 `netlist_from_json_with_diagnostics(value)` 解析相同结构与数值，失败时抛出 `NetlistJsonDiagnostic(original_error, pointer)`，便于在多个 ports/gates/connections 对象中定位缺失或类型错误。它不修改传入的 Json。
+
+`pointer` 是相对于独立 Netlist 根的 [JSON Pointer](https://www.rfc-editor.org/rfc/rfc6901)：空字符串表示根，数组下标是 **0-based 元素下标**。例如 `/gates/1/connections/1/net` 指第二个单元的第二条连接的 `net`；它不是行列、字节或 UTF-16 offset。缺失字段指向预期的子字段；应为对象但实际为其他类型时指向该值本身。路径只遍历已有的 ASCII schema 键，Unicode 名称/值不作为路径片段，未知键（包括 Unicode、`/`、`~`）仍忽略。
+
+首错沿用原解码顺序，不按 JSON 对象键的书写顺序排序：先 ports，再 gates，再 nets；数组从 0 递增。端口先 direction，再 name/net；单元先 connections（每项先 pin 再 net），再 name/cell；net 先 wire_cap_farads，再 name。输入/输出方向仍接受 input/Input/output/Output，数值类型接受政策和空数组政策保持原样。
+
+```sh
+moon build --target js --release
+node tools/check-netlist.cjs --help
+# 退出 0；含多个对象、Unicode 名称和未知扩展键的合法结构
+node tools/check-netlist.cjs examples/netlist-diagnostic-valid.json
+# 退出 2；保留 JSON string required，pointer 为 /gates/1/connections/1/net
+node tools/check-netlist.cjs examples/netlist-diagnostic-error.json
+```
+
+独立 JSON schema 为 `moonbit.sta.netlist.v1`：成功返回 `ok:true`；失败返回 `ok:false`、原 `error` 和 `pointer`。无可解码语义位置的 JSON 语法错误使用 `pointer:null`，已解码但类型错误的根使用 `pointer:""`。核心 `check_netlist_json(text)` 和同名 JS 导出提供此边界；JS/文件入口允许单个首 BOM，文件须为合法 UTF-8，源字节不改写。文件/编码/输出错误写入 stderr 并退出 2，`--help` 无需构建。
+
+此检查只解码已有 Netlist 结构，不执行图、驱动、引脚/库匹配、数值范围或时序分析；例如负线电容仍能被结构解码，后续 STA 保留原来的数值校验。原分析 API、默认错误 JSON、SDC 诊断及所有时序结果合同不变。
+
 ## 受限 SDC profile
 
 这是逐行读取的数据 profile，**不执行 Tcl**。数值按库 `time_unit` 和 `capacitive_load_unit` 转成 SI。先创建一个真实输入端口时钟，`-name` 与正 `-period` 必填；可选 `-waveform {0 T/2}`。对象仅 `[get_ports exact_name]`、列表 `{a b}`、或 `*`（筛选适用输入/输出且不含 clock）；时钟对象仅 `[get_clocks exact_clock_name]`。
@@ -254,6 +275,6 @@ python3 tools/verify-opensta.py --sta /path/to/sta --request examples/four_paths
 
 [CI 工作流](https://github.com/yesuifengliu01/moonbit-liberty/actions/workflows/ci.yml)使用普通 Ubuntu 24.04 runner，固定 MoonBit `0.10.13+cbb11c36f`、对应 core 及 Node `24.11.0`。SDK/core 官方下载地址与 SHA256 在 `tools/ci-toolchain.json`，Actions 引用也固定到提交。
 
-工作流执行全目标 check、格式检查、JS/Wasm-GC/native 测试及 release 构建，再以 `python3 tools/ci-consumers.py` 启动真实 CLI 验证示例、普通/检查退出码、BOM stdin、输入错误及关闭报告接收端。消费者的状态、计数与裕量预期来自示例直连约束，失败会使 job 失败；报告保存在 `_build/ci-consumers.json`。这不替代完整时序签核或历史外部 OpenSTA 对照。
+工作流执行全目标 check、格式检查、JS/Wasm-GC/native 测试及 release 构建，再以 `python3 tools/ci-consumers.py` 启动真实 CLI 验证示例、普通/检查退出码、BOM stdin、输入错误及关闭报告接收端。另运行 `python3 tools/ci-sdc-diagnostics.py` 和 `python3 tools/ci-netlist-diagnostics.py`，验证 SDC 命令起点、Netlist 语义路径及真实文件/API 消费。位置与路径预期独立手工确定，原状态、计数与裕量预期来自示例直连约束；失败会使 job 失败，三个报告保存在 `_build/ci-*.json`。这不替代完整时序签核或历史外部 OpenSTA 对照。
 
 `tools/bootstrap-ci.py`只把官方 SDK 安装到显式指定的新目录并验证归档 SHA，不覆盖已有 SDK。CI 在 runner 临时目录安装；已有本机工具链可直接运行以上常规命令。

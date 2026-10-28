@@ -9,6 +9,12 @@ fn without_initial_bom(text : String) -> String {
 }
 
 ///|
+/// Standalone Netlist structural checking with optional initial file BOM.
+pub fn check_netlist_json(netlist : String) -> String {
+  @sta.check_netlist_json(without_initial_bom(netlist))
+}
+
+///|
 /// Standalone SDC-file checking. Preserve SDC source units exactly for positions.
 pub fn check_sdc_json(
   library : String,
