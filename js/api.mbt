@@ -9,6 +9,20 @@ fn without_initial_bom(text : String) -> String {
 }
 
 ///|
+/// Compare two existing success-report files, each with an optional file BOM.
+pub fn compare_setup_json(
+  baseline : String,
+  candidate : String,
+  max_slack_loss_seconds : Double,
+) -> String {
+  @sta.compare_setup_json(
+    without_initial_bom(baseline),
+    without_initial_bom(candidate),
+    max_slack_loss_seconds,
+  )
+}
+
+///|
 /// Scalar reference preflight; decoded files accept one initial BOM each.
 pub fn check_netlist_references_json(
   library : String,

@@ -1,0 +1,7 @@
+import {
+  "yesuifengliu01/sta",
+  "yesuifengliu01/sta/testdata",
+  "moonbitlang/core/json",
+}
+
+pkgtype(kind: "executable")

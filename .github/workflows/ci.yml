@@ -66,5 +66,7 @@ jobs:
         run: python3 tools/ci-cell-usage.py
       - name: Exercise scalar-reference public-package and file receivers
         run: python3 tools/ci-references.py
+      - name: Exercise setup-comparison public-package and report receivers
+        run: python3 tools/ci-setup-comparison.py
       - name: Ensure checks did not modify tracked sources
         run: git diff --exit-code

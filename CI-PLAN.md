@@ -1,5 +1,25 @@
 # Verification scope
 
+## Existing-report setup regression comparison (R08)
+
+Two fresh original CLI calls on new self-authored constant-delay models produced existing moonbit.sta.v1 files before comparison code. Both original checks returned Met/exit0; independent hand arithmetic fixes0.25ns slack loss. Reports and producer inputs/runtime/raw streams remain frozen. This is a new relative gate, not a bug claim about absolute checking, a new input format or a timing rerun feature.
+
+All30 full existing-report input pairs and complete hand comparison facts were fixed before code. They cover finite strict/equal loss thresholds, all unknown/set changes, ordering/raw identity, no-data, finite huge/subtraction overflow, malformed identity/schema/slack/settings, null slack and exact original outputs. Synthetic endpoint-view states are not new physical timing solutions. Six focused tests additionally consume public typed results, preserve owned arrays and check absolute-Met versus relative-regression semantics.
+
+```sh
+moon check --target all --deny-warn
+moon fmt --check
+moon test --target js --deny-warn --filter 'setup comparison*'
+moon test --target wasm-gc --deny-warn --filter 'setup comparison*'
+moon test --target native --deny-warn --filter 'setup comparison*'
+moon build --target js --release --deny-warn
+python3 tools/ci-setup-comparison.py
+```
+
+The new gate runs46 real processes:30 frozen pair cases, one public package returning five typed comparisons, two exact distributed-report modes, source-only help, arguments/invalid option, both invalidUTF8 inputs, JSON/failed-analysis/missing-file errors, BOMs, three invalid thresholds and closed stdout. Every field/omission/order/exit is checked; raw streams and actual input copies are retained in `_build/setup-comparison-receipts` and `_build/ci-setup-comparison.json`. It does not rerun the old original analysis pair or old batches.
+
+The first related clean passing sequence is sufficient. Do not repeat old106 tests/202 configured receiver processes locally or historical scientific generators. The retained required final-head quality job runs full112 tests (106 retained +6 new) on JS/Wasm-GC/native and all old gates plus one necessary setup-comparison gate. Keep failed attempts, Git object/blob/working/actual-input/local-compiled/remote-metadata identities distinct; read back all sourceZIP members. Success is the named relative comparison profile, not absolute compliance, model/constraint provenance or graph/PPA/signoff. Stop for independent acceptance once required checks/freeze pass.
+
 ## Scalar-reference preflight (R07)
 
 Existing Library/Netlist inputs yield an independent complete scalar-name/reference report before SDC or timing models. The actual old structural checker accepts the frozen many-issue input as intended; this addition is a new workflow rather than a fabricated decoding bug. Existing graph/engine/SDC/math, R06 area source and public declarations remain intact.

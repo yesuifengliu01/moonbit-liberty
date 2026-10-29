@@ -27,6 +27,10 @@ pub fn check_netlist_references_json(String, String) -> String
 
 pub fn check_sdc_json(String, String, String) -> String
 
+pub fn compare_setup_json(String, String, Double) -> String
+
+pub fn compare_setup_results(STAResult, STAResult, max_slack_loss_seconds? : Double) -> SetupComparison raise STAError
+
 pub fn netlist_from_json(Json) -> Netlist raise STAError
 
 pub fn netlist_from_json_with_diagnostics(Json) -> Netlist raise NetlistJsonDiagnostic
@@ -411,6 +415,47 @@ pub(all) struct SdcSourcePosition {
   column : Int
   offset : Int
 } derive(Eq, ToJson, @debug.Debug)
+
+pub(all) enum SetupChangeStatus {
+  SetupDeltaRegressed
+  SetupDeltaImproved
+  SetupDeltaUnchanged
+  SetupDeltaTolerated
+  SetupDeltaBaselineOnly
+  SetupDeltaCandidateOnly
+  SetupDeltaBaselineUnknown
+  SetupDeltaCandidateUnknown
+  SetupDeltaBothUnknown
+  SetupDeltaOverflow
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct SetupComparison {
+  status : SetupComparisonStatus
+  unit : String
+  max_slack_loss_seconds : Double
+  baseline_endpoint_edges : Int
+  candidate_endpoint_edges : Int
+  matched_endpoint_edges : Int
+  compared_endpoint_edges : Int
+  regressed_endpoint_edges : Int
+  incomplete_endpoint_edges : Int
+  rows : Array[SetupSlackChange]
+} derive(ToJson, @debug.Debug)
+
+pub(all) enum SetupComparisonStatus {
+  NoSetupRegression
+  SetupRegressed
+  SetupComparisonIncomplete
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct SetupSlackChange {
+  pin : String
+  edge : Edge
+  status : SetupChangeStatus
+  baseline_slack_seconds : Double?
+  candidate_slack_seconds : Double?
+  slack_delta_seconds : Double?
+} derive(ToJson, @debug.Debug)
 
 pub(all) struct SetupSummary {
   status : SetupSummaryStatus

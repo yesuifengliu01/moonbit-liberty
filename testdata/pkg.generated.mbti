@@ -16,6 +16,8 @@ pub fn reference_cases() -> String
 
 pub fn request() -> String
 
+pub fn setup_comparison_cases() -> String
+
 // Errors
 
 // Types and methods

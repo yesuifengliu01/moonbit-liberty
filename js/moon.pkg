@@ -19,6 +19,7 @@ options(
         "analyze_pin_limits_json",
         "analyze_cell_usage_json",
         "check_netlist_references_json",
+        "compare_setup_json",
       ],
     },
   },

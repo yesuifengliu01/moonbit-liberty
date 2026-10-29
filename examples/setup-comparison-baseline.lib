@@ -1,0 +1,17 @@
+library (setup_comparison_demo) {
+  delay_model : table_lookup;
+  time_unit : "1ns";
+  capacitive_load_unit (1, "pf");
+  lu_table_template (axis) { variable_1 : input_net_transition; index_1 ("0, 1"); }
+  cell (BUF) {
+    pin (A) { direction : input; capacitance : 0; }
+    pin (Y) { direction : output; function : "A";
+      timing () { related_pin : "A"; timing_sense : positive_unate; timing_type : combinational;
+        cell_rise (axis) { values ("0.25, 0.25"); }
+        cell_fall (axis) { values ("0.25, 0.25"); }
+        rise_transition (axis) { values ("0.1, 0.1"); }
+        fall_transition (axis) { values ("0.1, 0.1"); }
+      }
+    }
+  }
+}

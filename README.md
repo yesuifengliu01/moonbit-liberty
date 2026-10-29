@@ -284,6 +284,30 @@ node tools/check-pin-limits.cjs examples/sky130-demo.lib examples/pin-limits-rea
 
 不检查端口/SDC设计规则覆盖、最小值、fanout、动态/table上限或其他pin角色；不重算 slew/load、改变时序科学模型或声称 OpenSTA 等价。`examples/pin_limit_receiver` 与 `tools/ci-pin-limits.py` 分别执行公开 typed 包和任意三文件接收链，按 `examples/pin-limit-cases.json` 的完整冻结行核对结果；属于自编集成验证。
 
+## 比较既有 setup 报告的相对退步
+
+两个设计都为 Met，候选的 slack 仍可能相对基线变差。比较门禁直接读取既有成功的 `moonbit.sta.v1` 分析报告，不增加输入格式，不重新执行时序：
+
+```sh
+moon build --target js --release
+# 两份原始报告均为Met；相对退步0.25ns，退出3
+node tools/compare-setup.cjs examples/setup-baseline.json examples/setup-candidate.json
+# 显式允许损失0.5ns，单位为秒，退出0
+node tools/compare-setup.cjs --max-slack-loss 5e-10 examples/setup-baseline.json examples/setup-candidate.json
+```
+
+这两份文件在实现比较器前，由原 CLI 对新写的简单 BUF 样例各运行一次保存：1ns launch、2ns周期、0 output delay，基线/候选常量延迟分别0.25ns/0.5ns，Rise/Fall slack 分别0.75ns/0.5ns。原始 stdout 字节保留在文件中，模型/请求也随 `examples/setup-comparison-*.lib`、`setup-comparison-request.json` 提供。这是自编固定模型，不是新物理精度或签核证据。
+
+公共 `compare_setup_results(baseline, candidate, max_slack_loss_seconds=0.0)` 接受现有 `STAResult`，返回 owned 的 `SetupComparison`。只消费端点的原报告 pin、edge、slack；不解析、改名或规范化标识，Rise/Fall分开匹配。输出行按基线顺序，再追加仅在候选中出现的端点；两份输入和路径数组不改写。空/重复的端点身份和非有限 slack 会在新比较入口明确报错，原分析与解码入口不变。
+
+`slack_delta_seconds = candidate - baseline`，严格小于 `-max_slack_loss_seconds` 才算退步，等于容差时允许。逐行区分退步、改善、不变、允许的损失、单侧端点、单/双侧未知 slack 以及差值溢出；未知值不补零，溢出时省略 delta。报告含 SI 秒、阈值、两侧端点/沿数、匹配/可比较/退步/不完整计数和完整行列表。已知退步优先为 `SetupRegressed`；无已知退步但有集合变化、未知、溢出或没有可比较端点时为 `SetupComparisonIncomplete`；其余为 `NoSetupRegression`。两份空报告不作为通过。
+
+核心/JS `compare_setup_json(baseline, candidate, max_slack_loss_seconds)` 输出独立 `moonbit.sta.setup-compare.v1`、`ok/comparison`；输入/设置错误为 `ok:false/error`。输入必须是原 `moonbit.sta.v1` 成功报告；只验证消费的端点身份/slack视图，其余字段与扩展键忽略。未知 slack 可省略或为null。JS第三个参数是Number，阈值必须有限、非负；文件工具默认0，只读严格UTF-8，允许各单首BOM和调用者相对路径。退出0完整且无相对退步、3已知退步、4比较不完整、2参数/编码/IO/报告/设置/输出错误；`--help`无须构建。
+
+它不代替原 setup 合规检查：两份同样为负的 slack 也可能通过相对门禁。比较所需的设计、模型、约束及来源可比性由调用者控制，报告本身不足以证明这些条件；没有新GBA、路径排序、WNS/TNS近似、driver/环路/PPA或签核范围。
+
+`examples/setup-comparison-cases.json` 的30组完整独立预期覆盖严格/等值容差、原始报告、缺失与集合变化、输入顺序、极大有限数/溢出、错误与原始身份。`examples/setup_comparison_receiver` 独立编译后调用公开typed API；`python3 tools/ci-setup-comparison.py` 运行46个实际接收进程并保存完整输出/输入副本身份。typed接收器重建公开端点视图，忽略比较不消费的nodes/paths，不重新计算时序。它们是自编集成验证，非第三方采用；验证范围见 [CI-PLAN.md](CI-PLAN.md)。
+
 ## 时序设置前的标量引用预检
 
 已有 Netlist JSON 能被解码，但单元、pin 或 net 名称仍可能接错。独立预检仅需现有 Liberty 和网表，不要求 SDC、时间/电容单位、pin 电容或时序表：
@@ -415,6 +439,6 @@ python3 tools/verify-opensta.py --sta /path/to/sta --request examples/four_paths
 
 工作流执行全目标 check、格式检查、JS/Wasm-GC/native 测试及 release 构建，再以 `python3 tools/ci-consumers.py` 启动真实 CLI 验证示例、普通/检查退出码、BOM stdin、输入错误及关闭报告接收端。另运行 `python3 tools/ci-sdc-diagnostics.py`、`python3 tools/ci-netlist-diagnostics.py` 和 `python3 tools/ci-constraint-context.py`，验证 SDC 命令起点、Netlist 语义路径、缺失 launch 的因果见证及真实文件/API 消费。位置、路径和常数弧 SI 预期独立手工确定，原状态、计数与裕量预期来自示例直连约束；失败会使 job 失败，报告保存在 `_build/ci-*.json`。这不替代完整时序签核或历史外部 OpenSTA 对照。
 
-另有 `python3 tools/ci-cell-usage.py` 与 `python3 tools/ci-references.py` 门禁，分别核对无时序配置的完整面积/计数报告、完整标量引用问题及输入/输出错误，通过独立公开包和两文件工具实际接收。执行范围与历史科学对照的边界见 [CI-PLAN.md](CI-PLAN.md)。
+另有 `python3 tools/ci-cell-usage.py`、`python3 tools/ci-references.py` 与 `python3 tools/ci-setup-comparison.py` 门禁，分别核对完整面积/计数、标量引用问题、既有报告的完整setup比较及输入/输出错误，通过独立公开包和文件工具实际接收。执行范围与历史科学对照的边界见 [CI-PLAN.md](CI-PLAN.md)。
 
 `tools/bootstrap-ci.py`只把官方 SDK 安装到显式指定的新目录并验证归档 SHA，不覆盖已有 SDK。CI 在 runner 临时目录安装；已有本机工具链可直接运行以上常规命令。
