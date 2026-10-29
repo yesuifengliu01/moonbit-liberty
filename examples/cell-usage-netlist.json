@@ -1,0 +1,76 @@
+{
+  "ports": [
+    {
+      "name": "a",
+      "net": "n0",
+      "direction": "input"
+    },
+    {
+      "name": "out",
+      "net": "n3",
+      "direction": "output"
+    }
+  ],
+  "gates": [
+    {
+      "name": "u/~😀",
+      "cell": "BUF/~😀",
+      "connections": [
+        {
+          "pin": "A",
+          "net": "n0"
+        },
+        {
+          "pin": "Y",
+          "net": "n1"
+        }
+      ]
+    },
+    {
+      "name": "u1",
+      "cell": "BUF/~😀",
+      "connections": [
+        {
+          "pin": "A",
+          "net": "n1"
+        },
+        {
+          "pin": "Y",
+          "net": "n2"
+        }
+      ]
+    },
+    {
+      "name": "ff",
+      "cell": "DFF",
+      "connections": [
+        {
+          "pin": "A",
+          "net": "n2"
+        },
+        {
+          "pin": "Y",
+          "net": "n3"
+        }
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "name": "n0",
+      "wire_cap_farads": 0
+    },
+    {
+      "name": "n1",
+      "wire_cap_farads": 0
+    },
+    {
+      "name": "n2",
+      "wire_cap_farads": 0
+    },
+    {
+      "name": "n3",
+      "wire_cap_farads": 0
+    }
+  ]
+}

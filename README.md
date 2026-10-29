@@ -284,6 +284,29 @@ node tools/check-pin-limits.cjs examples/sky130-demo.lib examples/pin-limits-rea
 
 不检查端口/SDC设计规则覆盖、最小值、fanout、动态/table上限或其他pin角色；不重算 slew/load、改变时序科学模型或声称 OpenSTA 等价。`examples/pin_limit_receiver` 与 `tools/ci-pin-limits.py` 分别执行公开 typed 包和任意三文件接收链，按 `examples/pin-limit-cases.json` 的完整冻结行核对结果；属于自编集成验证。
 
+## 映射实例用量与声明面积
+
+只有 Liberty 和已映射标量 Netlist JSON，也可以先统计设计资源：
+
+```sh
+moon build --target js --release
+node tools/cell-usage.cjs examples/cell-usage.lib examples/cell-usage-netlist.json
+```
+
+示例不含时间/电容单位、时序表或 SDC；两个 BUF 的声明面积各为1.25，一个名为 DFF 的合成单元为2.5，结果为3个实例、2种已用单元、总面积5。库里未使用的面积100单元不计入。该合成 DFF 仅是单元名称；真实 Sky130 INV/NAND/DFF 的声明字段另在冻结案例中核对，不将这些计数样例当成完整连接/触发器验证。
+
+公共 typed 入口 `analyze_cell_usage(library, netlist)` 返回 `CellUsageReport`；直接接受现有 `Library` / `Netlist`，不需要 `STAEngine`、约束或 GBA。只要求实例名非空且唯一；不检查连接、pin 角色、驱动或图合法性。所有 flat gates 均计入，端口别名和未用库单元不增加实例；按现有 `Library.cell` 的精确原名、首个匹配绑定。`instances` 按输入次序保留 index/原始 instance/cell，`cells` 按首次使用次序给直方图与面积贡献；这些数组为 owned。
+
+每行面积状态为 `KnownArea`、`MissingArea`、`InvalidArea` 或 `UnmappedCell`，保留可用的解码 `raw_area`、数值和问题原因。数值来自公开 `Cell.area`；简单、有限、非负值有效，包括零；缺声明、负数、非数字或 complex/group 声明不猜值。程序构造的 Library 同样使用公开数值字段，源文本只提供声明解释。`unit` 固定为 `liberty_declared_area`，不转换成物理平方微米。
+
+`known_area_subtotal` 是各已知单元面积乘实例数后的有限小计；任一分组乘积或小计溢出则省略，并置 `area_overflow`。只有全部实例已映射且面积有效、聚合有限时，`status=Complete` 且给出 `total_declared_area`；否则为 `Incomplete`，省略总面积。空设计 Complete、总面积0。Complete 只说明面积覆盖，不证明连接正确、物理 PPA 或时序签核。
+
+核心与 JS `analyze_cell_usage_json(library, netlist)` 输出独立 `moonbit.sta.cell-usage.v1`，含 `ok` 和 `usage`（输入错误则为 `error`）。两文件工具使用严格 UTF-8，库和网表各允许单首 BOM，按调用者 cwd 解释路径，不重写源文件。退出0 Complete、4 Incomplete（含溢出）、2参数/编码/IO/解析/身份/输出错误；`--help` 无须构建。
+
+固定上游0.4.1会丢失引号单元名中的非BMP字符，例如 `"BUF/~😀"` 变为 `BUF/~`。本工具按实际 Library 模型绑定，不会偷偷修名；裸标识 `BUF/~😀` 保真。该上游限制保留在原样输入案例中，报告 UnmappedCell；未修解析器或更换依赖。
+
+`examples/cell-usage-cases.json` 固定21例的完整期望；初始20例的面积/计数预期保留，主例将同名单元改用合法裸标识，并额外保留原样引号输入的明确未映射期望。`examples/cell_usage_receiver` 通过独立包实际调用 typed API，`python3 tools/ci-cell-usage.py` 从其他 cwd 运行两文件接收，并保存实际测试副本和原始 stdout/stderr。它们是自编集成验证，不代表第三方采用。局部验证与必需的完整 CI 范围见 [CI-PLAN.md](CI-PLAN.md)。
+
 ## 受限 SDC profile
 
 这是逐行读取的数据 profile，**不执行 Tcl**。数值按库 `time_unit` 和 `capacitive_load_unit` 转成 SI。先创建一个真实输入端口时钟，`-name` 与正 `-period` 必填；可选 `-waveform {0 T/2}`。对象仅 `[get_ports exact_name]`、列表 `{a b}`、或 `*`（筛选适用输入/输出且不含 clock）；时钟对象仅 `[get_clocks exact_clock_name]`。
@@ -368,5 +391,7 @@ python3 tools/verify-opensta.py --sta /path/to/sta --request examples/four_paths
 [CI 工作流](https://github.com/yesuifengliu01/moonbit-liberty/actions/workflows/ci.yml)使用普通 Ubuntu 24.04 runner，固定 MoonBit `0.10.13+cbb11c36f`、对应 core 及 Node `24.11.0`。SDK/core 官方下载地址与 SHA256 在 `tools/ci-toolchain.json`，Actions 引用也固定到提交。
 
 工作流执行全目标 check、格式检查、JS/Wasm-GC/native 测试及 release 构建，再以 `python3 tools/ci-consumers.py` 启动真实 CLI 验证示例、普通/检查退出码、BOM stdin、输入错误及关闭报告接收端。另运行 `python3 tools/ci-sdc-diagnostics.py`、`python3 tools/ci-netlist-diagnostics.py` 和 `python3 tools/ci-constraint-context.py`，验证 SDC 命令起点、Netlist 语义路径、缺失 launch 的因果见证及真实文件/API 消费。位置、路径和常数弧 SI 预期独立手工确定，原状态、计数与裕量预期来自示例直连约束；失败会使 job 失败，报告保存在 `_build/ci-*.json`。这不替代完整时序签核或历史外部 OpenSTA 对照。
+
+另有 `python3 tools/ci-cell-usage.py` 门禁，逐字段核对无时序配置的完整面积/计数报告和缺失、溢出、输入/输出错误，通过独立公开包和两文件工具实际接收。执行范围与历史科学对照的边界见 [CI-PLAN.md](CI-PLAN.md)。
 
 `tools/bootstrap-ci.py`只把官方 SDK 安装到显式指定的新目录并验证归档 SHA，不覆盖已有 SDK。CI 在 runner 临时目录安装；已有本机工具链可直接运行以上常规命令。

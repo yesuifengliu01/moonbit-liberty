@@ -7,6 +7,10 @@ import {
 }
 
 // Values
+pub fn analyze_cell_usage(@moon-liberty.Library, Netlist) -> CellUsageReport raise STAError
+
+pub fn analyze_cell_usage_json(String, String) -> String
+
 pub fn analyze_constraint_context_json(String, String, String) -> String
 
 pub fn analyze_json(String, String) -> String
@@ -47,6 +51,47 @@ pub suberror SdcDiagnostic {
 } derive(@debug.Debug)
 
 // Types and methods
+pub(all) enum CellAreaState {
+  KnownArea
+  MissingArea
+  InvalidArea
+  UnmappedCell
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct CellUsage {
+  cell : String
+  instance_count : Int
+  area_state : CellAreaState
+  declared_area : Double?
+  raw_area : String?
+  issue : String?
+  area_overflow : Bool
+  total_declared_area : Double?
+} derive(ToJson, @debug.Debug)
+
+pub(all) struct CellUsageReport {
+  status : CellUsageStatus
+  unit : String
+  library : String
+  instance_count : Int
+  mapped_instances : Int
+  unmapped_instances : Int
+  known_area_instances : Int
+  missing_area_instances : Int
+  invalid_area_instances : Int
+  area_overflow : Bool
+  known_area_subtotal : Double?
+  total_declared_area : Double?
+  cells : Array[CellUsage]
+  instances : Array[InstanceUsage]
+} derive(ToJson, @debug.Debug)
+
+pub(all) enum CellUsageStatus {
+  UsageComplete
+  UsageIncomplete
+} derive(Eq, @debug.Debug)
+pub impl ToJson for CellUsageStatus
+
 pub(all) struct Clock {
   name : String
   port : String
@@ -111,6 +156,16 @@ pub(all) struct GateInstance {
   name : String
   cell : String
   connections : Array[Connection]
+} derive(ToJson, @debug.Debug)
+
+pub(all) struct InstanceUsage {
+  index : Int
+  instance : String
+  cell : String
+  area_state : CellAreaState
+  declared_area : Double?
+  raw_area : String?
+  issue : String?
 } derive(ToJson, @debug.Debug)
 
 pub(all) enum MissingLaunchKind {

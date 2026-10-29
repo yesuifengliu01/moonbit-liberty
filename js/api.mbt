@@ -9,6 +9,15 @@ fn without_initial_bom(text : String) -> String {
 }
 
 ///|
+/// Standalone declared-cell census; both UTF-8 files accept an initial BOM.
+pub fn analyze_cell_usage_json(library : String, netlist : String) -> String {
+  @sta.analyze_cell_usage_json(
+    without_initial_bom(library),
+    without_initial_bom(netlist),
+  )
+}
+
+///|
 /// Three UTF-8 decoded files plus the existing NLDM policy name; SDC verbatim.
 pub fn analyze_pin_limits_json(
   library : String,

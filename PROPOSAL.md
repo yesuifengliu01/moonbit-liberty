@@ -13,6 +13,7 @@ MoonBit STA（项目liberty，账号yesuifengliu01）将Liberty、已映射标�
 - 周期预算：固定非周期参数，给逐端点周期下界与限制沿；仅在约束覆盖完整、存在正下界且频率可表示时给整体频率，保留覆盖不足和无正限制等状态。
 - 指定路径：一个原始名的 PI/Q 到 PO/D 边沿查询，即使来源在全局汇合处落选，仍返回该来源的一条最晚路径及明确命名的查询 arrival/slack。复用原 GBA slew/负载/已接受弧权和捕获约束，保留 Q 发射边界；NoPath、UnconstrainedLaunch 不补零。提供独立 typed/JSON/四文件入口和自编公开包/文件接收链；不作路径相关 slew 重算，不把查询值当全局 WNS。
 - Pin电气上限：用完整原GBA的pin slew和输出全负载核对已声明的标量max_transition/max_capacitance及缺省transition上限，输出逐规则/pin/edge的SI实际值、上限、余量和声明来源。缺失/无效上限不补零、不新增旧输入拒绝；单独typed/JSON/三文件checker可区分setup Met但电气超限的设计。范围包含已支持FF的CLK/D/Q，保留原时序、范围策略和诊断；不新增时序模型或完整签核规则。
+- 设计用量与面积：仅用现有Liberty和已映射Netlist统计全部flat实例、每种已用单元及声明面积，不要求SDC/时序单位或执行GBA。提供完整逐实例绑定、分组贡献、缺失/无效/未映射覆盖、有限已知小计和完整总量；未知数据不补零，算术溢出显式报告。typed/JSON/两文件入口与独立公开包、实际文件接收门禁齐备；面积保持库声明单位，Complete不等于连接、PPA或时序签核。
 - 摘要与CI：统计端点/沿、违例、最坏裕量和WNS；显式检查Met退出0、违例3、覆盖不足或空端点4、输入/输出错误2；普通分析保留负裕量报告。
 
 主实现为MoonBit的图、约束、传播和报告API，可复用STAEngine/STAResult；JS适配调用同一核心，Node仅承担文件/stdin、严格UTF-8与单首BOM输入、帮助和退出策略。可选Netlist字段诊断保留原错误并返回0-based语义JSON Pointer，附独立文件检查器；仅检查既有结构，不代替图/数值/时序校验，旧分析和SDC入口保留。
@@ -20,7 +21,7 @@ MoonBit STA（项目liberty，账号yesuifengliu01）将Liberty、已映射标�
 
 与成熟OpenSTA功能有重叠，本项目提供限定模型下可嵌入MoonBit的接口、显式覆盖解释和JSON消费链。独立贡献是图校验、SI负载、弧级双沿传播、触发器适配、短约束精确累加后一次舍入、周期预算与摘要；未重写上游Liberty解析器。
 完成度由JS、原生及Wasm-GC相关回归、真实Node消费者及固定OpenSTA 2.0.17对照支持，涉及四类路径、真实Sky130触发器、单位/名称、数值与覆盖边界。证据适用于已列模型和样例，不代表生产签核或赛事验收；可复现用法与依据见README、VALIDATION。
-不支持保持时间、多/异步时钟、锁存器、RC/OCV、完整Tcl/Verilog、向量系统或TNS；输入不自动识别其他编码，成功写出也不证明下游持久化。
+不支持保持时间、多/异步时钟、锁存器、RC/OCV、完整Tcl/Verilog、向量系统或TNS；用量统计不展开层次、校验pin连接或换算物理面积。输入不自动识别其他编码，成功写出也不证明下游持久化。相关局部检查与必需完整CI区分列在CI-PLAN.md，历史外部参考不重复计作新证据。
 
 项目仓库：[yesuifengliu01/moonbit-liberty](https://github.com/yesuifengliu01/moonbit-liberty)，模块 `yesuifengliu01/sta`。实际复用仓库为[SongYZZZ/moon-liberty](https://github.com/SongYZZZ/moon-liberty) 0.4.1，解析/模型/查表及原作者NOTICE均保留。
 根LICENSE为Apache-2.0，上游同许可；[Sky130数据仓库](https://github.com/google/skywater-pdk-libs-sky130_fd_sc_hd)亦按Apache-2.0附独立许可和来源。OpenSTA以GPL-3.0-or-later外部进程验证，不作为运行时组件随包分发。

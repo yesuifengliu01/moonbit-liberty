@@ -1,0 +1,8 @@
+import {
+  "yesuifengliu01/sta",
+  "yesuifengliu01/sta/testdata",
+  "SongYZZZ/moon-liberty" @liberty,
+  "moonbitlang/core/json",
+}
+
+pkgtype(kind: "executable")
