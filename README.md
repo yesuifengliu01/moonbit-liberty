@@ -213,6 +213,44 @@ node tools/constraint-context.cjs examples/constraint-context.lib examples/const
 
 文件工具退出 0 表示分析完成，包含 PartialCoverage 或负 slack 的情况；输入/分析/输出错误退出 2，主机 IO/编码诊断写 stderr。`--help` 无需构建。这是对现有受限模型报告的因果解释，不是时序闭合、所有路径约束完整或生产签核保证。
 
+## 指定发射端与捕获端的路径查询
+
+全局报告只保存每个节点的一条最晚 arrival 路径。指定来源在汇合处落选时，筛选原 `path` 找不回它的后续弧。可选入口在同次原分析中保留所有实际接受弧已算出的延迟，再沿原输出 DAG 查询一个精确来源：
+
+```moonbit
+let query : @sta.PathQuery = {
+  launch: InputPort("b", Rise),
+  capture: OutputPort("out", Rise),
+}
+let analysis = engine.run_setup_path_query(query)
+// analysis.timing 是原全局报告；analysis.path_query 是指定来源的结果。
+```
+
+`PathLaunch` 是 `InputPort(raw_name, edge)` 或 `RegisterQ(raw_instance, raw_pin, edge)`；`PathCapture` 是 `OutputPort(raw_name, edge)` 或 `RegisterD(raw_instance, raw_pin, edge)`。寄存器点必须是已支持 ff 的真实 Q/D。原始分量按字面精确匹配，不展开通配符，输出的 launch/capture/path pin 沿用原可逆报告身份。
+
+```sh
+node tools/path-query.cjs examples/path-query.lib examples/path-query-netlist.json examples/path-query.sdc examples/path-query.json
+node tools/path-query.cjs examples/path-query-changed.lib examples/path-query-netlist.json examples/path-query.sdc examples/path-query.json
+```
+
+查询 JSON 为 `{"from":{"kind":"input_port","name":"b","edge":"rise"},"to":{"kind":"output_port","name":"out","edge":"rise"}}`。寄存器 kind 分别是 `register_q` / `register_d`，用 `instance`、`pin` 代替 `name`；edge 只接受 `rise` / `fall`。顶层可选 `range_policy` 沿用 `extrapolate`（默认）/`reject`/`clamp`。
+
+示例中 A 以1ns发射，经过0.2+0.3ns，全局 arrival1.5ns、slack0.3ns；B 以0.1ns发射，经过0.4+0.3ns，查询 arrival0.8ns、required1.8ns、slack1ns。第二个库仅把落选 B 弧改为0.6ns，原完整报告相同，查询 arrival 变为1ns、slack0.8ns。输入与逐步独立期望见 `examples/path-query-cases.json`。
+
+四文本核心/JS 入口 `analyze_path_query_json(library, netlist, sdc, query)` 返回独立 `moonbit.sta.path-query.v1`，包含原 `result` 与 `path_query`。查询结果明确使用 `queried_arrival_seconds`、`queried_slack_seconds`，还有 `required_seconds`、身份和一条 owned `path`；全为秒，未知数值省略。
+
+| status | 含义 |
+| --- | --- |
+| Found | 实际接受的边沿路径存在且发射 arrival 已知；缺捕获约束时 required/slack 仍省略 |
+| NoPath | 两个合法查询点之间不存在该边沿数据路径；path为空，无数值查询字段 |
+| UnconstrainedLaunch | 路径存在但发射 arrival 未知；path为空，无数值查询字段 |
+
+新 JSON 边界先解析 Netlist、库、SDC，再解析 query 形状/范围策略；typed 引擎先完成原 setup 分析，再按 launch、capture 顺序验证点，最后判可达性。不可达优先 NoPath，可达且 launch 未知才是 UnconstrainedLaunch。坏原输入与非法查询是错误。三种有效状态均退出0，包括负查询 slack；参数/编码/IO/分析/查询/输出失败退出2。`--help` 无需构建或输入。文件入口严格 UTF-8，库/网表/query 允许单个首 BOM，SDC 保持原文，源文件不改写，相对路径以调用者 cwd 为准。
+
+每条弧权使用完整原设计的 GBA worst-slew 和实际负载，捕获 setup 也沿用原分析；不沿指定路径重算 slew/load。Q 使用原 clock-latency/tCQ 前缀独立发射，数据图没有 D→Q 边。查询 slack 不能当全局 WNS或签核结论。同值沿用原 timing-group/related-pin/edge 遍历顺序取一条；不支持 all paths/top-K、through、批量、内部端点、路径异常或新的时序模型。默认报告、诊断、数学和原可选入口保持。
+
+`examples/path_query_receiver` 是单独编译、只调用公开 typed API 的自编消费包；`python3 tools/ci-path-query.py` 从其他 cwd 用真实四文件调用并核对冻结的完整路径/时间/状态，保留原始 stdout/stderr。它们属于自编集成验证，不代表第三方采用。
+
 ## 受限 SDC profile
 
 这是逐行读取的数据 profile，**不执行 Tcl**。数值按库 `time_unit` 和 `capacitive_load_unit` 转成 SI。先创建一个真实输入端口时钟，`-name` 与正 `-period` 必填；可选 `-waveform {0 T/2}`。对象仅 `[get_ports exact_name]`、列表 `{a b}`、或 `*`（筛选适用输入/输出且不含 clock）；时钟对象仅 `[get_clocks exact_clock_name]`。

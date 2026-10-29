@@ -11,6 +11,8 @@ pub fn analyze_constraint_context_json(String, String, String) -> String
 
 pub fn analyze_json(String, String) -> String
 
+pub fn analyze_path_query_json(String, String, String, String) -> String
+
 pub fn check_netlist_json(String) -> String
 
 pub fn check_sdc_json(String, String, String) -> String
@@ -143,6 +145,32 @@ pub(all) struct NodeTiming {
   slew_contributor : String
 } derive(ToJson, @debug.Debug)
 
+pub(all) enum PathCapture {
+  OutputPort(String, Edge)
+  RegisterD(String, String, Edge)
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) enum PathLaunch {
+  InputPort(String, Edge)
+  RegisterQ(String, String, Edge)
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct PathQuery {
+  launch : PathLaunch
+  capture : PathCapture
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct PathQueryAnalysis {
+  timing : STAResult
+  path_query : QueriedPath
+} derive(ToJson, @debug.Debug)
+
+pub(all) enum PathQueryStatus {
+  Found
+  NoPath
+  UnconstrainedLaunch
+} derive(Eq, ToJson, @debug.Debug)
+
 pub(all) struct PathStep {
   pin : String
   edge : Edge
@@ -186,6 +214,18 @@ pub(all) struct PortValue {
   fall : Double?
 } derive(ToJson, @debug.Debug)
 
+pub(all) struct QueriedPath {
+  status : PathQueryStatus
+  launch_pin : String
+  launch_edge : Edge
+  capture_pin : String
+  capture_edge : Edge
+  queried_arrival_seconds : Double?
+  required_seconds : Double?
+  queried_slack_seconds : Double?
+  path : Array[PathStep]
+} derive(ToJson, @debug.Debug)
+
 pub struct STAEngine {
   library : @moon-liberty.Library
   netlist : Netlist
@@ -195,6 +235,7 @@ pub struct STAEngine {
 pub fn STAEngine::new(@moon-liberty.Library, Netlist, TimingConstraints, policy? : @moon-liberty.RangePolicy) -> Self
 pub fn STAEngine::run_period_analysis(Self) -> PeriodAnalysis raise STAError
 pub fn STAEngine::run_setup_analysis(Self) -> STAResult raise STAError
+pub fn STAEngine::run_setup_path_query(Self, PathQuery) -> PathQueryAnalysis raise STAError
 pub fn STAEngine::run_setup_with_constraint_context(Self) -> ConstraintContextAnalysis raise STAError
 
 pub(all) struct STAResult {

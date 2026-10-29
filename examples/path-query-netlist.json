@@ -1,0 +1,80 @@
+{
+  "ports": [
+    {
+      "name": "clk",
+      "net": "ck",
+      "direction": "input"
+    },
+    {
+      "name": "a",
+      "net": "a",
+      "direction": "input"
+    },
+    {
+      "name": "b",
+      "net": "b",
+      "direction": "input"
+    },
+    {
+      "name": "out",
+      "net": "y",
+      "direction": "output"
+    }
+  ],
+  "gates": [
+    {
+      "name": "g",
+      "cell": "MERGE2",
+      "connections": [
+        {
+          "pin": "A",
+          "net": "a"
+        },
+        {
+          "pin": "B",
+          "net": "b"
+        },
+        {
+          "pin": "Y",
+          "net": "m"
+        }
+      ]
+    },
+    {
+      "name": "h",
+      "cell": "BUF",
+      "connections": [
+        {
+          "pin": "A",
+          "net": "m"
+        },
+        {
+          "pin": "Y",
+          "net": "y"
+        }
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "name": "ck",
+      "wire_cap_farads": 0
+    },
+    {
+      "name": "a",
+      "wire_cap_farads": 0
+    },
+    {
+      "name": "b",
+      "wire_cap_farads": 0
+    },
+    {
+      "name": "m",
+      "wire_cap_farads": 0
+    },
+    {
+      "name": "y",
+      "wire_cap_farads": 0
+    }
+  ]
+}

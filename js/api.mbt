@@ -9,6 +9,22 @@ fn without_initial_bom(text : String) -> String {
 }
 
 ///|
+/// Query files accept one initial BOM; SDC remains verbatim.
+pub fn analyze_path_query_json(
+  library : String,
+  netlist : String,
+  sdc : String,
+  query : String,
+) -> String {
+  @sta.analyze_path_query_json(
+    without_initial_bom(library),
+    without_initial_bom(netlist),
+    sdc,
+    without_initial_bom(query),
+  )
+}
+
+///|
 /// Standalone Netlist structural checking with optional initial file BOM.
 pub fn check_netlist_json(netlist : String) -> String {
   @sta.check_netlist_json(without_initial_bom(netlist))

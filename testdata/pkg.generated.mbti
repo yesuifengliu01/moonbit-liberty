@@ -6,6 +6,8 @@ pub fn constraint_context_library() -> String
 
 pub fn library() -> String
 
+pub fn path_query_cases() -> String
+
 pub fn request() -> String
 
 // Errors

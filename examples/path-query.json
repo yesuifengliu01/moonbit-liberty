@@ -1,0 +1,12 @@
+{
+  "from": {
+    "kind": "input_port",
+    "name": "b",
+    "edge": "rise"
+  },
+  "to": {
+    "kind": "output_port",
+    "name": "out",
+    "edge": "rise"
+  }
+}

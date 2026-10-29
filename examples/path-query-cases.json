@@ -1,0 +1,2677 @@
+{
+  "basis": "Hand-written models and complete expected path/edge/arc/delay/arrival/required/slack facts, frozen before production. Self-authored, not third-party adoption. Ns constants converted to seconds only; no graph/path algorithm in oracle.",
+  "absolute_tolerance_seconds": 1e-21,
+  "libraries": {
+    "base": "library (path_query_demo) {\n  delay_model : table_lookup;\n  time_unit : \"1ns\";\n  capacitive_load_unit (1, \"pf\");\n  voltage_unit : \"1V\";\n  slew_derate_from_library : 1;\n  lu_table_template (axis) { variable_1 : input_net_transition; index_1 (\"0, 1\"); }\n  lu_table_template (setup_axis) { variable_1 : constrained_pin_transition; index_1 (\"0, 1\"); }\n  lu_table_template (surface) {\n    variable_1 : input_net_transition; variable_2 : total_output_net_capacitance;\n    index_1 (\"0, 1\"); index_2 (\"0, 4\");\n  }\ncell (MERGE2) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (B) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A | B\";\ntiming () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\ntiming () {\n      related_pin : \"B\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.4, 0.4\"); }\n      cell_fall (axis) { values (\"0.4, 0.4\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\ncell (BUF) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.3, 0.3\"); }\n      cell_fall (axis) { values (\"0.3, 0.3\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (INV) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"!A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : negative_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.3, 0.3\"); }\n      cell_fall (axis) { values (\"0.3, 0.3\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (PBUF) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (QBUF) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.4, 0.4\"); }\n      cell_fall (axis) { values (\"0.4, 0.4\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (NU) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (B) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A ^ B\";\ntiming () {\n      related_pin : \"A\"; timing_sense : non_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\ntiming () {\n      related_pin : \"B\"; timing_sense : non_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.4, 0.4\"); }\n      cell_fall (axis) { values (\"0.4, 0.4\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\ncell (DUAL) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (B) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\ntiming () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    } }\n    pin (Z) { direction : output; function : \"B\";\ntiming () {\n      related_pin : \"B\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.3, 0.3\"); }\n      cell_fall (axis) { values (\"0.3, 0.3\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\ncell (DFF) {\n    ff (IQ, IQ_N) { clocked_on : \"CLK\"; next_state : \"D\"; }\n    pin (CLK) { direction : input; clock : true; capacitance : 0; }\n    pin (D) { direction : input; capacitance : 0;\n      timing () { related_pin : \"CLK\"; timing_type : setup_rising;\n        rise_constraint (setup_axis) { values (\"0.15, 0.15\"); }\n        fall_constraint (setup_axis) { values (\"0.15, 0.15\"); }\n      }\n    }\n    pin (Q) { direction : output; function : \"IQ\";\ntiming () {\n      related_pin : \"CLK\"; timing_sense : non_unate; timing_type : rising_edge;\n      cell_rise (axis) { values (\"0.25, 0.25\"); }\n      cell_fall (axis) { values (\"0.25, 0.25\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\n}\n",
+    "changed": "library (path_query_demo) {\n  delay_model : table_lookup;\n  time_unit : \"1ns\";\n  capacitive_load_unit (1, \"pf\");\n  voltage_unit : \"1V\";\n  slew_derate_from_library : 1;\n  lu_table_template (axis) { variable_1 : input_net_transition; index_1 (\"0, 1\"); }\n  lu_table_template (setup_axis) { variable_1 : constrained_pin_transition; index_1 (\"0, 1\"); }\n  lu_table_template (surface) {\n    variable_1 : input_net_transition; variable_2 : total_output_net_capacitance;\n    index_1 (\"0, 1\"); index_2 (\"0, 4\");\n  }\ncell (MERGE2) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (B) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A | B\";\ntiming () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\ntiming () {\n      related_pin : \"B\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.6, 0.6\"); }\n      cell_fall (axis) { values (\"0.6, 0.6\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\ncell (BUF) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.3, 0.3\"); }\n      cell_fall (axis) { values (\"0.3, 0.3\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (INV) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"!A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : negative_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.3, 0.3\"); }\n      cell_fall (axis) { values (\"0.3, 0.3\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (PBUF) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (QBUF) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.4, 0.4\"); }\n      cell_fall (axis) { values (\"0.4, 0.4\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (NU) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (B) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A ^ B\";\ntiming () {\n      related_pin : \"A\"; timing_sense : non_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\ntiming () {\n      related_pin : \"B\"; timing_sense : non_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.4, 0.4\"); }\n      cell_fall (axis) { values (\"0.4, 0.4\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\ncell (DUAL) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (B) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\ntiming () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    } }\n    pin (Z) { direction : output; function : \"B\";\ntiming () {\n      related_pin : \"B\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.3, 0.3\"); }\n      cell_fall (axis) { values (\"0.3, 0.3\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\ncell (DFF) {\n    ff (IQ, IQ_N) { clocked_on : \"CLK\"; next_state : \"D\"; }\n    pin (CLK) { direction : input; clock : true; capacitance : 0; }\n    pin (D) { direction : input; capacitance : 0;\n      timing () { related_pin : \"CLK\"; timing_type : setup_rising;\n        rise_constraint (setup_axis) { values (\"0.15, 0.15\"); }\n        fall_constraint (setup_axis) { values (\"0.15, 0.15\"); }\n      }\n    }\n    pin (Q) { direction : output; function : \"IQ\";\ntiming () {\n      related_pin : \"CLK\"; timing_sense : non_unate; timing_type : rising_edge;\n      cell_rise (axis) { values (\"0.25, 0.25\"); }\n      cell_fall (axis) { values (\"0.25, 0.25\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\n}\n",
+    "parallel": "library (path_query_demo) {\n  delay_model : table_lookup;\n  time_unit : \"1ns\";\n  capacitive_load_unit (1, \"pf\");\n  voltage_unit : \"1V\";\n  slew_derate_from_library : 1;\n  lu_table_template (axis) { variable_1 : input_net_transition; index_1 (\"0, 1\"); }\n  lu_table_template (setup_axis) { variable_1 : constrained_pin_transition; index_1 (\"0, 1\"); }\n  lu_table_template (surface) {\n    variable_1 : input_net_transition; variable_2 : total_output_net_capacitance;\n    index_1 (\"0, 1\"); index_2 (\"0, 4\");\n  }\ncell (MERGE2) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (B) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A | B\";\ntiming () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\ntiming () {\n      related_pin : \"B\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.4, 0.4\"); }\n      cell_fall (axis) { values (\"0.4, 0.4\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\ntiming () {\n      related_pin : \"B\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.6, 0.6\"); }\n      cell_fall (axis) { values (\"0.6, 0.6\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\ncell (BUF) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.3, 0.3\"); }\n      cell_fall (axis) { values (\"0.3, 0.3\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (INV) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"!A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : negative_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.3, 0.3\"); }\n      cell_fall (axis) { values (\"0.3, 0.3\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (PBUF) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (QBUF) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.4, 0.4\"); }\n      cell_fall (axis) { values (\"0.4, 0.4\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (NU) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (B) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A ^ B\";\ntiming () {\n      related_pin : \"A\"; timing_sense : non_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\ntiming () {\n      related_pin : \"B\"; timing_sense : non_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.4, 0.4\"); }\n      cell_fall (axis) { values (\"0.4, 0.4\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\ncell (DUAL) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (B) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\ntiming () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    } }\n    pin (Z) { direction : output; function : \"B\";\ntiming () {\n      related_pin : \"B\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.3, 0.3\"); }\n      cell_fall (axis) { values (\"0.3, 0.3\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\ncell (DFF) {\n    ff (IQ, IQ_N) { clocked_on : \"CLK\"; next_state : \"D\"; }\n    pin (CLK) { direction : input; clock : true; capacitance : 0; }\n    pin (D) { direction : input; capacitance : 0;\n      timing () { related_pin : \"CLK\"; timing_type : setup_rising;\n        rise_constraint (setup_axis) { values (\"0.15, 0.15\"); }\n        fall_constraint (setup_axis) { values (\"0.15, 0.15\"); }\n      }\n    }\n    pin (Q) { direction : output; function : \"IQ\";\ntiming () {\n      related_pin : \"CLK\"; timing_sense : non_unate; timing_type : rising_edge;\n      cell_rise (axis) { values (\"0.25, 0.25\"); }\n      cell_fall (axis) { values (\"0.25, 0.25\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\n}\n",
+    "gba": "library (path_query_demo) {\n  delay_model : table_lookup;\n  time_unit : \"1ns\";\n  capacitive_load_unit (1, \"pf\");\n  voltage_unit : \"1V\";\n  slew_derate_from_library : 1;\n  lu_table_template (axis) { variable_1 : input_net_transition; index_1 (\"0, 1\"); }\n  lu_table_template (setup_axis) { variable_1 : constrained_pin_transition; index_1 (\"0, 1\"); }\n  lu_table_template (surface) {\n    variable_1 : input_net_transition; variable_2 : total_output_net_capacitance;\n    index_1 (\"0, 1\"); index_2 (\"0, 4\");\n  }\ncell (MERGE2) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (B) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A | B\";\ntiming () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.8, 0.8\"); }\n      fall_transition (axis) { values (\"0.8, 0.8\"); }\n    }\ntiming () {\n      related_pin : \"B\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.4, 0.4\"); }\n      cell_fall (axis) { values (\"0.4, 0.4\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\ncell (BUF) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\n      timing () { related_pin : \"A\"; timing_sense : positive_unate;\n        cell_rise (surface) { values (\"0.1, 0.9\", \"1.1, 1.9\"); }\n        cell_fall (surface) { values (\"0.1, 0.9\", \"1.1, 1.9\"); }\n        rise_transition (axis) { values (\"0.1, 0.1\"); }\n        fall_transition (axis) { values (\"0.1, 0.1\"); }\n      }\n    }\n  }\ncell (INV) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"!A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : negative_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.3, 0.3\"); }\n      cell_fall (axis) { values (\"0.3, 0.3\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (PBUF) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (QBUF) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.4, 0.4\"); }\n      cell_fall (axis) { values (\"0.4, 0.4\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (NU) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (B) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A ^ B\";\ntiming () {\n      related_pin : \"A\"; timing_sense : non_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\ntiming () {\n      related_pin : \"B\"; timing_sense : non_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.4, 0.4\"); }\n      cell_fall (axis) { values (\"0.4, 0.4\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\ncell (DUAL) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (B) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\ntiming () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    } }\n    pin (Z) { direction : output; function : \"B\";\ntiming () {\n      related_pin : \"B\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.3, 0.3\"); }\n      cell_fall (axis) { values (\"0.3, 0.3\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\ncell (DFF) {\n    ff (IQ, IQ_N) { clocked_on : \"CLK\"; next_state : \"D\"; }\n    pin (CLK) { direction : input; clock : true; capacitance : 0; }\n    pin (D) { direction : input; capacitance : 0;\n      timing () { related_pin : \"CLK\"; timing_type : setup_rising;\n        rise_constraint (setup_axis) { values (\"0.15, 0.15\"); }\n        fall_constraint (setup_axis) { values (\"0.15, 0.15\"); }\n      }\n    }\n    pin (Q) { direction : output; function : \"IQ\";\ntiming () {\n      related_pin : \"CLK\"; timing_sense : non_unate; timing_type : rising_edge;\n      cell_rise (axis) { values (\"0.25, 0.25\"); }\n      cell_fall (axis) { values (\"0.25, 0.25\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\n}\n",
+    "seconds": "library (path_query_demo) {\n  delay_model : table_lookup;\n  time_unit : \"1s\";\n  capacitive_load_unit (1, \"pf\");\n  voltage_unit : \"1V\";\n  slew_derate_from_library : 1;\n  lu_table_template (axis) { variable_1 : input_net_transition; index_1 (\"0, 1\"); }\n  lu_table_template (setup_axis) { variable_1 : constrained_pin_transition; index_1 (\"0, 1\"); }\n  lu_table_template (surface) {\n    variable_1 : input_net_transition; variable_2 : total_output_net_capacitance;\n    index_1 (\"0, 1\"); index_2 (\"0, 4\");\n  }\ncell (MERGE2) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (B) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A | B\";\ntiming () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\ntiming () {\n      related_pin : \"B\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.4, 0.4\"); }\n      cell_fall (axis) { values (\"0.4, 0.4\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\ncell (BUF) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.3, 0.3\"); }\n      cell_fall (axis) { values (\"0.3, 0.3\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (INV) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"!A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : negative_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.3, 0.3\"); }\n      cell_fall (axis) { values (\"0.3, 0.3\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (PBUF) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (QBUF) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\n      timing () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.4, 0.4\"); }\n      cell_fall (axis) { values (\"0.4, 0.4\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n    }\n  }\ncell (NU) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (B) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A ^ B\";\ntiming () {\n      related_pin : \"A\"; timing_sense : non_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\ntiming () {\n      related_pin : \"B\"; timing_sense : non_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.4, 0.4\"); }\n      cell_fall (axis) { values (\"0.4, 0.4\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\ncell (DUAL) {\n    pin (A) { direction : input; capacitance : 0; }\n    pin (B) { direction : input; capacitance : 0; }\n    pin (Y) { direction : output; function : \"A\";\ntiming () {\n      related_pin : \"A\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.2, 0.2\"); }\n      cell_fall (axis) { values (\"0.2, 0.2\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    } }\n    pin (Z) { direction : output; function : \"B\";\ntiming () {\n      related_pin : \"B\"; timing_sense : positive_unate; timing_type : combinational;\n      cell_rise (axis) { values (\"0.3, 0.3\"); }\n      cell_fall (axis) { values (\"0.3, 0.3\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\ncell (DFF) {\n    ff (IQ, IQ_N) { clocked_on : \"CLK\"; next_state : \"D\"; }\n    pin (CLK) { direction : input; clock : true; capacitance : 0; }\n    pin (D) { direction : input; capacitance : 0;\n      timing () { related_pin : \"CLK\"; timing_type : setup_rising;\n        rise_constraint (setup_axis) { values (\"0.15, 0.15\"); }\n        fall_constraint (setup_axis) { values (\"0.15, 0.15\"); }\n      }\n    }\n    pin (Q) { direction : output; function : \"IQ\";\ntiming () {\n      related_pin : \"CLK\"; timing_sense : non_unate; timing_type : rising_edge;\n      cell_rise (axis) { values (\"0.25, 0.25\"); }\n      cell_fall (axis) { values (\"0.25, 0.25\"); }\n      rise_transition (axis) { values (\"0.1, 0.1\"); }\n      fall_transition (axis) { values (\"0.1, 0.1\"); }\n    }\n} }\n}\n"
+  },
+  "netlists": {
+    "base": {
+      "ports": [
+        {
+          "name": "clk",
+          "net": "ck",
+          "direction": "input"
+        },
+        {
+          "name": "a",
+          "net": "a",
+          "direction": "input"
+        },
+        {
+          "name": "b",
+          "net": "b",
+          "direction": "input"
+        },
+        {
+          "name": "out",
+          "net": "y",
+          "direction": "output"
+        }
+      ],
+      "gates": [
+        {
+          "name": "g",
+          "cell": "MERGE2",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "a"
+            },
+            {
+              "pin": "B",
+              "net": "b"
+            },
+            {
+              "pin": "Y",
+              "net": "m"
+            }
+          ]
+        },
+        {
+          "name": "h",
+          "cell": "BUF",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "m"
+            },
+            {
+              "pin": "Y",
+              "net": "y"
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "ck",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "a",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "b",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "m",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "y",
+          "wire_cap_farads": 0
+        }
+      ]
+    },
+    "inv": {
+      "ports": [
+        {
+          "name": "clk",
+          "net": "ck",
+          "direction": "input"
+        },
+        {
+          "name": "a",
+          "net": "a",
+          "direction": "input"
+        },
+        {
+          "name": "b",
+          "net": "b",
+          "direction": "input"
+        },
+        {
+          "name": "out",
+          "net": "y",
+          "direction": "output"
+        }
+      ],
+      "gates": [
+        {
+          "name": "g",
+          "cell": "MERGE2",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "a"
+            },
+            {
+              "pin": "B",
+              "net": "b"
+            },
+            {
+              "pin": "Y",
+              "net": "m"
+            }
+          ]
+        },
+        {
+          "name": "h",
+          "cell": "INV",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "m"
+            },
+            {
+              "pin": "Y",
+              "net": "y"
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "ck",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "a",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "b",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "m",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "y",
+          "wire_cap_farads": 0
+        }
+      ]
+    },
+    "nu": {
+      "ports": [
+        {
+          "name": "clk",
+          "net": "ck",
+          "direction": "input"
+        },
+        {
+          "name": "a",
+          "net": "a",
+          "direction": "input"
+        },
+        {
+          "name": "b",
+          "net": "b",
+          "direction": "input"
+        },
+        {
+          "name": "out",
+          "net": "y",
+          "direction": "output"
+        }
+      ],
+      "gates": [
+        {
+          "name": "g",
+          "cell": "NU",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "a"
+            },
+            {
+              "pin": "B",
+              "net": "b"
+            },
+            {
+              "pin": "Y",
+              "net": "m"
+            }
+          ]
+        },
+        {
+          "name": "h",
+          "cell": "BUF",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "m"
+            },
+            {
+              "pin": "Y",
+              "net": "y"
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "ck",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "a",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "b",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "m",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "y",
+          "wire_cap_farads": 0
+        }
+      ]
+    },
+    "gba": {
+      "ports": [
+        {
+          "name": "clk",
+          "net": "ck",
+          "direction": "input"
+        },
+        {
+          "name": "a",
+          "net": "a",
+          "direction": "input"
+        },
+        {
+          "name": "b",
+          "net": "b",
+          "direction": "input"
+        },
+        {
+          "name": "out",
+          "net": "y",
+          "direction": "output"
+        }
+      ],
+      "gates": [
+        {
+          "name": "g",
+          "cell": "MERGE2",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "a"
+            },
+            {
+              "pin": "B",
+              "net": "b"
+            },
+            {
+              "pin": "Y",
+              "net": "m"
+            }
+          ]
+        },
+        {
+          "name": "h",
+          "cell": "BUF",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "m"
+            },
+            {
+              "pin": "Y",
+              "net": "y"
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "ck",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "a",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "b",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "m",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "y",
+          "wire_cap_farads": 1e-12
+        }
+      ]
+    },
+    "clock_data": {
+      "ports": [
+        {
+          "name": "clk",
+          "net": "ck",
+          "direction": "input"
+        },
+        {
+          "name": "a",
+          "net": "a",
+          "direction": "input"
+        },
+        {
+          "name": "b",
+          "net": "b",
+          "direction": "input"
+        },
+        {
+          "name": "out",
+          "net": "y",
+          "direction": "output"
+        }
+      ],
+      "gates": [
+        {
+          "name": "g",
+          "cell": "MERGE2",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "ck"
+            },
+            {
+              "pin": "B",
+              "net": "b"
+            },
+            {
+              "pin": "Y",
+              "net": "m"
+            }
+          ]
+        },
+        {
+          "name": "h",
+          "cell": "BUF",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "m"
+            },
+            {
+              "pin": "Y",
+              "net": "y"
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "ck",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "a",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "b",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "m",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "y",
+          "wire_cap_farads": 0
+        }
+      ]
+    },
+    "reconverge": {
+      "ports": [
+        {
+          "name": "clk",
+          "net": "ck",
+          "direction": "input"
+        },
+        {
+          "name": "a",
+          "net": "a",
+          "direction": "input"
+        },
+        {
+          "name": "b",
+          "net": "b",
+          "direction": "input"
+        },
+        {
+          "name": "out",
+          "net": "y",
+          "direction": "output"
+        }
+      ],
+      "gates": [
+        {
+          "name": "p",
+          "cell": "PBUF",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "b"
+            },
+            {
+              "pin": "Y",
+              "net": "p"
+            }
+          ]
+        },
+        {
+          "name": "q",
+          "cell": "QBUF",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "b"
+            },
+            {
+              "pin": "Y",
+              "net": "q"
+            }
+          ]
+        },
+        {
+          "name": "m",
+          "cell": "MERGE2",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "p"
+            },
+            {
+              "pin": "B",
+              "net": "q"
+            },
+            {
+              "pin": "Y",
+              "net": "y"
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "ck",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "a",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "b",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "p",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "q",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "y",
+          "wire_cap_farads": 0
+        }
+      ]
+    },
+    "tie": {
+      "ports": [
+        {
+          "name": "clk",
+          "net": "ck",
+          "direction": "input"
+        },
+        {
+          "name": "a",
+          "net": "a",
+          "direction": "input"
+        },
+        {
+          "name": "b",
+          "net": "b",
+          "direction": "input"
+        },
+        {
+          "name": "out",
+          "net": "y",
+          "direction": "output"
+        }
+      ],
+      "gates": [
+        {
+          "name": "p",
+          "cell": "QBUF",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "b"
+            },
+            {
+              "pin": "Y",
+              "net": "p"
+            }
+          ]
+        },
+        {
+          "name": "q",
+          "cell": "PBUF",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "b"
+            },
+            {
+              "pin": "Y",
+              "net": "q"
+            }
+          ]
+        },
+        {
+          "name": "m",
+          "cell": "MERGE2",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "p"
+            },
+            {
+              "pin": "B",
+              "net": "q"
+            },
+            {
+              "pin": "Y",
+              "net": "y"
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "ck",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "a",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "b",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "p",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "q",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "y",
+          "wire_cap_farads": 0
+        }
+      ]
+    },
+    "sequential": {
+      "ports": [
+        {
+          "name": "clk",
+          "net": "ck",
+          "direction": "input"
+        },
+        {
+          "name": "a",
+          "net": "a",
+          "direction": "input"
+        },
+        {
+          "name": "z",
+          "net": "z",
+          "direction": "output"
+        },
+        {
+          "name": "y",
+          "net": "y",
+          "direction": "output"
+        }
+      ],
+      "gates": [
+        {
+          "name": "k",
+          "cell": "BUF",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "a"
+            },
+            {
+              "pin": "Y",
+              "net": "z"
+            }
+          ]
+        },
+        {
+          "name": "f0",
+          "cell": "DFF",
+          "connections": [
+            {
+              "pin": "CLK",
+              "net": "ck"
+            },
+            {
+              "pin": "D",
+              "net": "z"
+            },
+            {
+              "pin": "Q",
+              "net": "q0"
+            }
+          ]
+        },
+        {
+          "name": "h",
+          "cell": "BUF",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "q0"
+            },
+            {
+              "pin": "Y",
+              "net": "y"
+            }
+          ]
+        },
+        {
+          "name": "f1",
+          "cell": "DFF",
+          "connections": [
+            {
+              "pin": "CLK",
+              "net": "ck"
+            },
+            {
+              "pin": "D",
+              "net": "y"
+            },
+            {
+              "pin": "Q",
+              "net": "q1"
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "ck",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "a",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "z",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "q0",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "y",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "q1",
+          "wire_cap_farads": 0
+        }
+      ]
+    },
+    "multioutput": {
+      "ports": [
+        {
+          "name": "clk",
+          "net": "ck",
+          "direction": "input"
+        },
+        {
+          "name": "a",
+          "net": "a",
+          "direction": "input"
+        },
+        {
+          "name": "b",
+          "net": "b",
+          "direction": "input"
+        },
+        {
+          "name": "out",
+          "net": "y",
+          "direction": "output"
+        }
+      ],
+      "gates": [
+        {
+          "name": "u",
+          "cell": "DUAL",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "a"
+            },
+            {
+              "pin": "B",
+              "net": "v"
+            },
+            {
+              "pin": "Y",
+              "net": "m"
+            },
+            {
+              "pin": "Z",
+              "net": "y"
+            }
+          ]
+        },
+        {
+          "name": "v",
+          "cell": "INV",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "m"
+            },
+            {
+              "pin": "Y",
+              "net": "v"
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "ck",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "a",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "b",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "m",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "v",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "y",
+          "wire_cap_farads": 0
+        }
+      ]
+    },
+    "identity": {
+      "ports": [
+        {
+          "name": "clk",
+          "net": "ck",
+          "direction": "input"
+        },
+        {
+          "name": "a",
+          "net": "a",
+          "direction": "input"
+        },
+        {
+          "name": "b/~😀",
+          "net": "b",
+          "direction": "input"
+        },
+        {
+          "name": "out/~😀",
+          "net": "y",
+          "direction": "output"
+        },
+        {
+          "name": "u/Y",
+          "net": "y",
+          "direction": "output"
+        },
+        {
+          "name": "u~1Y",
+          "net": "y",
+          "direction": "output"
+        }
+      ],
+      "gates": [
+        {
+          "name": "g/~😀",
+          "cell": "MERGE2",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "a"
+            },
+            {
+              "pin": "B",
+              "net": "b"
+            },
+            {
+              "pin": "Y",
+              "net": "m"
+            }
+          ]
+        },
+        {
+          "name": "h",
+          "cell": "BUF",
+          "connections": [
+            {
+              "pin": "A",
+              "net": "m"
+            },
+            {
+              "pin": "Y",
+              "net": "y"
+            }
+          ]
+        }
+      ],
+      "nets": [
+        {
+          "name": "ck",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "a",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "b",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "m",
+          "wire_cap_farads": 0
+        },
+        {
+          "name": "y",
+          "wire_cap_farads": 0
+        }
+      ]
+    }
+  },
+  "sdc": {
+    "base": "create_clock -name c -period 2 [get_ports clk]\nset_clock_transition 0.1 [get_clocks c]\nset_input_transition 0.1 [get_ports *]\nset_input_delay -clock c 1 [get_ports a]\nset_input_delay -clock c 0.1 [get_ports b]\nset_output_delay -clock c 0.2 [get_ports out]\n",
+    "unknown_launch": "create_clock -name c -period 2 [get_ports clk]\nset_clock_transition 0.1 [get_clocks c]\nset_input_transition 0.1 [get_ports *]\nset_input_delay -clock c 1 [get_ports a]\nset_output_delay -clock c 0.2 [get_ports out]\n",
+    "unknown_required": "create_clock -name c -period 2 [get_ports clk]\nset_clock_transition 0.1 [get_clocks c]\nset_input_transition 0.1 [get_ports *]\nset_input_delay -clock c 1 [get_ports a]\nset_input_delay -clock c 0.1 [get_ports b]\n",
+    "large_latency": "create_clock -name c -period 2 [get_ports clk]\nset_clock_transition 0.1 [get_clocks c]\nset_input_transition 0.1 [get_ports *]\nset_input_delay -clock c 1 [get_ports a]\nset_input_delay -clock c 0.1 [get_ports b]\nset_output_delay -clock c 0.2 [get_ports out]\nset_clock_latency 1e18 [get_clocks c]\n",
+    "cancellation": "create_clock -name c -period 1e20 [get_ports clk]\nset_clock_transition 0.1 [get_clocks c]\nset_input_transition 0.1 [get_ports *]\nset_input_delay -clock c 1 [get_ports a]\nset_input_delay -clock c 0.1 [get_ports b]\nset_output_delay -clock c 1e20 [get_ports out]\n",
+    "range": "create_clock -name c -period 2 [get_ports clk]\nset_clock_transition 0.1 [get_clocks c]\nset_input_transition 2 [get_ports *]\nset_input_delay -clock c 1 [get_ports a]\nset_input_delay -clock c 0.1 [get_ports b]\nset_output_delay -clock c 0.2 [get_ports out]\n",
+    "gba": "create_clock -name c -period 4 [get_ports clk]\nset_clock_transition 0.1 [get_clocks c]\nset_input_transition 0.1 [get_ports *]\nset_input_delay -clock c 1 [get_ports a]\nset_input_delay -clock c 0.1 [get_ports b]\nset_output_delay -clock c 0.2 [get_ports out]\nset_load 2 [get_ports out]\n",
+    "sequential": "create_clock -name c -period 2 [get_ports clk]\nset_clock_transition 0.1 [get_clocks c]\nset_clock_latency 0.1 [get_clocks c]\nset_input_transition 0.1 [get_ports *]\nset_input_delay -clock c 0.2 [get_ports a]\nset_output_delay -clock c 0.2 [get_ports {y z}]\n",
+    "multioutput": "create_clock -name c -period 3 [get_ports clk]\nset_clock_transition 0.1 [get_clocks c]\nset_input_transition 0.1 [get_ports *]\nset_input_delay -clock c 1 [get_ports a]\nset_input_delay -clock c 0.1 [get_ports b]\nset_output_delay -clock c 0.2 [get_ports out]\n",
+    "identity": "create_clock -name c -period 2 [get_ports clk]\nset_clock_transition 0.1 [get_clocks c]\nset_input_transition 0.1 [get_ports *]\nset_input_delay -clock c 1 [get_ports a]\nset_input_delay -clock c 0.1 [get_ports {b/~😀}]\nset_output_delay -clock c 0.2 [get_ports {out/~😀}]\nset_output_delay -clock c 0.5 [get_ports {u/Y}]\nset_output_delay -clock c 0.7 [get_ports {u~1Y}]\n",
+    "overflow": "create_clock -name c -period 1e308 [get_ports clk]\nset_clock_transition 0.1 [get_clocks c]\nset_input_transition 0.1 [get_ports *]\nset_input_delay -clock c 1e308 [get_ports a]\nset_input_delay -clock c -1e308 [get_ports b]\nset_output_delay -clock c 0 [get_ports out]\n"
+  },
+  "cases": [
+    {
+      "name": "losing-base",
+      "library": "base",
+      "netlist": "base",
+      "sdc": "base",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "b",
+          "g/B",
+          "g/Y",
+          "h/A",
+          "h/Y",
+          "out"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "B->Y",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1.0000000000000002e-10,
+          0.0,
+          4.0000000000000007e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1.0000000000000002e-10,
+          1.0000000000000002e-10,
+          5e-10,
+          5e-10,
+          8.000000000000001e-10,
+          8.000000000000001e-10
+        ],
+        "queried_arrival_seconds": 8.000000000000001e-10,
+        "required_seconds": 1.8000000000000002e-09,
+        "queried_slack_seconds": 1e-09
+      }
+    },
+    {
+      "name": "losing-changed",
+      "library": "changed",
+      "netlist": "base",
+      "sdc": "base",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "b",
+          "g/B",
+          "g/Y",
+          "h/A",
+          "h/Y",
+          "out"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "B->Y",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1.0000000000000002e-10,
+          0.0,
+          6e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1.0000000000000002e-10,
+          1.0000000000000002e-10,
+          7e-10,
+          7e-10,
+          1e-09,
+          1e-09
+        ],
+        "queried_arrival_seconds": 1e-09,
+        "required_seconds": 1.8000000000000002e-09,
+        "queried_slack_seconds": 8.000000000000001e-10
+      }
+    },
+    {
+      "name": "parallel-arcs",
+      "library": "parallel",
+      "netlist": "base",
+      "sdc": "base",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "b",
+          "g/B",
+          "g/Y",
+          "h/A",
+          "h/Y",
+          "out"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "B->Y",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1.0000000000000002e-10,
+          0.0,
+          6e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1.0000000000000002e-10,
+          1.0000000000000002e-10,
+          7e-10,
+          7e-10,
+          1e-09,
+          1e-09
+        ],
+        "queried_arrival_seconds": 1e-09,
+        "required_seconds": 1.8000000000000002e-09,
+        "queried_slack_seconds": 8.000000000000001e-10
+      }
+    },
+    {
+      "name": "inverting-found",
+      "library": "base",
+      "netlist": "inv",
+      "sdc": "base",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "fall"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "b",
+          "g/B",
+          "g/Y",
+          "h/A",
+          "h/Y",
+          "out"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Fall",
+          "Fall"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "B->Y",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1.0000000000000002e-10,
+          0.0,
+          4.0000000000000007e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1.0000000000000002e-10,
+          1.0000000000000002e-10,
+          5e-10,
+          5e-10,
+          8.000000000000001e-10,
+          8.000000000000001e-10
+        ],
+        "queried_arrival_seconds": 8.000000000000001e-10,
+        "required_seconds": 1.8000000000000002e-09,
+        "queried_slack_seconds": 1e-09
+      }
+    },
+    {
+      "name": "inverting-no-path",
+      "library": "base",
+      "netlist": "inv",
+      "sdc": "base",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "NoPath",
+        "path": []
+      }
+    },
+    {
+      "name": "nonunate",
+      "library": "base",
+      "netlist": "nu",
+      "sdc": "base",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "fall"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "b",
+          "g/B",
+          "g/Y",
+          "h/A",
+          "h/Y",
+          "out"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Fall",
+          "Fall",
+          "Fall",
+          "Fall"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "B->Y",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1.0000000000000002e-10,
+          0.0,
+          4.0000000000000007e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1.0000000000000002e-10,
+          1.0000000000000002e-10,
+          5e-10,
+          5e-10,
+          8.000000000000001e-10,
+          8.000000000000001e-10
+        ],
+        "queried_arrival_seconds": 8.000000000000001e-10,
+        "required_seconds": 1.8000000000000002e-09,
+        "queried_slack_seconds": 1e-09
+      }
+    },
+    {
+      "name": "reconverge",
+      "library": "base",
+      "netlist": "reconverge",
+      "sdc": "base",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "b",
+          "q/A",
+          "q/Y",
+          "m/B",
+          "m/Y",
+          "out"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "A->Y",
+          "net",
+          "B->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1.0000000000000002e-10,
+          0.0,
+          4.0000000000000007e-10,
+          0.0,
+          4.0000000000000007e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1.0000000000000002e-10,
+          1.0000000000000002e-10,
+          5e-10,
+          5e-10,
+          9.000000000000001e-10,
+          9.000000000000001e-10
+        ],
+        "queried_arrival_seconds": 9.000000000000001e-10,
+        "required_seconds": 1.8000000000000002e-09,
+        "queried_slack_seconds": 9.000000000000001e-10
+      }
+    },
+    {
+      "name": "tie-order",
+      "library": "base",
+      "netlist": "tie",
+      "sdc": "base",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "b",
+          "p/A",
+          "p/Y",
+          "m/A",
+          "m/Y",
+          "out"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "A->Y",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1.0000000000000002e-10,
+          0.0,
+          4.0000000000000007e-10,
+          0.0,
+          2.0000000000000003e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1.0000000000000002e-10,
+          1.0000000000000002e-10,
+          5e-10,
+          5e-10,
+          7e-10,
+          7e-10
+        ],
+        "queried_arrival_seconds": 7e-10,
+        "required_seconds": 1.8000000000000002e-09,
+        "queried_slack_seconds": 1.1000000000000001e-09
+      }
+    },
+    {
+      "name": "unknown-launch",
+      "library": "base",
+      "netlist": "base",
+      "sdc": "unknown_launch",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "UnconstrainedLaunch",
+        "path": []
+      }
+    },
+    {
+      "name": "unknown-launch-unreachable",
+      "library": "base",
+      "netlist": "base",
+      "sdc": "unknown_launch",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "fall"
+        }
+      },
+      "expected": {
+        "status": "NoPath",
+        "path": []
+      }
+    },
+    {
+      "name": "unknown-required",
+      "library": "base",
+      "netlist": "base",
+      "sdc": "unknown_required",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "b",
+          "g/B",
+          "g/Y",
+          "h/A",
+          "h/Y",
+          "out"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "B->Y",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1.0000000000000002e-10,
+          0.0,
+          4.0000000000000007e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1.0000000000000002e-10,
+          1.0000000000000002e-10,
+          5e-10,
+          5e-10,
+          8.000000000000001e-10,
+          8.000000000000001e-10
+        ],
+        "queried_arrival_seconds": 8.000000000000001e-10,
+        "required_seconds": null,
+        "queried_slack_seconds": null
+      }
+    },
+    {
+      "name": "clock-data",
+      "library": "base",
+      "netlist": "clock_data",
+      "sdc": "base",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "clk",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "UnconstrainedLaunch",
+        "path": []
+      }
+    },
+    {
+      "name": "clock-no-path",
+      "library": "base",
+      "netlist": "base",
+      "sdc": "base",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "clk",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "NoPath",
+        "path": []
+      }
+    },
+    {
+      "name": "pi-to-d",
+      "library": "base",
+      "netlist": "sequential",
+      "sdc": "sequential",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "a",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "register_d",
+          "instance": "f0",
+          "pin": "D",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "a",
+          "k/A",
+          "k/Y",
+          "f0/D"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          3e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          3e-10,
+          3e-10,
+          6e-10,
+          6e-10
+        ],
+        "queried_arrival_seconds": 6e-10,
+        "required_seconds": 1.95e-09,
+        "queried_slack_seconds": 1.35e-09
+      }
+    },
+    {
+      "name": "pi-to-po",
+      "library": "base",
+      "netlist": "sequential",
+      "sdc": "sequential",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "a",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "z",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "a",
+          "k/A",
+          "k/Y",
+          "z"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          3e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          3e-10,
+          3e-10,
+          6e-10,
+          6e-10
+        ],
+        "queried_arrival_seconds": 6e-10,
+        "required_seconds": 1.9e-09,
+        "queried_slack_seconds": 1.3e-09
+      }
+    },
+    {
+      "name": "q-to-d",
+      "library": "base",
+      "netlist": "sequential",
+      "sdc": "sequential",
+      "query": {
+        "from": {
+          "kind": "register_q",
+          "instance": "f0",
+          "pin": "Q",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "register_d",
+          "instance": "f1",
+          "pin": "D",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "f0/CLK",
+          "f0/Q",
+          "h/A",
+          "h/Y",
+          "f1/D"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise"
+        ],
+        "arcs": [
+          "clock_latency",
+          "CLK->Q",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1.0000000000000002e-10,
+          2.5e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1.0000000000000002e-10,
+          3.5e-10,
+          3.5e-10,
+          6.5e-10,
+          6.5e-10
+        ],
+        "queried_arrival_seconds": 6.5e-10,
+        "required_seconds": 1.95e-09,
+        "queried_slack_seconds": 1.3e-09
+      }
+    },
+    {
+      "name": "q-to-po",
+      "library": "base",
+      "netlist": "sequential",
+      "sdc": "sequential",
+      "query": {
+        "from": {
+          "kind": "register_q",
+          "instance": "f0",
+          "pin": "Q",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "y",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "f0/CLK",
+          "f0/Q",
+          "h/A",
+          "h/Y",
+          "y"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise"
+        ],
+        "arcs": [
+          "clock_latency",
+          "CLK->Q",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1.0000000000000002e-10,
+          2.5e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1.0000000000000002e-10,
+          3.5e-10,
+          3.5e-10,
+          6.5e-10,
+          6.5e-10
+        ],
+        "queried_arrival_seconds": 6.5e-10,
+        "required_seconds": 1.9e-09,
+        "queried_slack_seconds": 1.25e-09
+      }
+    },
+    {
+      "name": "q-fall",
+      "library": "base",
+      "netlist": "sequential",
+      "sdc": "sequential",
+      "query": {
+        "from": {
+          "kind": "register_q",
+          "instance": "f0",
+          "pin": "Q",
+          "edge": "fall"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "y",
+          "edge": "fall"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "f0/CLK",
+          "f0/Q",
+          "h/A",
+          "h/Y",
+          "y"
+        ],
+        "edges": [
+          "Rise",
+          "Fall",
+          "Fall",
+          "Fall",
+          "Fall"
+        ],
+        "arcs": [
+          "clock_latency",
+          "CLK->Q",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1.0000000000000002e-10,
+          2.5e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1.0000000000000002e-10,
+          3.5e-10,
+          3.5e-10,
+          6.5e-10,
+          6.5e-10
+        ],
+        "queried_arrival_seconds": 6.5e-10,
+        "required_seconds": 1.9e-09,
+        "queried_slack_seconds": 1.25e-09
+      }
+    },
+    {
+      "name": "sequential-cut",
+      "library": "base",
+      "netlist": "sequential",
+      "sdc": "sequential",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "a",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "y",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "NoPath",
+        "path": []
+      }
+    },
+    {
+      "name": "multioutput",
+      "library": "base",
+      "netlist": "multioutput",
+      "sdc": "multioutput",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "a",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "fall"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "a",
+          "u/A",
+          "u/Y",
+          "v/A",
+          "v/Y",
+          "u/B",
+          "u/Z",
+          "out"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Fall",
+          "Fall",
+          "Fall",
+          "Fall"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "A->Y",
+          "net",
+          "A->Y",
+          "net",
+          "B->Z",
+          "net"
+        ],
+        "delays_seconds": [
+          1e-09,
+          0.0,
+          2.0000000000000003e-10,
+          0.0,
+          3e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1e-09,
+          1e-09,
+          1.2e-09,
+          1.2e-09,
+          1.5000000000000002e-09,
+          1.5000000000000002e-09,
+          1.8000000000000002e-09,
+          1.8000000000000002e-09
+        ],
+        "queried_arrival_seconds": 1.8000000000000002e-09,
+        "required_seconds": 2.8e-09,
+        "queried_slack_seconds": 1e-09
+      }
+    },
+    {
+      "name": "multioutput-no-path",
+      "library": "base",
+      "netlist": "multioutput",
+      "sdc": "multioutput",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "NoPath",
+        "path": []
+      }
+    },
+    {
+      "name": "unicode-identity",
+      "library": "base",
+      "netlist": "identity",
+      "sdc": "identity",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b/~😀",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out/~😀",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "b~1~0😀",
+          "g~1~0😀/B",
+          "g~1~0😀/Y",
+          "h/A",
+          "h/Y",
+          "out~1~0😀"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "B->Y",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1.0000000000000002e-10,
+          0.0,
+          4.0000000000000007e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1.0000000000000002e-10,
+          1.0000000000000002e-10,
+          5e-10,
+          5e-10,
+          8.000000000000001e-10,
+          8.000000000000001e-10
+        ],
+        "queried_arrival_seconds": 8.000000000000001e-10,
+        "required_seconds": 1.8000000000000002e-09,
+        "queried_slack_seconds": 1e-09
+      }
+    },
+    {
+      "name": "alias-slash",
+      "library": "base",
+      "netlist": "identity",
+      "sdc": "identity",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b/~😀",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "u/Y",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "b~1~0😀",
+          "g~1~0😀/B",
+          "g~1~0😀/Y",
+          "h/A",
+          "h/Y",
+          "u~1Y"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "B->Y",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1.0000000000000002e-10,
+          0.0,
+          4.0000000000000007e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1.0000000000000002e-10,
+          1.0000000000000002e-10,
+          5e-10,
+          5e-10,
+          8.000000000000001e-10,
+          8.000000000000001e-10
+        ],
+        "queried_arrival_seconds": 8.000000000000001e-10,
+        "required_seconds": 1.5000000000000002e-09,
+        "queried_slack_seconds": 7e-10
+      }
+    },
+    {
+      "name": "alias-tilde",
+      "library": "base",
+      "netlist": "identity",
+      "sdc": "identity",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b/~😀",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "u~1Y",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "b~1~0😀",
+          "g~1~0😀/B",
+          "g~1~0😀/Y",
+          "h/A",
+          "h/Y",
+          "u~01Y"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "B->Y",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1.0000000000000002e-10,
+          0.0,
+          4.0000000000000007e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1.0000000000000002e-10,
+          1.0000000000000002e-10,
+          5e-10,
+          5e-10,
+          8.000000000000001e-10,
+          8.000000000000001e-10
+        ],
+        "queried_arrival_seconds": 8.000000000000001e-10,
+        "required_seconds": 1.3e-09,
+        "queried_slack_seconds": 5e-10
+      }
+    },
+    {
+      "name": "gba-load-slew",
+      "library": "gba",
+      "netlist": "gba",
+      "sdc": "gba",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "b",
+          "g/B",
+          "g/Y",
+          "h/A",
+          "h/Y",
+          "out"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "B->Y",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1.0000000000000002e-10,
+          0.0,
+          4.0000000000000007e-10,
+          0.0,
+          1.5000000000000002e-09,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1.0000000000000002e-10,
+          1.0000000000000002e-10,
+          5e-10,
+          5e-10,
+          2e-09,
+          2e-09
+        ],
+        "queried_arrival_seconds": 2e-09,
+        "required_seconds": 3.8e-09,
+        "queried_slack_seconds": 1.8000000000000002e-09
+      }
+    },
+    {
+      "name": "large-latency",
+      "library": "base",
+      "netlist": "base",
+      "sdc": "large_latency",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "b",
+          "g/B",
+          "g/Y",
+          "h/A",
+          "h/Y",
+          "out"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "B->Y",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1000000000.0000001,
+          0.0,
+          4.0000000000000007e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1000000000.0000001,
+          1000000000.0000001,
+          1000000000.0000001,
+          1000000000.0000001,
+          1000000000.0000001,
+          1000000000.0000001
+        ],
+        "queried_arrival_seconds": 1000000000.0000001,
+        "required_seconds": 1000000000.0000001,
+        "queried_slack_seconds": 1e-09
+      }
+    },
+    {
+      "name": "constraint-cancellation",
+      "library": "base",
+      "netlist": "base",
+      "sdc": "cancellation",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "b",
+          "g/B",
+          "g/Y",
+          "h/A",
+          "h/Y",
+          "out"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "B->Y",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1.0000000000000002e-10,
+          0.0,
+          4.0000000000000007e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1.0000000000000002e-10,
+          1.0000000000000002e-10,
+          5e-10,
+          5e-10,
+          8.000000000000001e-10,
+          8.000000000000001e-10
+        ],
+        "queried_arrival_seconds": 8.000000000000001e-10,
+        "required_seconds": 0.0,
+        "queried_slack_seconds": -8.000000000000001e-10
+      }
+    },
+    {
+      "name": "range-reject",
+      "library": "base",
+      "netlist": "base",
+      "sdc": "range",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        },
+        "range_policy": "reject"
+      },
+      "expected": {
+        "error": "LibraryFailure"
+      }
+    },
+    {
+      "name": "range-clamp",
+      "library": "base",
+      "netlist": "base",
+      "sdc": "range",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        },
+        "range_policy": "clamp"
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "b",
+          "g/B",
+          "g/Y",
+          "h/A",
+          "h/Y",
+          "out"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "B->Y",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1.0000000000000002e-10,
+          0.0,
+          4.0000000000000007e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1.0000000000000002e-10,
+          1.0000000000000002e-10,
+          5e-10,
+          5e-10,
+          8.000000000000001e-10,
+          8.000000000000001e-10
+        ],
+        "queried_arrival_seconds": 8.000000000000001e-10,
+        "required_seconds": 1.8000000000000002e-09,
+        "queried_slack_seconds": 1e-09
+      }
+    },
+    {
+      "name": "range-extrapolate",
+      "library": "base",
+      "netlist": "base",
+      "sdc": "range",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        },
+        "range_policy": "extrapolate"
+      },
+      "expected": {
+        "status": "Found",
+        "pins": [
+          "b",
+          "g/B",
+          "g/Y",
+          "h/A",
+          "h/Y",
+          "out"
+        ],
+        "edges": [
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise",
+          "Rise"
+        ],
+        "arcs": [
+          "input_delay",
+          "net",
+          "B->Y",
+          "net",
+          "A->Y",
+          "net"
+        ],
+        "delays_seconds": [
+          1.0000000000000002e-10,
+          0.0,
+          4.0000000000000007e-10,
+          0.0,
+          3e-10,
+          0.0
+        ],
+        "arrivals_seconds": [
+          1.0000000000000002e-10,
+          1.0000000000000002e-10,
+          5e-10,
+          5e-10,
+          8.000000000000001e-10,
+          8.000000000000001e-10
+        ],
+        "queried_arrival_seconds": 8.000000000000001e-10,
+        "required_seconds": 1.8000000000000002e-09,
+        "queried_slack_seconds": 1e-09
+      }
+    },
+    {
+      "name": "queried-slack-overflow",
+      "library": "seconds",
+      "netlist": "base",
+      "sdc": "overflow",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "error": "queried slack"
+      }
+    },
+    {
+      "name": "bad-launch",
+      "library": "base",
+      "netlist": "base",
+      "sdc": "base",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "out",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "error": "invalid path launch"
+      }
+    },
+    {
+      "name": "bad-capture",
+      "library": "base",
+      "netlist": "base",
+      "sdc": "base",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "a",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "error": "invalid path capture"
+      }
+    },
+    {
+      "name": "bad-register-q",
+      "library": "base",
+      "netlist": "sequential",
+      "sdc": "sequential",
+      "query": {
+        "from": {
+          "kind": "register_q",
+          "instance": "f0",
+          "pin": "D",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "y",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "error": "invalid path launch"
+      }
+    },
+    {
+      "name": "bad-register-d",
+      "library": "base",
+      "netlist": "sequential",
+      "sdc": "sequential",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "a",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "register_d",
+          "instance": "f0",
+          "pin": "Q",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "error": "invalid path capture"
+      }
+    },
+    {
+      "name": "both-invalid",
+      "library": "base",
+      "netlist": "base",
+      "sdc": "base",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "absent",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "absent",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "error": "invalid path launch"
+      }
+    },
+    {
+      "name": "bad-query-edge",
+      "library": "base",
+      "netlist": "base",
+      "sdc": "base",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "sideways"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "error": "query edge"
+      }
+    },
+    {
+      "name": "bad-query-kind",
+      "library": "base",
+      "netlist": "base",
+      "sdc": "base",
+      "query": {
+        "from": {
+          "kind": "internal_pin",
+          "instance": "g",
+          "pin": "Y",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        }
+      },
+      "expected": {
+        "error": "query launch kind"
+      }
+    },
+    {
+      "name": "bad-policy",
+      "library": "base",
+      "netlist": "base",
+      "sdc": "base",
+      "query": {
+        "from": {
+          "kind": "input_port",
+          "name": "b",
+          "edge": "rise"
+        },
+        "to": {
+          "kind": "output_port",
+          "name": "out",
+          "edge": "rise"
+        },
+        "range_policy": "other"
+      },
+      "expected": {
+        "error": "range_policy"
+      }
+    }
+  ]
+}

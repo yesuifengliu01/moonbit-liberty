@@ -15,6 +15,7 @@ options(
         "check_sdc_json",
         "check_netlist_json",
         "analyze_constraint_context_json",
+        "analyze_path_query_json",
       ],
     },
   },

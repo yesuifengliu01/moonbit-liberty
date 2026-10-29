@@ -21,3 +21,5 @@
 
 
 The constraint-context demo (`examples/constraint-context.lib` and its testdata literal) is self-authored synthetic constant1D NLDM data: INV/OR2 delay0.2ns and transition0.1ns, zero input capacitance. It exists for hand-checkable causal-witness and SI tests, is not a PDK or physical accuracy reference, and uses the root Apache-2.0 license. Its netlist/SDC examples are also self-authored. No external reference generator was run for this capability.
+
+The path-query demo and frozen catalog (`examples/path-query*`, `testdata/path_query.mbt`) are self-authored synthetic Liberty/netlist/SDC/query data under the root Apache-2.0 license. Expected paths, edge directions and SI times were fixed by hand arithmetic before implementation. They exercise information discarded by global winners, actual GBA weights and finite model boundaries; they are not characterized silicon or a new accuracy/signoff reference. The separate public-package and file receivers are self-authored integrations, not claims of external adoption. No OpenSTA/reference generator was run for this capability.

@@ -105,6 +105,7 @@ pub fn STAEngine::run_setup_analysis(
 fn STAEngine::analyze_setup(
   self : STAEngine,
   context? : ConstraintTrace,
+  path_query? : PathQueryTrace,
 ) -> SetupAnalysis raise STAError {
   let library = self.library
   let netlist = self.netlist
@@ -193,6 +194,9 @@ fn STAEngine::analyze_setup(
     }
     states[p.net] = pair
     relative_states[p.net] = relative_pair
+    if path_query is Some(trace) {
+      path_query_seed(trace, p.net, pair, relative_pair)
+    }
     if context is Some(context) {
       context_seed_input(context, p, clock, pair)
     }
@@ -298,6 +302,9 @@ fn STAEngine::analyze_setup(
     }
     states[net] = pair
     relative_states[net] = relative_pair
+    if path_query is Some(trace) {
+      path_query_seed(trace, net, pair, relative_pair)
+    }
     if context is Some(context) {
       // Q launches from the ideal clock, independently of D's data arrival.
       context.missing[net] = [None, None]
@@ -379,6 +386,18 @@ fn STAEngine::analyze_setup(
               self.policy,
               diagnostics,
             )
+            if path_query is Some(trace) {
+              trace.arcs.push({
+                input_net,
+                input_pin: input.pin,
+                input_edge: from_edge,
+                output_net: net,
+                output_pin: report_pin(gate.name, output.name),
+                output_edge: edge,
+                delay: d,
+                arc: related + "->" + output.name,
+              })
+            }
             // NLDM extrapolation can cross zero; retain the physical zero
             // floor and a real contributor even when every result is zero.
             let s = if s < 0.0 { 0.0 } else { s }
@@ -569,6 +588,14 @@ fn STAEngine::analyze_setup(
       endpoint_relative.push(
         relative_states[graph.connections[i][r.data]][edge_index(edge)],
       )
+      if path_query is Some(trace) {
+        path_query_capture(
+          trace,
+          graph.connections[i][r.data],
+          endpoints[endpoints.length() - 1],
+          Some(setup),
+        )
+      }
       if context is Some(context) {
         context_endpoint(
           context,
@@ -604,6 +631,14 @@ fn STAEngine::analyze_setup(
         endpoint(report_part(p.name), s, required, None, stable_slack),
       )
       endpoint_relative.push(relative_arrival)
+      if path_query is Some(trace) {
+        path_query_capture(
+          trace,
+          p.net,
+          endpoints[endpoints.length() - 1],
+          port_value(c.output_delays, p.name, s.edge),
+        )
+      }
       if context is Some(context) {
         context_endpoint(
           context,
