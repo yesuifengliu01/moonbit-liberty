@@ -9,6 +9,12 @@ fn without_initial_bom(text : String) -> String {
 }
 
 ///|
+/// Existing-report priority query; optional initial file BOM only.
+pub fn prioritize_setup_json(report : String, max_endpoints : Double) -> String {
+  @sta.prioritize_setup_json(without_initial_bom(report), max_endpoints)
+}
+
+///|
 /// Compare two existing success-report files, each with an optional file BOM.
 pub fn compare_setup_json(
   baseline : String,

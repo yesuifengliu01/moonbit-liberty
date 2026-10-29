@@ -1,0 +1,113 @@
+{
+  "netlist": {
+    "ports": [
+      {
+        "name": "clk",
+        "net": "clk",
+        "direction": "input"
+      },
+      {
+        "name": "a",
+        "net": "a",
+        "direction": "input"
+      },
+      {
+        "name": "b",
+        "net": "b",
+        "direction": "input"
+      },
+      {
+        "name": "fast",
+        "net": "nf",
+        "direction": "output"
+      },
+      {
+        "name": "slow",
+        "net": "ns",
+        "direction": "output"
+      },
+      {
+        "name": "partial",
+        "net": "nf",
+        "direction": "output"
+      },
+      {
+        "name": "unknown",
+        "net": "nu",
+        "direction": "output"
+      }
+    ],
+    "gates": [
+      {
+        "name": "uFast",
+        "cell": "FAST",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "a"
+          },
+          {
+            "pin": "Z",
+            "net": "nf"
+          }
+        ]
+      },
+      {
+        "name": "uSlow",
+        "cell": "SLOW",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "a"
+          },
+          {
+            "pin": "Z",
+            "net": "ns"
+          }
+        ]
+      },
+      {
+        "name": "uUnknown",
+        "cell": "FAST",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "b"
+          },
+          {
+            "pin": "Z",
+            "net": "nu"
+          }
+        ]
+      }
+    ],
+    "nets": [
+      {
+        "name": "clk",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "a",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "b",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "nf",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "ns",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "nu",
+        "wire_cap_farads": 0
+      }
+    ]
+  },
+  "sdc": "create_clock -name clk -period 4 [get_ports clk]\nset_clock_transition 0.1 [get_clocks clk]\nset_input_delay -clock clk 1 [get_ports a]\nset_input_transition 0.1 [get_ports {a b}]\nset_output_delay -clock clk 1 [get_ports {fast slow unknown}]\nset_output_delay -clock clk -rise 1 [get_ports partial]\n",
+  "setup_summary": true
+}

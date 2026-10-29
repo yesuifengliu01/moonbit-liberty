@@ -303,6 +303,26 @@ node tools/save-analysis.cjs examples/save-analysis.lib examples/save-analysis-r
 
 `examples/save-analysis-cases.json` 保存实现文件入口前由原CLI产生的5份完整字节预期；`python3 tools/ci-save-analysis.py` 用27次实际进程核对文件、stdout、错误和并发结果。部分写入/刷盘/关闭/链接/清理失败均为明确标注的受控故障，不是实测磁盘耗尽；初始重定向证据和故障残留均保留。测试只复用已构建的MoonBit核心，不重做物理参考或setup比较。它们是自编集成验证，范围见 [CI-PLAN.md](CI-PLAN.md)。
 
+## 按不同端点定位 setup 修复顺序
+
+已有成功报告可直接查询最需要检查的不同 pin，每个 pin 只占一个名额：
+
+```sh
+node tools/prioritize-setup.cjs --max-endpoints 2 examples/setup-priority-report.json
+# 默认选至多10个不同 pin；0仍给完整覆盖和省略数量
+node tools/prioritize-setup.cjs examples/setup-priority-report.json
+```
+
+例程完整原报告的 `slow` 裕量约为−1ns，`fast`/`partial` 的已知裕量约为1.75ns，另有3个未知沿。限额2选 `slow` 再选 `fast`，不会让同一个 pin 的 Rise/Fall 占满两个名额。输入源是既有 `moonbit.sta.v1` 成功报告；查询不运行时序、不保存文件，也不改变原分析和检查退出规则。
+
+MoonBit 调用 `report.prioritize_setup_endpoints(max_endpoints=2)`，返回 `SetupEndpointPriorities`；省略参数为10。JSON/API入口是 `prioritize_setup_json(report_text, max_endpoints)`，输出 `moonbit.sta.setup-priority.v1`。每个精确 pin 选最小已知 slack，沿间同值保留最早原始行；不同 pin 同值按第一次出现的顺序。按最差已知 slack 从小到大选至多 N 个不同端点。缺失/null slack 保持未知，带部分未知沿的 pin 保留已知最差值和未知数量；全部未知的 pin 在 `unranked_endpoints` 完整列出，不占 N，原顺序保持。
+
+每项含 `pin`、`first_source_index`、`endpoint_edges`、`known_edges`、`unknown_edges`；已知项再含 `worst_source_index`、`worst_edge`、`worst_slack_seconds`。索引是原 `STAResult.endpoints` 的0-based位置，调用者可据此取回完整原端点与路径。结果另含明确的 `unit:"s"`、限额、总端点/沿、已知/未知沿、可排序/不可排序/已选/省略可排序端点数量。原数组/路径不变，返回数组可独立修改。不按名称解码/规范化，不用 epsilon 或差值算术排序。
+
+typed限额为非负 Int，0合法；JSON/JS参数必须是0..2147483647的有限整数，CLI使用该范围内的十进制数字。所有源行都会检查，包括限额外的重复/空 pin、非法 edge 或非有限 slack。JSON只消费 pin/edge/slack 视图，忽略未使用字段/扩展；不验证这些字段之外的路径或物理来源。空数据及负/未知裕量都可成功查询、退出0，不能据此认定setup合规。坏报告/参数/编码/IO/build/stdout退出2；结构化报告错误保留 `ok:false` JSON，主机错误写stderr。严格UTF-8、单首BOM、调用者cwd/Unicode路径和无需构建的独立 `--help` 齐备。
+
+`examples/setup-priority-cases.json` 中35份完整排序/覆盖/错误预期在实现前冻结；独立公开包消费者用11组typed结果取回原完整端点/路径。`python3 tools/ci-setup-priority.py` 用45个真实进程核对文件/API/消费者/错误边界，包括7次直接JSON设置调用、原分析字节兼容及分发例程。它们是自编集成证据，不是外部采用、路径枚举或新的时序参考。原示例可用 `setup-priority.lib` 和 `setup-priority-request.json` 重新生成；本地验证不重复历史科学批次，范围见 [CI-PLAN.md](CI-PLAN.md)。
+
 ## 比较既有 setup 报告的相对退步
 
 两个设计都为 Met，候选的 slack 仍可能相对基线变差。比较门禁直接读取既有成功的 `moonbit.sta.v1` 分析报告，不增加输入格式，不重新执行时序：
@@ -458,6 +478,6 @@ python3 tools/verify-opensta.py --sta /path/to/sta --request examples/four_paths
 
 工作流执行全目标 check、格式检查、JS/Wasm-GC/native 测试及 release 构建，再以 `python3 tools/ci-consumers.py` 启动真实 CLI 验证示例、普通/检查退出码、BOM stdin、输入错误及关闭报告接收端。另运行 `python3 tools/ci-sdc-diagnostics.py`、`python3 tools/ci-netlist-diagnostics.py` 和 `python3 tools/ci-constraint-context.py`，验证 SDC 命令起点、Netlist 语义路径、缺失 launch 的因果见证及真实文件/API 消费。位置、路径和常数弧 SI 预期独立手工确定，原状态、计数与裕量预期来自示例直连约束；失败会使 job 失败，报告保存在 `_build/ci-*.json`。这不替代完整时序签核或历史外部 OpenSTA 对照。
 
-另有 `python3 tools/ci-cell-usage.py`、`python3 tools/ci-references.py`、`python3 tools/ci-setup-comparison.py` 与 `python3 tools/ci-save-analysis.py` 门禁，分别核对完整面积/计数、标量引用问题、既有报告setup比较、完整文件独占保存及错误路径。执行范围与历史科学对照的边界见 [CI-PLAN.md](CI-PLAN.md)。
+另有 `python3 tools/ci-cell-usage.py`、`python3 tools/ci-references.py`、`python3 tools/ci-setup-comparison.py`、`python3 tools/ci-save-analysis.py` 与 `python3 tools/ci-setup-priority.py` 门禁，核对面积/计数、标量引用、setup相对比较、完整文件保存、不同端点优先级及对应错误/消费者边界。执行范围与历史科学对照的边界见 [CI-PLAN.md](CI-PLAN.md)。
 
 `tools/bootstrap-ci.py`只把官方 SDK 安装到显式指定的新目录并验证归档 SHA，不覆盖已有 SDK。CI 在 runner 临时目录安装；已有本机工具链可直接运行以上常规命令。

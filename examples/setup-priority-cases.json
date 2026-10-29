@@ -1,0 +1,1169 @@
+{
+  "basis": "All counts/order/indices/fields/omissions are hand-authored before ranking code. Fresh original report chosen by hand timing: slow -1ns, fast/partial +1.75ns, three unknown edges; exact binary64 slack copied only from the independently captured input at hand-chosen source indices. Synthetic existing envelopes test consumed endpoint view, not new timing solutions.",
+  "reports": {
+    "distinct-pin-budget": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -4,\n        \"required_seconds\": -4\n      },\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -3,\n        \"required_seconds\": -3\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -2,\n        \"required_seconds\": -2\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      },\n      {\n        \"pin\": \"c\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"c\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 0,\n        \"required_seconds\": 0\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ]\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 2,\n        \"required_seconds\": 2\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "zero-limit-keeps-coverage": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -4,\n        \"required_seconds\": -4\n      },\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -3,\n        \"required_seconds\": -3\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -2,\n        \"required_seconds\": -2\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      },\n      {\n        \"pin\": \"c\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"c\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 0,\n        \"required_seconds\": 0\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ]\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 2,\n        \"required_seconds\": 2\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "exact-limit": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -4,\n        \"required_seconds\": -4\n      },\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -3,\n        \"required_seconds\": -3\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -2,\n        \"required_seconds\": -2\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      },\n      {\n        \"pin\": \"c\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"c\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 0,\n        \"required_seconds\": 0\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ]\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 2,\n        \"required_seconds\": 2\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "oversized-limit": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -4,\n        \"required_seconds\": -4\n      },\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -3,\n        \"required_seconds\": -3\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -2,\n        \"required_seconds\": -2\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      },\n      {\n        \"pin\": \"c\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"c\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 0,\n        \"required_seconds\": 0\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ]\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 2,\n        \"required_seconds\": 2\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "default-ten": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -4,\n        \"required_seconds\": -4\n      },\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -3,\n        \"required_seconds\": -3\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -2,\n        \"required_seconds\": -2\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      },\n      {\n        \"pin\": \"c\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"c\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 0,\n        \"required_seconds\": 0\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ]\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 2,\n        \"required_seconds\": 2\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "ties-follow-first-pin-and-source-edge": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"first\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"first\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      },\n      {\n        \"pin\": \"second\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"second\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      },\n      {\n        \"pin\": \"first\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"first\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      },\n      {\n        \"pin\": \"second\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"second\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      },\n      {\n        \"pin\": \"third\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"third\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "worse-fall-and-one-edge": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"z\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"z\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 4,\n        \"required_seconds\": 4\n      },\n      {\n        \"pin\": \"z\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"z\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -8,\n        \"required_seconds\": -8\n      },\n      {\n        \"pin\": \"single\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"single\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -1,\n        \"required_seconds\": -1\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "partial-and-all-unknown": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"all\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"all\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"known\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"known\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ]\n      },\n      {\n        \"pin\": \"all\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"all\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ]\n      },\n      {\n        \"pin\": \"known\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"known\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 0,\n        \"required_seconds\": 0\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "all-unknown-stable-order": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"z\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"z\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ]\n      },\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "empty-report": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "exact-unicode-and-escaped-identities": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"é\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"é\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      },\n      {\n        \"pin\": \"é\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"é\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      },\n      {\n        \"pin\": \"out~1~0😀\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"out~1~0😀\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -1,\n        \"required_seconds\": -1\n      },\n      {\n        \"pin\": \"out/~😀\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"out/~😀\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -1,\n        \"required_seconds\": -1\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "finite-extremes-without-subtraction": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"max\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"max\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1.7976931348623157e+308,\n        \"required_seconds\": 1.7976931348623157e+308\n      },\n      {\n        \"pin\": \"min\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"min\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -1.7976931348623157e+308,\n        \"required_seconds\": -1.7976931348623157e+308\n      },\n      {\n        \"pin\": \"zero\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"zero\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 0,\n        \"required_seconds\": 0\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "reordered-input-changes-tie-witness": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"second\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"second\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      },\n      {\n        \"pin\": \"first\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"first\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "negative-reports-are-successful-queries": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"bad\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"bad\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -2,\n        \"required_seconds\": -2\n      },\n      {\n        \"pin\": \"worse\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"worse\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -3,\n        \"required_seconds\": -3\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "default-ten-truncates-known-only": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"p0\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p0\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 12,\n        \"required_seconds\": 12\n      },\n      {\n        \"pin\": \"p1\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p1\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 11,\n        \"required_seconds\": 11\n      },\n      {\n        \"pin\": \"p2\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p2\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 10,\n        \"required_seconds\": 10\n      },\n      {\n        \"pin\": \"p3\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p3\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 9,\n        \"required_seconds\": 9\n      },\n      {\n        \"pin\": \"p4\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p4\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 8,\n        \"required_seconds\": 8\n      },\n      {\n        \"pin\": \"p5\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p5\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 7,\n        \"required_seconds\": 7\n      },\n      {\n        \"pin\": \"p6\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p6\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 6,\n        \"required_seconds\": 6\n      },\n      {\n        \"pin\": \"p7\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p7\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 5,\n        \"required_seconds\": 5\n      },\n      {\n        \"pin\": \"p8\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p8\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 4,\n        \"required_seconds\": 4\n      },\n      {\n        \"pin\": \"p9\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p9\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 3,\n        \"required_seconds\": 3\n      },\n      {\n        \"pin\": \"p10\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p10\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 2,\n        \"required_seconds\": 2\n      },\n      {\n        \"pin\": \"p11\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p11\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "fresh-old-cli-report": "{\"ok\":true,\"schema\":\"moonbit.sta.v1\",\"result\":{\"nodes\":[{\"pin\":\"clk\",\"edge\":\"Rise\",\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[],\"slew_contributor\":\"clk\"},{\"pin\":\"clk\",\"edge\":\"Fall\",\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[],\"slew_contributor\":\"clk\"},{\"pin\":\"a\",\"edge\":\"Rise\",\"arrival_seconds\":1e-9,\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[{\"pin\":\"a\",\"edge\":\"Rise\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"}],\"slew_contributor\":\"a\"},{\"pin\":\"a\",\"edge\":\"Fall\",\"arrival_seconds\":1e-9,\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[{\"pin\":\"a\",\"edge\":\"Fall\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"}],\"slew_contributor\":\"a\"},{\"pin\":\"b\",\"edge\":\"Rise\",\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[],\"slew_contributor\":\"b\"},{\"pin\":\"b\",\"edge\":\"Fall\",\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[],\"slew_contributor\":\"b\"},{\"pin\":\"uFast/Z\",\"edge\":\"Rise\",\"arrival_seconds\":1.25e-9,\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[{\"pin\":\"a\",\"edge\":\"Rise\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uFast/A\",\"edge\":\"Rise\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"},{\"pin\":\"uFast/Z\",\"edge\":\"Rise\",\"delay_seconds\":2.5e-10,\"arrival_seconds\":1.25e-9,\"arc\":\"A->Z\"}],\"slew_contributor\":\"uFast/A\"},{\"pin\":\"uFast/Z\",\"edge\":\"Fall\",\"arrival_seconds\":1.25e-9,\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[{\"pin\":\"a\",\"edge\":\"Fall\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uFast/A\",\"edge\":\"Fall\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"},{\"pin\":\"uFast/Z\",\"edge\":\"Fall\",\"delay_seconds\":2.5e-10,\"arrival_seconds\":1.25e-9,\"arc\":\"A->Z\"}],\"slew_contributor\":\"uFast/A\"},{\"pin\":\"uSlow/Z\",\"edge\":\"Rise\",\"arrival_seconds\":4e-9,\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[{\"pin\":\"a\",\"edge\":\"Rise\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uSlow/A\",\"edge\":\"Rise\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"},{\"pin\":\"uSlow/Z\",\"edge\":\"Rise\",\"delay_seconds\":3.0000000000000004e-9,\"arrival_seconds\":4e-9,\"arc\":\"A->Z\"}],\"slew_contributor\":\"uSlow/A\"},{\"pin\":\"uSlow/Z\",\"edge\":\"Fall\",\"arrival_seconds\":4e-9,\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[{\"pin\":\"a\",\"edge\":\"Fall\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uSlow/A\",\"edge\":\"Fall\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"},{\"pin\":\"uSlow/Z\",\"edge\":\"Fall\",\"delay_seconds\":3.0000000000000004e-9,\"arrival_seconds\":4e-9,\"arc\":\"A->Z\"}],\"slew_contributor\":\"uSlow/A\"},{\"pin\":\"uUnknown/Z\",\"edge\":\"Rise\",\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[],\"slew_contributor\":\"uUnknown/A\"},{\"pin\":\"uUnknown/Z\",\"edge\":\"Fall\",\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[],\"slew_contributor\":\"uUnknown/A\"},{\"pin\":\"uFast/A\",\"edge\":\"Rise\",\"arrival_seconds\":1e-9,\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[{\"pin\":\"a\",\"edge\":\"Rise\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uFast/A\",\"edge\":\"Rise\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"}],\"slew_contributor\":\"a\"},{\"pin\":\"uFast/A\",\"edge\":\"Fall\",\"arrival_seconds\":1e-9,\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[{\"pin\":\"a\",\"edge\":\"Fall\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uFast/A\",\"edge\":\"Fall\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"}],\"slew_contributor\":\"a\"},{\"pin\":\"uSlow/A\",\"edge\":\"Rise\",\"arrival_seconds\":1e-9,\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[{\"pin\":\"a\",\"edge\":\"Rise\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uSlow/A\",\"edge\":\"Rise\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"}],\"slew_contributor\":\"a\"},{\"pin\":\"uSlow/A\",\"edge\":\"Fall\",\"arrival_seconds\":1e-9,\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[{\"pin\":\"a\",\"edge\":\"Fall\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uSlow/A\",\"edge\":\"Fall\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"}],\"slew_contributor\":\"a\"},{\"pin\":\"uUnknown/A\",\"edge\":\"Rise\",\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[],\"slew_contributor\":\"b\"},{\"pin\":\"uUnknown/A\",\"edge\":\"Fall\",\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[],\"slew_contributor\":\"b\"},{\"pin\":\"fast\",\"edge\":\"Rise\",\"arrival_seconds\":1.25e-9,\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[{\"pin\":\"a\",\"edge\":\"Rise\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uFast/A\",\"edge\":\"Rise\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"},{\"pin\":\"uFast/Z\",\"edge\":\"Rise\",\"delay_seconds\":2.5e-10,\"arrival_seconds\":1.25e-9,\"arc\":\"A->Z\"},{\"pin\":\"fast\",\"edge\":\"Rise\",\"delay_seconds\":0,\"arrival_seconds\":1.25e-9,\"arc\":\"net\"}],\"slew_contributor\":\"uFast/A\"},{\"pin\":\"fast\",\"edge\":\"Fall\",\"arrival_seconds\":1.25e-9,\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[{\"pin\":\"a\",\"edge\":\"Fall\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uFast/A\",\"edge\":\"Fall\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"},{\"pin\":\"uFast/Z\",\"edge\":\"Fall\",\"delay_seconds\":2.5e-10,\"arrival_seconds\":1.25e-9,\"arc\":\"A->Z\"},{\"pin\":\"fast\",\"edge\":\"Fall\",\"delay_seconds\":0,\"arrival_seconds\":1.25e-9,\"arc\":\"net\"}],\"slew_contributor\":\"uFast/A\"},{\"pin\":\"slow\",\"edge\":\"Rise\",\"arrival_seconds\":4e-9,\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[{\"pin\":\"a\",\"edge\":\"Rise\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uSlow/A\",\"edge\":\"Rise\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"},{\"pin\":\"uSlow/Z\",\"edge\":\"Rise\",\"delay_seconds\":3.0000000000000004e-9,\"arrival_seconds\":4e-9,\"arc\":\"A->Z\"},{\"pin\":\"slow\",\"edge\":\"Rise\",\"delay_seconds\":0,\"arrival_seconds\":4e-9,\"arc\":\"net\"}],\"slew_contributor\":\"uSlow/A\"},{\"pin\":\"slow\",\"edge\":\"Fall\",\"arrival_seconds\":4e-9,\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[{\"pin\":\"a\",\"edge\":\"Fall\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uSlow/A\",\"edge\":\"Fall\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"},{\"pin\":\"uSlow/Z\",\"edge\":\"Fall\",\"delay_seconds\":3.0000000000000004e-9,\"arrival_seconds\":4e-9,\"arc\":\"A->Z\"},{\"pin\":\"slow\",\"edge\":\"Fall\",\"delay_seconds\":0,\"arrival_seconds\":4e-9,\"arc\":\"net\"}],\"slew_contributor\":\"uSlow/A\"},{\"pin\":\"partial\",\"edge\":\"Rise\",\"arrival_seconds\":1.25e-9,\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[{\"pin\":\"a\",\"edge\":\"Rise\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uFast/A\",\"edge\":\"Rise\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"},{\"pin\":\"uFast/Z\",\"edge\":\"Rise\",\"delay_seconds\":2.5e-10,\"arrival_seconds\":1.25e-9,\"arc\":\"A->Z\"},{\"pin\":\"partial\",\"edge\":\"Rise\",\"delay_seconds\":0,\"arrival_seconds\":1.25e-9,\"arc\":\"net\"}],\"slew_contributor\":\"uFast/A\"},{\"pin\":\"partial\",\"edge\":\"Fall\",\"arrival_seconds\":1.25e-9,\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[{\"pin\":\"a\",\"edge\":\"Fall\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uFast/A\",\"edge\":\"Fall\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"},{\"pin\":\"uFast/Z\",\"edge\":\"Fall\",\"delay_seconds\":2.5e-10,\"arrival_seconds\":1.25e-9,\"arc\":\"A->Z\"},{\"pin\":\"partial\",\"edge\":\"Fall\",\"delay_seconds\":0,\"arrival_seconds\":1.25e-9,\"arc\":\"net\"}],\"slew_contributor\":\"uFast/A\"},{\"pin\":\"unknown\",\"edge\":\"Rise\",\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[],\"slew_contributor\":\"uUnknown/A\"},{\"pin\":\"unknown\",\"edge\":\"Fall\",\"slew_seconds\":1.0000000000000002e-10,\"load_farads\":0,\"path\":[],\"slew_contributor\":\"uUnknown/A\"}],\"endpoints\":[{\"pin\":\"fast\",\"edge\":\"Rise\",\"arrival_seconds\":1.25e-9,\"required_seconds\":3.0000000000000004e-9,\"slack_seconds\":1.7500000000000002e-9,\"path\":[{\"pin\":\"a\",\"edge\":\"Rise\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uFast/A\",\"edge\":\"Rise\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"},{\"pin\":\"uFast/Z\",\"edge\":\"Rise\",\"delay_seconds\":2.5e-10,\"arrival_seconds\":1.25e-9,\"arc\":\"A->Z\"},{\"pin\":\"fast\",\"edge\":\"Rise\",\"delay_seconds\":0,\"arrival_seconds\":1.25e-9,\"arc\":\"net\"}]},{\"pin\":\"fast\",\"edge\":\"Fall\",\"arrival_seconds\":1.25e-9,\"required_seconds\":3.0000000000000004e-9,\"slack_seconds\":1.7500000000000002e-9,\"path\":[{\"pin\":\"a\",\"edge\":\"Fall\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uFast/A\",\"edge\":\"Fall\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"},{\"pin\":\"uFast/Z\",\"edge\":\"Fall\",\"delay_seconds\":2.5e-10,\"arrival_seconds\":1.25e-9,\"arc\":\"A->Z\"},{\"pin\":\"fast\",\"edge\":\"Fall\",\"delay_seconds\":0,\"arrival_seconds\":1.25e-9,\"arc\":\"net\"}]},{\"pin\":\"slow\",\"edge\":\"Rise\",\"arrival_seconds\":4e-9,\"required_seconds\":3.0000000000000004e-9,\"slack_seconds\":-1e-9,\"path\":[{\"pin\":\"a\",\"edge\":\"Rise\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uSlow/A\",\"edge\":\"Rise\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"},{\"pin\":\"uSlow/Z\",\"edge\":\"Rise\",\"delay_seconds\":3.0000000000000004e-9,\"arrival_seconds\":4e-9,\"arc\":\"A->Z\"},{\"pin\":\"slow\",\"edge\":\"Rise\",\"delay_seconds\":0,\"arrival_seconds\":4e-9,\"arc\":\"net\"}]},{\"pin\":\"slow\",\"edge\":\"Fall\",\"arrival_seconds\":4e-9,\"required_seconds\":3.0000000000000004e-9,\"slack_seconds\":-1e-9,\"path\":[{\"pin\":\"a\",\"edge\":\"Fall\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uSlow/A\",\"edge\":\"Fall\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"},{\"pin\":\"uSlow/Z\",\"edge\":\"Fall\",\"delay_seconds\":3.0000000000000004e-9,\"arrival_seconds\":4e-9,\"arc\":\"A->Z\"},{\"pin\":\"slow\",\"edge\":\"Fall\",\"delay_seconds\":0,\"arrival_seconds\":4e-9,\"arc\":\"net\"}]},{\"pin\":\"partial\",\"edge\":\"Rise\",\"arrival_seconds\":1.25e-9,\"required_seconds\":3.0000000000000004e-9,\"slack_seconds\":1.7500000000000002e-9,\"path\":[{\"pin\":\"a\",\"edge\":\"Rise\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uFast/A\",\"edge\":\"Rise\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"},{\"pin\":\"uFast/Z\",\"edge\":\"Rise\",\"delay_seconds\":2.5e-10,\"arrival_seconds\":1.25e-9,\"arc\":\"A->Z\"},{\"pin\":\"partial\",\"edge\":\"Rise\",\"delay_seconds\":0,\"arrival_seconds\":1.25e-9,\"arc\":\"net\"}]},{\"pin\":\"partial\",\"edge\":\"Fall\",\"arrival_seconds\":1.25e-9,\"path\":[{\"pin\":\"a\",\"edge\":\"Fall\",\"delay_seconds\":1e-9,\"arrival_seconds\":1e-9,\"arc\":\"input_delay\"},{\"pin\":\"uFast/A\",\"edge\":\"Fall\",\"delay_seconds\":0,\"arrival_seconds\":1e-9,\"arc\":\"net\"},{\"pin\":\"uFast/Z\",\"edge\":\"Fall\",\"delay_seconds\":2.5e-10,\"arrival_seconds\":1.25e-9,\"arc\":\"A->Z\"},{\"pin\":\"partial\",\"edge\":\"Fall\",\"delay_seconds\":0,\"arrival_seconds\":1.25e-9,\"arc\":\"net\"}]},{\"pin\":\"unknown\",\"edge\":\"Rise\",\"required_seconds\":3.0000000000000004e-9,\"path\":[]},{\"pin\":\"unknown\",\"edge\":\"Fall\",\"required_seconds\":3.0000000000000004e-9,\"path\":[]}],\"worst_slack_seconds\":-1e-9,\"diagnostics\":[\"graph-based max-arrival/max-slew propagation; zero wire resistance and delay\",\"unconstrained:partial\",\"unconstrained:unknown\",\"unconstrained:unknown\"],\"topological_order\":[\"uFast\",\"uSlow\",\"uUnknown\"]},\"setup_summary\":{\"status\":\"Violated\",\"endpoint_count\":4,\"constrained_endpoint_edges\":5,\"unconstrained_endpoint_edges\":3,\"violating_endpoint_edges\":2,\"violating_endpoints\":1,\"worst_slack_seconds\":-1e-9,\"worst_negative_slack_seconds\":-1e-9}}\n",
+    "bad-json": "{",
+    "false-report": "{\"ok\": false, \"schema\": \"moonbit.sta.v1\", \"error\": \"old failure\"}",
+    "wrong-schema": "{\"ok\": true, \"schema\": \"other\", \"result\": {\"endpoints\": []}}",
+    "missing-endpoints": "{\"ok\":true,\"schema\":\"moonbit.sta.v1\",\"result\":{}}",
+    "bad-endpoint": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      null\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "bad-pin": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": 1,\n        \"edge\": \"Rise\"\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "bad-edge": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"p\",\n        \"edge\": \"rise\"\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "bad-slack": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Rise\",\n        \"slack_seconds\": \"0\"\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "nonfinite-slack": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1e400,\n        \"required_seconds\": 1\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "empty-pin": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 0,\n        \"required_seconds\": 0\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "duplicate-outside-selected-budget": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -1,\n        \"required_seconds\": -1\n      },\n      {\n        \"pin\": \"z\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"z\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 2,\n        \"required_seconds\": 2\n      },\n      {\n        \"pin\": \"z\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"z\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 3,\n        \"required_seconds\": 3\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "invalid-outside-zero-budget": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -1,\n        \"required_seconds\": -1\n      },\n      {\n        \"pin\": \"z\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"z\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": \"NaN\"\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "negative-limit": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -4,\n        \"required_seconds\": -4\n      },\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -3,\n        \"required_seconds\": -3\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -2,\n        \"required_seconds\": -2\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      },\n      {\n        \"pin\": \"c\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"c\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 0,\n        \"required_seconds\": 0\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ]\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 2,\n        \"required_seconds\": 2\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "fractional-limit": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -4,\n        \"required_seconds\": -4\n      },\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -3,\n        \"required_seconds\": -3\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -2,\n        \"required_seconds\": -2\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      },\n      {\n        \"pin\": \"c\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"c\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 0,\n        \"required_seconds\": 0\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ]\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 2,\n        \"required_seconds\": 2\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "too-large-limit": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -4,\n        \"required_seconds\": -4\n      },\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -3,\n        \"required_seconds\": -3\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -2,\n        \"required_seconds\": -2\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      },\n      {\n        \"pin\": \"c\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"c\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 0,\n        \"required_seconds\": 0\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ]\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 2,\n        \"required_seconds\": 2\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "limit-nan": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -4,\n        \"required_seconds\": -4\n      },\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -3,\n        \"required_seconds\": -3\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -2,\n        \"required_seconds\": -2\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      },\n      {\n        \"pin\": \"c\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"c\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 0,\n        \"required_seconds\": 0\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ]\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 2,\n        \"required_seconds\": 2\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "limit-positive-infinity": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -4,\n        \"required_seconds\": -4\n      },\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -3,\n        \"required_seconds\": -3\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -2,\n        \"required_seconds\": -2\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      },\n      {\n        \"pin\": \"c\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"c\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 0,\n        \"required_seconds\": 0\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ]\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 2,\n        \"required_seconds\": 2\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "limit-negative-infinity": "{\n  \"ok\": true,\n  \"schema\": \"moonbit.sta.v1\",\n  \"result\": {\n    \"nodes\": [],\n    \"endpoints\": [\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -4,\n        \"required_seconds\": -4\n      },\n      {\n        \"pin\": \"a\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"a\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -3,\n        \"required_seconds\": -3\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": -2,\n        \"required_seconds\": -2\n      },\n      {\n        \"pin\": \"b\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"b\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 1,\n        \"required_seconds\": 1\n      },\n      {\n        \"pin\": \"c\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"c\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 0,\n        \"required_seconds\": 0\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ]\n      },\n      {\n        \"pin\": \"u\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"u\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Fall\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Fall\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": null\n      },\n      {\n        \"pin\": \"p\",\n        \"edge\": \"Rise\",\n        \"arrival_seconds\": 0,\n        \"path\": [\n          {\n            \"pin\": \"p\",\n            \"edge\": \"Rise\",\n            \"delay_seconds\": 0,\n            \"arrival_seconds\": 0,\n            \"arc\": \"frozen_endpoint_view\"\n          }\n        ],\n        \"slack_seconds\": 2,\n        \"required_seconds\": 2\n      }\n    ],\n    \"diagnostics\": [],\n    \"topological_order\": []\n  }\n}\n",
+    "limit-validation-precedes-report": "{"
+  },
+  "cases": [
+    {
+      "name": "distinct-pin-budget",
+      "report": "distinct-pin-budget",
+      "max_endpoints": 2,
+      "expected_exit": 0,
+      "expected": {
+        "ok": true,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "priorities": {
+          "unit": "s",
+          "max_endpoints": 2,
+          "endpoint_count": 5,
+          "endpoint_edges": 9,
+          "known_endpoint_edges": 6,
+          "unknown_endpoint_edges": 3,
+          "rankable_endpoints": 4,
+          "unrankable_endpoints": 1,
+          "selected_endpoints": 2,
+          "omitted_rankable_endpoints": 2,
+          "rows": [
+            {
+              "pin": "a",
+              "first_source_index": 0,
+              "endpoint_edges": 2,
+              "known_edges": 2,
+              "unknown_edges": 0,
+              "worst_source_index": 0,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": -4
+            },
+            {
+              "pin": "b",
+              "first_source_index": 2,
+              "endpoint_edges": 2,
+              "known_edges": 2,
+              "unknown_edges": 0,
+              "worst_source_index": 2,
+              "worst_edge": "Fall",
+              "worst_slack_seconds": -2
+            }
+          ],
+          "unranked_endpoints": [
+            {
+              "pin": "u",
+              "first_source_index": 5,
+              "endpoint_edges": 2,
+              "known_edges": 0,
+              "unknown_edges": 2
+            }
+          ]
+        }
+      },
+      "public_typed": true
+    },
+    {
+      "name": "zero-limit-keeps-coverage",
+      "report": "zero-limit-keeps-coverage",
+      "max_endpoints": 0,
+      "expected_exit": 0,
+      "expected": {
+        "ok": true,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "priorities": {
+          "unit": "s",
+          "max_endpoints": 0,
+          "endpoint_count": 5,
+          "endpoint_edges": 9,
+          "known_endpoint_edges": 6,
+          "unknown_endpoint_edges": 3,
+          "rankable_endpoints": 4,
+          "unrankable_endpoints": 1,
+          "selected_endpoints": 0,
+          "omitted_rankable_endpoints": 4,
+          "rows": [],
+          "unranked_endpoints": [
+            {
+              "pin": "u",
+              "first_source_index": 5,
+              "endpoint_edges": 2,
+              "known_edges": 0,
+              "unknown_edges": 2
+            }
+          ]
+        }
+      },
+      "public_typed": true
+    },
+    {
+      "name": "exact-limit",
+      "report": "exact-limit",
+      "max_endpoints": 4,
+      "expected_exit": 0,
+      "expected": {
+        "ok": true,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "priorities": {
+          "unit": "s",
+          "max_endpoints": 4,
+          "endpoint_count": 5,
+          "endpoint_edges": 9,
+          "known_endpoint_edges": 6,
+          "unknown_endpoint_edges": 3,
+          "rankable_endpoints": 4,
+          "unrankable_endpoints": 1,
+          "selected_endpoints": 4,
+          "omitted_rankable_endpoints": 0,
+          "rows": [
+            {
+              "pin": "a",
+              "first_source_index": 0,
+              "endpoint_edges": 2,
+              "known_edges": 2,
+              "unknown_edges": 0,
+              "worst_source_index": 0,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": -4
+            },
+            {
+              "pin": "b",
+              "first_source_index": 2,
+              "endpoint_edges": 2,
+              "known_edges": 2,
+              "unknown_edges": 0,
+              "worst_source_index": 2,
+              "worst_edge": "Fall",
+              "worst_slack_seconds": -2
+            },
+            {
+              "pin": "c",
+              "first_source_index": 4,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 4,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 0
+            },
+            {
+              "pin": "p",
+              "first_source_index": 7,
+              "endpoint_edges": 2,
+              "known_edges": 1,
+              "unknown_edges": 1,
+              "worst_source_index": 8,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 2
+            }
+          ],
+          "unranked_endpoints": [
+            {
+              "pin": "u",
+              "first_source_index": 5,
+              "endpoint_edges": 2,
+              "known_edges": 0,
+              "unknown_edges": 2
+            }
+          ]
+        }
+      },
+      "public_typed": true
+    },
+    {
+      "name": "oversized-limit",
+      "report": "oversized-limit",
+      "max_endpoints": 2147483647,
+      "expected_exit": 0,
+      "expected": {
+        "ok": true,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "priorities": {
+          "unit": "s",
+          "max_endpoints": 2147483647,
+          "endpoint_count": 5,
+          "endpoint_edges": 9,
+          "known_endpoint_edges": 6,
+          "unknown_endpoint_edges": 3,
+          "rankable_endpoints": 4,
+          "unrankable_endpoints": 1,
+          "selected_endpoints": 4,
+          "omitted_rankable_endpoints": 0,
+          "rows": [
+            {
+              "pin": "a",
+              "first_source_index": 0,
+              "endpoint_edges": 2,
+              "known_edges": 2,
+              "unknown_edges": 0,
+              "worst_source_index": 0,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": -4
+            },
+            {
+              "pin": "b",
+              "first_source_index": 2,
+              "endpoint_edges": 2,
+              "known_edges": 2,
+              "unknown_edges": 0,
+              "worst_source_index": 2,
+              "worst_edge": "Fall",
+              "worst_slack_seconds": -2
+            },
+            {
+              "pin": "c",
+              "first_source_index": 4,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 4,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 0
+            },
+            {
+              "pin": "p",
+              "first_source_index": 7,
+              "endpoint_edges": 2,
+              "known_edges": 1,
+              "unknown_edges": 1,
+              "worst_source_index": 8,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 2
+            }
+          ],
+          "unranked_endpoints": [
+            {
+              "pin": "u",
+              "first_source_index": 5,
+              "endpoint_edges": 2,
+              "known_edges": 0,
+              "unknown_edges": 2
+            }
+          ]
+        }
+      },
+      "public_typed": false
+    },
+    {
+      "name": "default-ten",
+      "report": "default-ten",
+      "max_endpoints": 10,
+      "expected_exit": 0,
+      "expected": {
+        "ok": true,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "priorities": {
+          "unit": "s",
+          "max_endpoints": 10,
+          "endpoint_count": 5,
+          "endpoint_edges": 9,
+          "known_endpoint_edges": 6,
+          "unknown_endpoint_edges": 3,
+          "rankable_endpoints": 4,
+          "unrankable_endpoints": 1,
+          "selected_endpoints": 4,
+          "omitted_rankable_endpoints": 0,
+          "rows": [
+            {
+              "pin": "a",
+              "first_source_index": 0,
+              "endpoint_edges": 2,
+              "known_edges": 2,
+              "unknown_edges": 0,
+              "worst_source_index": 0,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": -4
+            },
+            {
+              "pin": "b",
+              "first_source_index": 2,
+              "endpoint_edges": 2,
+              "known_edges": 2,
+              "unknown_edges": 0,
+              "worst_source_index": 2,
+              "worst_edge": "Fall",
+              "worst_slack_seconds": -2
+            },
+            {
+              "pin": "c",
+              "first_source_index": 4,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 4,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 0
+            },
+            {
+              "pin": "p",
+              "first_source_index": 7,
+              "endpoint_edges": 2,
+              "known_edges": 1,
+              "unknown_edges": 1,
+              "worst_source_index": 8,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 2
+            }
+          ],
+          "unranked_endpoints": [
+            {
+              "pin": "u",
+              "first_source_index": 5,
+              "endpoint_edges": 2,
+              "known_edges": 0,
+              "unknown_edges": 2
+            }
+          ]
+        }
+      },
+      "public_typed": false
+    },
+    {
+      "name": "ties-follow-first-pin-and-source-edge",
+      "report": "ties-follow-first-pin-and-source-edge",
+      "max_endpoints": 3,
+      "expected_exit": 0,
+      "expected": {
+        "ok": true,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "priorities": {
+          "unit": "s",
+          "max_endpoints": 3,
+          "endpoint_count": 3,
+          "endpoint_edges": 5,
+          "known_endpoint_edges": 5,
+          "unknown_endpoint_edges": 0,
+          "rankable_endpoints": 3,
+          "unrankable_endpoints": 0,
+          "selected_endpoints": 3,
+          "omitted_rankable_endpoints": 0,
+          "rows": [
+            {
+              "pin": "first",
+              "first_source_index": 0,
+              "endpoint_edges": 2,
+              "known_edges": 2,
+              "unknown_edges": 0,
+              "worst_source_index": 0,
+              "worst_edge": "Fall",
+              "worst_slack_seconds": 1
+            },
+            {
+              "pin": "second",
+              "first_source_index": 1,
+              "endpoint_edges": 2,
+              "known_edges": 2,
+              "unknown_edges": 0,
+              "worst_source_index": 1,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 1
+            },
+            {
+              "pin": "third",
+              "first_source_index": 4,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 4,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 1
+            }
+          ],
+          "unranked_endpoints": []
+        }
+      },
+      "public_typed": true
+    },
+    {
+      "name": "worse-fall-and-one-edge",
+      "report": "worse-fall-and-one-edge",
+      "max_endpoints": 2,
+      "expected_exit": 0,
+      "expected": {
+        "ok": true,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "priorities": {
+          "unit": "s",
+          "max_endpoints": 2,
+          "endpoint_count": 2,
+          "endpoint_edges": 3,
+          "known_endpoint_edges": 3,
+          "unknown_endpoint_edges": 0,
+          "rankable_endpoints": 2,
+          "unrankable_endpoints": 0,
+          "selected_endpoints": 2,
+          "omitted_rankable_endpoints": 0,
+          "rows": [
+            {
+              "pin": "z",
+              "first_source_index": 0,
+              "endpoint_edges": 2,
+              "known_edges": 2,
+              "unknown_edges": 0,
+              "worst_source_index": 1,
+              "worst_edge": "Fall",
+              "worst_slack_seconds": -8
+            },
+            {
+              "pin": "single",
+              "first_source_index": 2,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 2,
+              "worst_edge": "Fall",
+              "worst_slack_seconds": -1
+            }
+          ],
+          "unranked_endpoints": []
+        }
+      },
+      "public_typed": true
+    },
+    {
+      "name": "partial-and-all-unknown",
+      "report": "partial-and-all-unknown",
+      "max_endpoints": 1,
+      "expected_exit": 0,
+      "expected": {
+        "ok": true,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "priorities": {
+          "unit": "s",
+          "max_endpoints": 1,
+          "endpoint_count": 2,
+          "endpoint_edges": 4,
+          "known_endpoint_edges": 1,
+          "unknown_endpoint_edges": 3,
+          "rankable_endpoints": 1,
+          "unrankable_endpoints": 1,
+          "selected_endpoints": 1,
+          "omitted_rankable_endpoints": 0,
+          "rows": [
+            {
+              "pin": "known",
+              "first_source_index": 1,
+              "endpoint_edges": 2,
+              "known_edges": 1,
+              "unknown_edges": 1,
+              "worst_source_index": 3,
+              "worst_edge": "Fall",
+              "worst_slack_seconds": 0
+            }
+          ],
+          "unranked_endpoints": [
+            {
+              "pin": "all",
+              "first_source_index": 0,
+              "endpoint_edges": 2,
+              "known_edges": 0,
+              "unknown_edges": 2
+            }
+          ]
+        }
+      },
+      "public_typed": true
+    },
+    {
+      "name": "all-unknown-stable-order",
+      "report": "all-unknown-stable-order",
+      "max_endpoints": 0,
+      "expected_exit": 0,
+      "expected": {
+        "ok": true,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "priorities": {
+          "unit": "s",
+          "max_endpoints": 0,
+          "endpoint_count": 2,
+          "endpoint_edges": 2,
+          "known_endpoint_edges": 0,
+          "unknown_endpoint_edges": 2,
+          "rankable_endpoints": 0,
+          "unrankable_endpoints": 2,
+          "selected_endpoints": 0,
+          "omitted_rankable_endpoints": 0,
+          "rows": [],
+          "unranked_endpoints": [
+            {
+              "pin": "z",
+              "first_source_index": 0,
+              "endpoint_edges": 1,
+              "known_edges": 0,
+              "unknown_edges": 1
+            },
+            {
+              "pin": "a",
+              "first_source_index": 1,
+              "endpoint_edges": 1,
+              "known_edges": 0,
+              "unknown_edges": 1
+            }
+          ]
+        }
+      },
+      "public_typed": true
+    },
+    {
+      "name": "empty-report",
+      "report": "empty-report",
+      "max_endpoints": 10,
+      "expected_exit": 0,
+      "expected": {
+        "ok": true,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "priorities": {
+          "unit": "s",
+          "max_endpoints": 10,
+          "endpoint_count": 0,
+          "endpoint_edges": 0,
+          "known_endpoint_edges": 0,
+          "unknown_endpoint_edges": 0,
+          "rankable_endpoints": 0,
+          "unrankable_endpoints": 0,
+          "selected_endpoints": 0,
+          "omitted_rankable_endpoints": 0,
+          "rows": [],
+          "unranked_endpoints": []
+        }
+      },
+      "public_typed": true
+    },
+    {
+      "name": "exact-unicode-and-escaped-identities",
+      "report": "exact-unicode-and-escaped-identities",
+      "max_endpoints": 4,
+      "expected_exit": 0,
+      "expected": {
+        "ok": true,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "priorities": {
+          "unit": "s",
+          "max_endpoints": 4,
+          "endpoint_count": 4,
+          "endpoint_edges": 4,
+          "known_endpoint_edges": 4,
+          "unknown_endpoint_edges": 0,
+          "rankable_endpoints": 4,
+          "unrankable_endpoints": 0,
+          "selected_endpoints": 4,
+          "omitted_rankable_endpoints": 0,
+          "rows": [
+            {
+              "pin": "out~1~0😀",
+              "first_source_index": 2,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 2,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": -1
+            },
+            {
+              "pin": "out/~😀",
+              "first_source_index": 3,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 3,
+              "worst_edge": "Fall",
+              "worst_slack_seconds": -1
+            },
+            {
+              "pin": "é",
+              "first_source_index": 0,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 0,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 1
+            },
+            {
+              "pin": "é",
+              "first_source_index": 1,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 1,
+              "worst_edge": "Fall",
+              "worst_slack_seconds": 1
+            }
+          ],
+          "unranked_endpoints": []
+        }
+      },
+      "public_typed": true
+    },
+    {
+      "name": "finite-extremes-without-subtraction",
+      "report": "finite-extremes-without-subtraction",
+      "max_endpoints": 3,
+      "expected_exit": 0,
+      "expected": {
+        "ok": true,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "priorities": {
+          "unit": "s",
+          "max_endpoints": 3,
+          "endpoint_count": 3,
+          "endpoint_edges": 3,
+          "known_endpoint_edges": 3,
+          "unknown_endpoint_edges": 0,
+          "rankable_endpoints": 3,
+          "unrankable_endpoints": 0,
+          "selected_endpoints": 3,
+          "omitted_rankable_endpoints": 0,
+          "rows": [
+            {
+              "pin": "min",
+              "first_source_index": 1,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 1,
+              "worst_edge": "Fall",
+              "worst_slack_seconds": -1.7976931348623157e+308
+            },
+            {
+              "pin": "zero",
+              "first_source_index": 2,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 2,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 0
+            },
+            {
+              "pin": "max",
+              "first_source_index": 0,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 0,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 1.7976931348623157e+308
+            }
+          ],
+          "unranked_endpoints": []
+        }
+      },
+      "public_typed": true
+    },
+    {
+      "name": "reordered-input-changes-tie-witness",
+      "report": "reordered-input-changes-tie-witness",
+      "max_endpoints": 1,
+      "expected_exit": 0,
+      "expected": {
+        "ok": true,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "priorities": {
+          "unit": "s",
+          "max_endpoints": 1,
+          "endpoint_count": 2,
+          "endpoint_edges": 2,
+          "known_endpoint_edges": 2,
+          "unknown_endpoint_edges": 0,
+          "rankable_endpoints": 2,
+          "unrankable_endpoints": 0,
+          "selected_endpoints": 1,
+          "omitted_rankable_endpoints": 1,
+          "rows": [
+            {
+              "pin": "second",
+              "first_source_index": 0,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 0,
+              "worst_edge": "Fall",
+              "worst_slack_seconds": 1
+            }
+          ],
+          "unranked_endpoints": []
+        }
+      },
+      "public_typed": false
+    },
+    {
+      "name": "negative-reports-are-successful-queries",
+      "report": "negative-reports-are-successful-queries",
+      "max_endpoints": 1,
+      "expected_exit": 0,
+      "expected": {
+        "ok": true,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "priorities": {
+          "unit": "s",
+          "max_endpoints": 1,
+          "endpoint_count": 2,
+          "endpoint_edges": 2,
+          "known_endpoint_edges": 2,
+          "unknown_endpoint_edges": 0,
+          "rankable_endpoints": 2,
+          "unrankable_endpoints": 0,
+          "selected_endpoints": 1,
+          "omitted_rankable_endpoints": 1,
+          "rows": [
+            {
+              "pin": "worse",
+              "first_source_index": 1,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 1,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": -3
+            }
+          ],
+          "unranked_endpoints": []
+        }
+      },
+      "public_typed": false
+    },
+    {
+      "name": "default-ten-truncates-known-only",
+      "report": "default-ten-truncates-known-only",
+      "max_endpoints": 10,
+      "expected_exit": 0,
+      "expected": {
+        "ok": true,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "priorities": {
+          "unit": "s",
+          "max_endpoints": 10,
+          "endpoint_count": 12,
+          "endpoint_edges": 12,
+          "known_endpoint_edges": 12,
+          "unknown_endpoint_edges": 0,
+          "rankable_endpoints": 12,
+          "unrankable_endpoints": 0,
+          "selected_endpoints": 10,
+          "omitted_rankable_endpoints": 2,
+          "rows": [
+            {
+              "pin": "p11",
+              "first_source_index": 11,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 11,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 1
+            },
+            {
+              "pin": "p10",
+              "first_source_index": 10,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 10,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 2
+            },
+            {
+              "pin": "p9",
+              "first_source_index": 9,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 9,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 3
+            },
+            {
+              "pin": "p8",
+              "first_source_index": 8,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 8,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 4
+            },
+            {
+              "pin": "p7",
+              "first_source_index": 7,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 7,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 5
+            },
+            {
+              "pin": "p6",
+              "first_source_index": 6,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 6,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 6
+            },
+            {
+              "pin": "p5",
+              "first_source_index": 5,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 5,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 7
+            },
+            {
+              "pin": "p4",
+              "first_source_index": 4,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 4,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 8
+            },
+            {
+              "pin": "p3",
+              "first_source_index": 3,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 3,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 9
+            },
+            {
+              "pin": "p2",
+              "first_source_index": 2,
+              "endpoint_edges": 1,
+              "known_edges": 1,
+              "unknown_edges": 0,
+              "worst_source_index": 2,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 10
+            }
+          ],
+          "unranked_endpoints": []
+        }
+      },
+      "public_typed": false
+    },
+    {
+      "name": "fresh-old-cli-report",
+      "report": "fresh-old-cli-report",
+      "max_endpoints": 2,
+      "expected_exit": 0,
+      "expected": {
+        "ok": true,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "priorities": {
+          "unit": "s",
+          "max_endpoints": 2,
+          "endpoint_count": 4,
+          "endpoint_edges": 8,
+          "known_endpoint_edges": 5,
+          "unknown_endpoint_edges": 3,
+          "rankable_endpoints": 3,
+          "unrankable_endpoints": 1,
+          "selected_endpoints": 2,
+          "omitted_rankable_endpoints": 1,
+          "rows": [
+            {
+              "pin": "slow",
+              "first_source_index": 2,
+              "endpoint_edges": 2,
+              "known_edges": 2,
+              "unknown_edges": 0,
+              "worst_source_index": 2,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": -1e-09
+            },
+            {
+              "pin": "fast",
+              "first_source_index": 0,
+              "endpoint_edges": 2,
+              "known_edges": 2,
+              "unknown_edges": 0,
+              "worst_source_index": 0,
+              "worst_edge": "Rise",
+              "worst_slack_seconds": 1.7500000000000002e-09
+            }
+          ],
+          "unranked_endpoints": [
+            {
+              "pin": "unknown",
+              "first_source_index": 6,
+              "endpoint_edges": 2,
+              "known_edges": 0,
+              "unknown_edges": 2
+            }
+          ]
+        }
+      },
+      "public_typed": true
+    },
+    {
+      "name": "bad-json",
+      "report": "bad-json",
+      "max_endpoints": 10,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"invalid source report JSON\")"
+      },
+      "public_typed": false
+    },
+    {
+      "name": "false-report",
+      "report": "false-report",
+      "max_endpoints": 10,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"invalid source report schema\")"
+      },
+      "public_typed": false
+    },
+    {
+      "name": "wrong-schema",
+      "report": "wrong-schema",
+      "max_endpoints": 10,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"invalid source report schema\")"
+      },
+      "public_typed": false
+    },
+    {
+      "name": "missing-endpoints",
+      "report": "missing-endpoints",
+      "max_endpoints": 10,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"invalid source endpoints\")"
+      },
+      "public_typed": false
+    },
+    {
+      "name": "bad-endpoint",
+      "report": "bad-endpoint",
+      "max_endpoints": 10,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"invalid source endpoint\")"
+      },
+      "public_typed": false
+    },
+    {
+      "name": "bad-pin",
+      "report": "bad-pin",
+      "max_endpoints": 10,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"invalid source endpoint pin\")"
+      },
+      "public_typed": false
+    },
+    {
+      "name": "bad-edge",
+      "report": "bad-edge",
+      "max_endpoints": 10,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"invalid source endpoint edge\")"
+      },
+      "public_typed": false
+    },
+    {
+      "name": "bad-slack",
+      "report": "bad-slack",
+      "max_endpoints": 10,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"invalid source slack_seconds\")"
+      },
+      "public_typed": false
+    },
+    {
+      "name": "nonfinite-slack",
+      "report": "nonfinite-slack",
+      "max_endpoints": 10,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"invalid source slack_seconds\")"
+      },
+      "public_typed": false
+    },
+    {
+      "name": "empty-pin",
+      "report": "empty-pin",
+      "max_endpoints": 10,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"duplicate/empty source endpoint \")"
+      },
+      "public_typed": false
+    },
+    {
+      "name": "duplicate-outside-selected-budget",
+      "report": "duplicate-outside-selected-budget",
+      "max_endpoints": 1,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"duplicate/empty source endpoint z\")"
+      },
+      "public_typed": false
+    },
+    {
+      "name": "invalid-outside-zero-budget",
+      "report": "invalid-outside-zero-budget",
+      "max_endpoints": 0,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"invalid source slack_seconds\")"
+      },
+      "public_typed": false
+    },
+    {
+      "name": "negative-limit",
+      "report": "negative-limit",
+      "max_endpoints": -1,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"max_endpoints must be an integer in 0..2147483647\")"
+      },
+      "public_typed": false
+    },
+    {
+      "name": "fractional-limit",
+      "report": "fractional-limit",
+      "max_endpoints": 1.5,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"max_endpoints must be an integer in 0..2147483647\")"
+      },
+      "public_typed": false
+    },
+    {
+      "name": "too-large-limit",
+      "report": "too-large-limit",
+      "max_endpoints": 2147483648,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"max_endpoints must be an integer in 0..2147483647\")"
+      },
+      "public_typed": false
+    },
+    {
+      "name": "limit-nan",
+      "report": "limit-nan",
+      "max_endpoints": 0,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"max_endpoints must be an integer in 0..2147483647\")"
+      },
+      "public_typed": false,
+      "special_limit": "nan"
+    },
+    {
+      "name": "limit-positive-infinity",
+      "report": "limit-positive-infinity",
+      "max_endpoints": 0,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"max_endpoints must be an integer in 0..2147483647\")"
+      },
+      "public_typed": false,
+      "special_limit": "positive-infinity"
+    },
+    {
+      "name": "limit-negative-infinity",
+      "report": "limit-negative-infinity",
+      "max_endpoints": 0,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"max_endpoints must be an integer in 0..2147483647\")"
+      },
+      "public_typed": false,
+      "special_limit": "negative-infinity"
+    },
+    {
+      "name": "limit-validation-precedes-report",
+      "report": "limit-validation-precedes-report",
+      "max_endpoints": -1,
+      "expected_exit": 2,
+      "expected": {
+        "ok": false,
+        "schema": "moonbit.sta.setup-priority.v1",
+        "error": "InvalidInput(\"max_endpoints must be an integer in 0..2147483647\")"
+      },
+      "public_typed": false
+    }
+  ],
+  "default_max_endpoints": 10,
+  "error_limit_message": "max_endpoints must be an integer in 0..2147483647"
+}

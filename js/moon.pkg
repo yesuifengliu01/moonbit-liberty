@@ -20,6 +20,7 @@ options(
         "analyze_cell_usage_json",
         "check_netlist_references_json",
         "compare_setup_json",
+        "prioritize_setup_json",
       ],
     },
   },

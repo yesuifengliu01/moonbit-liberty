@@ -1,5 +1,13 @@
 # Verification scope
 
+## Distinct-endpoint setup priority query (R10)
+
+One existing result/report query, no timing or default-input/report change. Group exact pins, select their minimum known edge with deterministic source-order ties and a nonnegative limit; preserve unknown/omission accounting and original source indices/paths.35 full hand-authored facts were frozen before implementation, including one fresh old CLI producer from a new fixed-delay design with independent hand order/indices/coverage. Synthetic report envelopes test the consumed endpoint view, not timing solutions or external adoption.
+
+Generate interfaces/format, then one clean relevant local sequence: all-target check/fmt, new6 focused `setup priority*` tests on JS/Wasm-GC/native, release JS build and `python3 tools/ci-setup-priority.py`. The gate executes45 real processes, with11 public typed queries/complete original endpoint lookup,7 direct JSON setting queries, actual file/default/BOM/encoding/help/build/output failures and exact distributed data. One post-change original CLI call compares full bytes with the frozen fresh producer; the priority query itself never runs timing. Old112 tests/275 configured recipient processes and historical scientific/reference/setup-comparison/publication batches are retained and not rerun locally.
+
+Exact-head required CI runs its complete configured118 tests and all retained gates plus the new necessary priority gate once remotely. Save real command stdout/stderr/exits, frozen full facts, actual input/output/compiled payloads, separate actually executed and other fresh compiler artifacts, and all-source/all-compiled ZIP member readbacks. A failed `moon ide doc '*sort_by*'` discovery is preserved as no-results; installed pinned core's builtin interface verifies Array::sort_by and Double::to_int instead. Do not treat failed discovery as an API verification or a product test failure. Complete current README/PROPOSAL and final REPORT/RESULT, then stop for independent root acceptance.
+
 ## Exclusive successful-analysis file save (R09)
 
 This is Node IO only. It calls the unchanged original analyze_json on the same file formats and preserves every result byte, including negative/unconstrained successful reports. Five fresh original CLI cases produced byte oracles before writer code; ordinary redirection losing a prior good file on error is preserved as consumer-gap evidence, not an original CLI bug.

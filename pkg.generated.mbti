@@ -39,6 +39,8 @@ pub fn parse_sdc(String, @moon-liberty.Library, Netlist) -> TimingConstraints ra
 
 pub fn parse_sdc_with_diagnostics(String, @moon-liberty.Library, Netlist) -> TimingConstraints raise SdcDiagnostic
 
+pub fn prioritize_setup_json(String, Double) -> String
+
 // Errors
 pub suberror NetlistJsonDiagnostic {
   NetlistJsonDiagnostic(STAError, String)
@@ -408,6 +410,7 @@ pub(all) struct STAResult {
   diagnostics : Array[String]
   topological_order : Array[String]
 } derive(ToJson, @debug.Debug)
+pub fn STAResult::prioritize_setup_endpoints(Self, max_endpoints? : Int) -> SetupEndpointPriorities raise STAError
 pub fn STAResult::setup_summary(Self) -> SetupSummary raise STAError
 
 pub(all) struct SdcSourcePosition {
@@ -447,6 +450,32 @@ pub(all) enum SetupComparisonStatus {
   SetupRegressed
   SetupComparisonIncomplete
 } derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct SetupEndpointPriorities {
+  unit : String
+  max_endpoints : Int
+  endpoint_count : Int
+  endpoint_edges : Int
+  known_endpoint_edges : Int
+  unknown_endpoint_edges : Int
+  rankable_endpoints : Int
+  unrankable_endpoints : Int
+  selected_endpoints : Int
+  omitted_rankable_endpoints : Int
+  rows : Array[SetupEndpointPriority]
+  unranked_endpoints : Array[SetupEndpointPriority]
+} derive(ToJson, @debug.Debug)
+
+pub(all) struct SetupEndpointPriority {
+  pin : String
+  first_source_index : Int
+  endpoint_edges : Int
+  known_edges : Int
+  unknown_edges : Int
+  worst_source_index : Int?
+  worst_edge : Edge?
+  worst_slack_seconds : Double?
+} derive(ToJson, @debug.Debug)
 
 pub(all) struct SetupSlackChange {
   pin : String

@@ -18,6 +18,8 @@ pub fn request() -> String
 
 pub fn setup_comparison_cases() -> String
 
+pub fn setup_priority_cases() -> String
+
 // Errors
 
 // Types and methods
