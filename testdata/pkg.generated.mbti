@@ -12,6 +12,8 @@ pub fn path_query_cases() -> String
 
 pub fn pin_limit_cases() -> String
 
+pub fn reference_cases() -> String
+
 pub fn request() -> String
 
 // Errors

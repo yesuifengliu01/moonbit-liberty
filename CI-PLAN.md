@@ -1,4 +1,26 @@
-# Cell-usage verification scope
+# Verification scope
+
+## Scalar-reference preflight (R07)
+
+Existing Library/Netlist inputs yield an independent complete scalar-name/reference report before SDC or timing models. The actual old structural checker accepts the frozen many-issue input as intended; this addition is a new workflow rather than a fabricated decoding bug. Existing graph/engine/SDC/math, R06 area source and public declarations remain intact.
+
+The24-case catalog freezes complete independent counters and issue records before code: isolated name/cell/pin/net problems,14 concurrent findings with exact pointer order and first witnesses, Unicode/native JSON, empty/real-library designs, structural errors, ignored extensions and explicit driver/cycle/numeric/direction scope controls. Six focused tests cover both JSON and public typed usage, owned issues, first-match cell lookup and programmatic pin metadata.
+
+```sh
+moon check --target all --deny-warn
+moon fmt --check
+moon test --target js --deny-warn --filter 'reference check*'
+moon test --target wasm-gc --deny-warn --filter 'reference check*'
+moon test --target native --deny-warn --filter 'reference check*'
+moon build --target js --release --deny-warn
+python3 tools/ci-references.py
+```
+
+The receiving gate runs37 processes:24 full frozen cases, a separate public-package program producing five typed reports, both exact distributed examples, source-only help, arguments, both invalid UTF8 inputs, JSON/Liberty/schema errors, BOM, missing file and closed stdout. All fields/omissions/order, status/exits and actual input bytes are checked. Raw outputs and actual tested-copy identities survive failures in `_build/reference-receipts` and `_build/ci-references.json`. These are self-authored integrations, not external adoption.
+
+One relevant local passing sequence is sufficient. The old100 tests/165 configured receiving processes are not separately rerun locally. The unchanged required quality job runs full106 tests (100 retained +6 new) on JS/Wasm-GC/native and all old gates plus the new necessary scalar-reference step on the exact final pushed head. No historical scientific/reference generator is repeated. Remote status/configuration evidence does not imply local/remote executable byte identity. Freeze sourceZIP every-member blob identity, actual working/test-copy/compiled/raw identities and all failure receipts; stop for independent acceptance once required checks pass.
+
+## Earlier cell-usage scope (R06)
 
 This addition accepts existing Liberty and flat Netlist JSON and reports declared cell usage without timing setup. It does not change timing/graph/SDC math, dependency versions, or existing report schemas. Complete means area coverage only.
 

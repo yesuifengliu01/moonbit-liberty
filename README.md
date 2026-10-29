@@ -284,6 +284,29 @@ node tools/check-pin-limits.cjs examples/sky130-demo.lib examples/pin-limits-rea
 
 不检查端口/SDC设计规则覆盖、最小值、fanout、动态/table上限或其他pin角色；不重算 slew/load、改变时序科学模型或声称 OpenSTA 等价。`examples/pin_limit_receiver` 与 `tools/ci-pin-limits.py` 分别执行公开 typed 包和任意三文件接收链，按 `examples/pin-limit-cases.json` 的完整冻结行核对结果；属于自编集成验证。
 
+## 时序设置前的标量引用预检
+
+已有 Netlist JSON 能被解码，但单元、pin 或 net 名称仍可能接错。独立预检仅需现有 Liberty 和网表，不要求 SDC、时间/电容单位、pin 电容或时序表：
+
+```sh
+moon build --target js --release
+node tools/check-references.cjs examples/reference.lib examples/reference-netlist.json
+# 退出3，完整报告一次保留14项独立问题
+node tools/check-references.cjs examples/reference.lib examples/reference-issues.json
+```
+
+公共 typed `check_netlist_references(library, netlist)` 返回 `NetlistReferenceReport`，不因语义问题抛首错；`issues` 是 owned 的完整列表。检查非空/唯一 net 名、原有共享命名空间中的 port/instance 名、port/connection 的 net 是否声明、原始名的 cell/pin 是否存在、重复连接和每个直接建模的库 pin 是否已连接。沿用 `Library.cell` / `Cell.pin` 的精确首个匹配，不修改原名称或输入。未知 cell 只报告明确的 cell 问题，跳过无法确定的 pin/漏接推断，独立的重复连接和 net 问题仍保留。
+
+每项含稳定的 `Ref…` code、相对于独立 Netlist 根的 `pointer`、原始错误/预期 `name`；重复项另给 `first_pointer`。路径使用 ASCII schema 键和0-based数组下标，不把原始名称嵌入路径。漏接项指向该实例的 connections 数组，name 是缺少的库 pin。顺序为 nets、ports（身份后net）、gates（身份、cell、逐连接重复pin/未知pin/net、最后按库序列出漏接pin）。空名称不登记为可引用声明，重复项始终指向首次非空声明。
+
+报告含输入实体和连接记录数、`matched_instances`、`matched_pin_connections`、`issue_count` 与全部问题。matched pin 计数只表示记录中的库侧 pin 存在，包含重复记录及目标 net 未解析的记录。状态为 `ReferencesResolved` 或 `ReferenceIssuesFound`，`scope=scalar_names_and_references`。空设计解析为0计数、无问题。
+
+这项预检不检查 pin direction/role、驱动、环路、wire 电容数值、时序弧/顺序模型、全库 lint、层次或 bus 展开，也不运行图构建/GBA。所有直接建模的 pin 都按名称检查，包括 inout/缺 direction 的元数据。ReferencesResolved 仅表示此引用 profile；含环路或重复驱动的设计仍可能解析全部引用，后续 STA 保留原有校验。固定上游的引号非BMP解析限制仍按实际模型呈现，未修依赖或偷偷改名。
+
+核心/JS `check_netlist_references_json(library, netlist)` 返回 `moonbit.sta.references.v1`，语义结果为 `ok:true` 和 `references`；形状/解析错误为 `ok:false/error/pointer`，沿用原结构诊断文本和路径。JSON语法或Liberty解析失败没有语义位置，pointer:null。两文件工具使用严格 UTF-8、各单首 BOM、调用者 cwd，不重写源文件；退出0无引用问题、3有问题、2参数/编码/IO/解析/输出错误，`--help`无需构建。
+
+`examples/reference-cases.json` 的24份完整手定预期包含14项同时错误、原始Unicode名称、首个重复位置、真实Sky130 INV/DFF及范围控制；`examples/reference_receiver` 独立编译后调用公开 typed API。`python3 tools/ci-references.py` 启动37次实际接收进程，保存所有 stdout/stderr、退出码与实际输入副本哈希。均属自编集成验证；相关局部检查和完整必需CI见 [CI-PLAN.md](CI-PLAN.md)。
+
 ## 映射实例用量与声明面积
 
 只有 Liberty 和已映射标量 Netlist JSON，也可以先统计设计资源：
@@ -392,6 +415,6 @@ python3 tools/verify-opensta.py --sta /path/to/sta --request examples/four_paths
 
 工作流执行全目标 check、格式检查、JS/Wasm-GC/native 测试及 release 构建，再以 `python3 tools/ci-consumers.py` 启动真实 CLI 验证示例、普通/检查退出码、BOM stdin、输入错误及关闭报告接收端。另运行 `python3 tools/ci-sdc-diagnostics.py`、`python3 tools/ci-netlist-diagnostics.py` 和 `python3 tools/ci-constraint-context.py`，验证 SDC 命令起点、Netlist 语义路径、缺失 launch 的因果见证及真实文件/API 消费。位置、路径和常数弧 SI 预期独立手工确定，原状态、计数与裕量预期来自示例直连约束；失败会使 job 失败，报告保存在 `_build/ci-*.json`。这不替代完整时序签核或历史外部 OpenSTA 对照。
 
-另有 `python3 tools/ci-cell-usage.py` 门禁，逐字段核对无时序配置的完整面积/计数报告和缺失、溢出、输入/输出错误，通过独立公开包和两文件工具实际接收。执行范围与历史科学对照的边界见 [CI-PLAN.md](CI-PLAN.md)。
+另有 `python3 tools/ci-cell-usage.py` 与 `python3 tools/ci-references.py` 门禁，分别核对无时序配置的完整面积/计数报告、完整标量引用问题及输入/输出错误，通过独立公开包和两文件工具实际接收。执行范围与历史科学对照的边界见 [CI-PLAN.md](CI-PLAN.md)。
 
 `tools/bootstrap-ci.py`只把官方 SDK 安装到显式指定的新目录并验证归档 SHA，不覆盖已有 SDK。CI 在 runner 临时目录安装；已有本机工具链可直接运行以上常规命令。

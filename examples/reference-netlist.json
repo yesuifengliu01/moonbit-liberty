@@ -1,0 +1,40 @@
+{
+  "ports": [
+    {
+      "name": "a",
+      "net": "n0",
+      "direction": "input"
+    },
+    {
+      "name": "out",
+      "net": "n1",
+      "direction": "output"
+    }
+  ],
+  "gates": [
+    {
+      "name": "u/~😀",
+      "cell": "BUF",
+      "connections": [
+        {
+          "pin": "A",
+          "net": "n0"
+        },
+        {
+          "pin": "Y",
+          "net": "n1"
+        }
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "name": "n0",
+      "wire_cap_farads": 0
+    },
+    {
+      "name": "n1",
+      "wire_cap_farads": 0
+    }
+  ]
+}

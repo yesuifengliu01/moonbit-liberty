@@ -1,0 +1,54 @@
+{
+  "nets": [
+    {
+      "name": "n0",
+      "wire_cap_farads": 0
+    },
+    {
+      "name": "n0",
+      "wire_cap_farads": 0
+    },
+    {
+      "name": "",
+      "wire_cap_farads": 0
+    }
+  ],
+  "ports": [
+    {
+      "name": "a",
+      "net": "n0",
+      "direction": "input"
+    },
+    {
+      "name": "a",
+      "net": "absent",
+      "direction": "output"
+    }
+  ],
+  "gates": [
+    {
+      "name": "a",
+      "cell": "BUF",
+      "connections": [
+        {
+          "pin": "BOGUS",
+          "net": "absent"
+        },
+        {
+          "pin": "BOGUS",
+          "net": "n0"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "cell": "MISSING",
+      "connections": [
+        {
+          "pin": "X",
+          "net": "absent"
+        }
+      ]
+    }
+  ]
+}

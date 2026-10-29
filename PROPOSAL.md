@@ -14,6 +14,7 @@ MoonBit STA（项目liberty，账号yesuifengliu01）将Liberty、已映射标�
 - 指定路径：一个原始名的 PI/Q 到 PO/D 边沿查询，即使来源在全局汇合处落选，仍返回该来源的一条最晚路径及明确命名的查询 arrival/slack。复用原 GBA slew/负载/已接受弧权和捕获约束，保留 Q 发射边界；NoPath、UnconstrainedLaunch 不补零。提供独立 typed/JSON/四文件入口和自编公开包/文件接收链；不作路径相关 slew 重算，不把查询值当全局 WNS。
 - Pin电气上限：用完整原GBA的pin slew和输出全负载核对已声明的标量max_transition/max_capacitance及缺省transition上限，输出逐规则/pin/edge的SI实际值、上限、余量和声明来源。缺失/无效上限不补零、不新增旧输入拒绝；单独typed/JSON/三文件checker可区分setup Met但电气超限的设计。范围包含已支持FF的CLK/D/Q，保留原时序、范围策略和诊断；不新增时序模型或完整签核规则。
 - 设计用量与面积：仅用现有Liberty和已映射Netlist统计全部flat实例、每种已用单元及声明面积，不要求SDC/时序单位或执行GBA。提供完整逐实例绑定、分组贡献、缺失/无效/未映射覆盖、有限已知小计和完整总量；未知数据不补零，算术溢出显式报告。typed/JSON/两文件入口与独立公开包、实际文件接收门禁齐备；面积保持库声明单位，Complete不等于连接、PPA或时序签核。
+- 标量引用预检：在SDC/时序建模前，独立检查网表的声明身份、cell/pin/net引用、重复和漏接pin，一次给出全部确定问题、原始名称、0-based JSON Pointer及首次声明见证。typed/JSON/两文件入口可接收缺时序单位/电容/表的库，保留原库首个匹配和现有结构诊断；14项并存错误、自编独立公开包与实际文件接收有完整手定预期。结果只覆盖标量名字和引用，不检查方向/驱动/环路/数值/层次或完整图签核。
 - 摘要与CI：统计端点/沿、违例、最坏裕量和WNS；显式检查Met退出0、违例3、覆盖不足或空端点4、输入/输出错误2；普通分析保留负裕量报告。
 
 主实现为MoonBit的图、约束、传播和报告API，可复用STAEngine/STAResult；JS适配调用同一核心，Node仅承担文件/stdin、严格UTF-8与单首BOM输入、帮助和退出策略。可选Netlist字段诊断保留原错误并返回0-based语义JSON Pointer，附独立文件检查器；仅检查既有结构，不代替图/数值/时序校验，旧分析和SDC入口保留。

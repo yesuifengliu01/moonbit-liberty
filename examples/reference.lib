@@ -1,0 +1,14 @@
+library (reference_demo) {
+  cell (BUF) {
+    pin (A) { direction : input; }
+    pin (Y) { direction : output; function : "A"; }
+  }
+  cell (PAIR) {
+    pin ("A[0]") { direction : input; }
+    pin ("B/#~") { direction : input; }
+    pin (Y) { direction : output; }
+  }
+  cell (IO) { pin (P) { direction : inout; } }
+  cell (META) { pin (X) { } }
+  cell (EMPTY) { }
+}

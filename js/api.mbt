@@ -9,6 +9,18 @@ fn without_initial_bom(text : String) -> String {
 }
 
 ///|
+/// Scalar reference preflight; decoded files accept one initial BOM each.
+pub fn check_netlist_references_json(
+  library : String,
+  netlist : String,
+) -> String {
+  @sta.check_netlist_references_json(
+    without_initial_bom(library),
+    without_initial_bom(netlist),
+  )
+}
+
+///|
 /// Standalone declared-cell census; both UTF-8 files accept an initial BOM.
 pub fn analyze_cell_usage_json(library : String, netlist : String) -> String {
   @sta.analyze_cell_usage_json(
