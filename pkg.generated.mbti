@@ -13,6 +13,8 @@ pub fn analyze_json(String, String) -> String
 
 pub fn analyze_path_query_json(String, String, String, String) -> String
 
+pub fn analyze_pin_limits_json(String, String, String, String) -> String
+
 pub fn check_netlist_json(String) -> String
 
 pub fn check_sdc_json(String, String, String) -> String
@@ -202,6 +204,63 @@ pub(all) enum PeriodBudgetStatus {
   FrequencyOverflow
 } derive(Eq, ToJson, @debug.Debug)
 
+pub(all) struct PinLimitAnalysis {
+  timing : STAResult
+  pin_limits : PinLimitReport
+} derive(ToJson, @debug.Debug)
+
+pub(all) struct PinLimitCheck {
+  instance : String
+  cell : String
+  library_pin : String
+  pin : String
+  edge : Edge
+  kind : PinLimitKind
+  unit : String
+  actual_si : Double
+  status : PinLimitState
+  source : PinLimitSource?
+  source_attribute : String?
+  raw_limit : String?
+  limit_si : Double?
+  margin_si : Double?
+  issue : String?
+} derive(ToJson, @debug.Debug)
+
+pub(all) enum PinLimitKind {
+  MaxCapacitance
+  MaxTransition
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct PinLimitReport {
+  status : PinLimitReportStatus
+  checked_rules : Int
+  violated_rules : Int
+  unspecified_rules : Int
+  invalid_rules : Int
+  checks : Array[PinLimitCheck]
+} derive(ToJson, @debug.Debug)
+
+pub(all) enum PinLimitReportStatus {
+  LimitsMet
+  LimitsViolated
+  InvalidLimits
+  NoDeclaredLimits
+} derive(Eq, @debug.Debug)
+pub impl ToJson for PinLimitReportStatus
+
+pub(all) enum PinLimitSource {
+  PinAttribute
+  LibraryDefault
+} derive(Eq, ToJson, @debug.Debug)
+
+pub(all) enum PinLimitState {
+  Satisfied
+  Exceeded
+  NotSpecified
+  InvalidLimit
+} derive(Eq, ToJson, @debug.Debug)
+
 pub(all) struct Port {
   name : String
   net : String
@@ -234,6 +293,7 @@ pub struct STAEngine {
 }
 pub fn STAEngine::new(@moon-liberty.Library, Netlist, TimingConstraints, policy? : @moon-liberty.RangePolicy) -> Self
 pub fn STAEngine::run_period_analysis(Self) -> PeriodAnalysis raise STAError
+pub fn STAEngine::run_pin_limit_analysis(Self) -> PinLimitAnalysis raise STAError
 pub fn STAEngine::run_setup_analysis(Self) -> STAResult raise STAError
 pub fn STAEngine::run_setup_path_query(Self, PathQuery) -> PathQueryAnalysis raise STAError
 pub fn STAEngine::run_setup_with_constraint_context(Self) -> ConstraintContextAnalysis raise STAError

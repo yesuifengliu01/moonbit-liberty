@@ -60,5 +60,7 @@ jobs:
         run: python3 tools/ci-constraint-context.py
       - name: Exercise path-query public-package and file receivers
         run: python3 tools/ci-path-query.py
+      - name: Exercise pin-limit public-package and file receivers
+        run: python3 tools/ci-pin-limits.py
       - name: Ensure checks did not modify tracked sources
         run: git diff --exit-code

@@ -1,0 +1,43 @@
+library (pin_limit_demo) {
+      delay_model : table_lookup; time_unit : "1ns";
+      capacitive_load_unit (1, "pf"); voltage_unit : "1V";
+      default_max_transition : 0.4; slew_derate_from_library : 1;
+      lu_table_template (surface) { variable_1 : input_net_transition; variable_2 : total_output_net_capacitance;
+        index_1 ("0, 1"); index_2 ("0, 2"); }
+      lu_table_template (setup_axis) { variable_1 : constrained_pin_transition; index_1 ("0, 1"); }
+      cell (DRV) {
+        pin (A) { direction : input; capacitance : 0; max_transition : 0.25; }
+        pin (Y) { direction : output; function : "A"; max_capacitance : 1.5; max_transition : 0.35;
+          timing () { related_pin : "A"; timing_type : combinational; timing_sense : positive_unate;
+          cell_rise (surface) { values ("0.1, 0.1", "0.1, 0.1"); }
+          cell_fall (surface) { values ("0.1, 0.1", "0.1, 0.1"); }
+          rise_transition (surface) { values ("0.2, 0.2", "0.2, 0.2"); }
+          fall_transition (surface) { values ("0.3, 0.3", "0.3, 0.3"); }
+        } }
+      }
+      cell (RCV) {
+        pin (A) { direction : input; capacitance : 0.25;
+          rise_capacitance : 0.25; fall_capacitance : 0.5; max_transition : 0.35; }
+        pin (Y) { direction : output; function : "A"; max_capacitance : 0.5;
+          timing () { related_pin : "A"; timing_type : combinational; timing_sense : positive_unate;
+          cell_rise (surface) { values ("0.1, 0.1", "0.1, 0.1"); }
+          cell_fall (surface) { values ("0.1, 0.1", "0.1, 0.1"); }
+          rise_transition (surface) { values ("0.1, 0.1", "0.1, 0.1"); }
+          fall_transition (surface) { values ("0.1, 0.1", "0.1, 0.1"); }
+        } }
+      }
+      cell (DFF) { ff (IQ,IQ_N) { clocked_on : "CLK"; next_state : "D"; }
+        pin (CLK) { direction : input; clock : true; capacitance : 0; }
+        pin (D) { direction : input; capacitance : 0; max_transition : 0.15;
+          timing () { related_pin : "CLK"; timing_type : setup_rising;
+            rise_constraint (setup_axis) { values ("0.15, 0.15"); }
+            fall_constraint (setup_axis) { values ("0.15, 0.15"); } } }
+        pin (Q) { direction : output; function : "IQ"; max_capacitance : 0.5; max_transition : 0.25;
+          timing () { related_pin : "CLK"; timing_type : rising_edge; timing_sense : non_unate;
+          cell_rise (surface) { values ("0.1, 0.1", "0.1, 0.1"); }
+          cell_fall (surface) { values ("0.1, 0.1", "0.1, 0.1"); }
+          rise_transition (surface) { values ("0.2, 0.2", "0.2, 0.2"); }
+          fall_transition (surface) { values ("0.3, 0.3", "0.3, 0.3"); }
+        } }
+      }
+    }

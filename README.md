@@ -251,6 +251,39 @@ node tools/path-query.cjs examples/path-query-changed.lib examples/path-query-ne
 
 `examples/path_query_receiver` 是单独编译、只调用公开 typed API 的自编消费包；`python3 tools/ci-path-query.py` 从其他 cwd 用真实四文件调用并核对冻结的完整路径/时间/状态，保留原始 stdout/stderr。它们属于自编集成验证，不代表第三方采用。
 
+## 映射设计的 pin 电气上限
+
+Setup Met 和查表坐标合法并不等于满足库里声明的 pin 上限。可选 `engine.run_pin_limit_analysis()` 先运行原 setup，再用原完整设计的每 pin/edge slew 和输出 driver load 检查：
+
+- 实例输出 pin 的简单标量 `max_capacitance`，按库电容单位转法拉。
+- 实例输入/输出 pin 的简单标量 `max_transition`，缺失时用库级 `default_max_transition`，按时间单位转秒；包括已支持 FF 的 CLK/D/Q。
+
+```sh
+# 相同原始 timing：严格库报告4项超限，放宽声明的库为Met
+node tools/check-pin-limits.cjs --range-policy reject examples/pin-limits.lib examples/pin-limits-netlist.json examples/pin-limits.sdc
+node tools/check-pin-limits.cjs --range-policy reject examples/pin-limits-met.lib examples/pin-limits-netlist.json examples/pin-limits.sdc
+# 自编映射设计使用现有真实Sky130子集；保留原Extrapolate诊断
+node tools/check-pin-limits.cjs examples/sky130-demo.lib examples/pin-limits-real-netlist.json examples/pin-limits-real.sdc
+```
+
+严格例的源输出负载是 wire0.25pF + 后级输入0.25/0.5pF + alias外部负载0.5pF，得到rise1pF/fall1.25pF；上限1pF，rise等于上限仍满足。加上三项 transition 超限，共4项。两套声明的完整原 timing 一样且 setup Met，所有 NLDM 坐标在网格内。实库例负载0.2pF高于声明0.181284pF，也超过实际 timing 网格，所以使用原外推策略；还报告 Rise slew 超限，共3项，不作为网格内证明或新精度验证。
+
+返回 `PinLimitAnalysis { timing, pin_limits }`。`pin_limits.checks` 是 owned 的完整规则/pin/edge列表，按实例、库pin次序、输出电容/transition、Rise/Fall排列。每项含原始 instance/cell/library_pin、原转义报告 pin、edge/kind/unit、`actual_si`、可选 `limit_si`/`margin_si`，以及声明来源、属性名、解码后的值文本和问题。`margin = limit - actual`，严格 `actual > limit` 才超限。输出电容使用原网表全负载；Clamp 仅作用查表坐标，不改变这里报告的物理负载。未知数据 arrival 不妨碍已有 slew/load 检查。
+
+| 每项 status | 含义 |
+| --- | --- |
+| Satisfied / Exceeded | 有可表示的非负 SI 上限，分别为满足/超限 |
+| NotSpecified | 没有适用声明；不补0 |
+| InvalidLimit | 已存在但无效、转换不可表示或形式不受支持；bound/margin省略，原timing保留 |
+
+显式 pin 声明（含0或无效值）优先于库默认，不因无效而偷偷回退。原解析/分析已经拒绝的输入仍给原错误；旧分析接受的负上限等元数据由新报告标记 InvalidLimit，原 API 接受行为保持。没有库默认电容的推断。复杂/分组形式会明确标记不支持。
+
+总计按规则/pin/edge记录为 `checked_rules`、`violated_rules`、`unspecified_rules`、`invalid_rules`。JSON 总状态优先 Violated，其次 InvalidLimits，再是 NoDeclaredLimits，否则 Met；Met只表示所有适用且已声明的支持规则满足，不保证每个pin有上限或签核通过。typed 总状态构造名为 `LimitsMet` / `LimitsViolated` / `InvalidLimits` / `NoDeclaredLimits`，避免影响旧 SetupSummary 的名字；JSON名称仍为 Met/Violated。
+
+公共核心/JS `analyze_pin_limits_json(library, netlist, sdc, range_policy)` 接收四个 String，最后一项明确为 `extrapolate` / `reject` / `clamp`，输出 `moonbit.sta.pin-limits.v1`，含完整原 `result` 与 `pin_limits`。文件工具只读三个 UTF-8文件，`--range-policy` 默认 extrapolate，库/网表允许单首 BOM，SDC保持原文。有效报告始终 `ok:true`；checker退出码0 Met、3 Violated、4 InvalidLimits/NoDeclaredLimits、2参数/编码/IO/原分析/输出错误，stdout失败覆盖为2。`--help`无须构建。
+
+不检查端口/SDC设计规则覆盖、最小值、fanout、动态/table上限或其他pin角色；不重算 slew/load、改变时序科学模型或声称 OpenSTA 等价。`examples/pin_limit_receiver` 与 `tools/ci-pin-limits.py` 分别执行公开 typed 包和任意三文件接收链，按 `examples/pin-limit-cases.json` 的完整冻结行核对结果；属于自编集成验证。
+
 ## 受限 SDC profile
 
 这是逐行读取的数据 profile，**不执行 Tcl**。数值按库 `time_unit` 和 `capacitive_load_unit` 转成 SI。先创建一个真实输入端口时钟，`-name` 与正 `-period` 必填；可选 `-waveform {0 T/2}`。对象仅 `[get_ports exact_name]`、列表 `{a b}`、或 `*`（筛选适用输入/输出且不含 clock）；时钟对象仅 `[get_clocks exact_clock_name]`。

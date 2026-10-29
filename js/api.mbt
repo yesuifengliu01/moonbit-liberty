@@ -9,6 +9,22 @@ fn without_initial_bom(text : String) -> String {
 }
 
 ///|
+/// Three UTF-8 decoded files plus the existing NLDM policy name; SDC verbatim.
+pub fn analyze_pin_limits_json(
+  library : String,
+  netlist : String,
+  sdc : String,
+  range_policy : String,
+) -> String {
+  @sta.analyze_pin_limits_json(
+    without_initial_bom(library),
+    without_initial_bom(netlist),
+    sdc,
+    range_policy,
+  )
+}
+
+///|
 /// Query files accept one initial BOM; SDC remains verbatim.
 pub fn analyze_path_query_json(
   library : String,

@@ -1,0 +1,72 @@
+{
+  "ports": [
+    {
+      "name": "clk",
+      "net": "ck",
+      "direction": "input"
+    },
+    {
+      "name": "a",
+      "net": "a",
+      "direction": "input"
+    },
+    {
+      "name": "tap",
+      "net": "x",
+      "direction": "output"
+    },
+    {
+      "name": "out",
+      "net": "y",
+      "direction": "output"
+    }
+  ],
+  "gates": [
+    {
+      "name": "u/~😀",
+      "cell": "DRV",
+      "connections": [
+        {
+          "pin": "A",
+          "net": "a"
+        },
+        {
+          "pin": "Y",
+          "net": "x"
+        }
+      ]
+    },
+    {
+      "name": "v",
+      "cell": "RCV",
+      "connections": [
+        {
+          "pin": "A",
+          "net": "x"
+        },
+        {
+          "pin": "Y",
+          "net": "y"
+        }
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "name": "ck",
+      "wire_cap_farads": 0
+    },
+    {
+      "name": "a",
+      "wire_cap_farads": 0
+    },
+    {
+      "name": "x",
+      "wire_cap_farads": 2.5e-13
+    },
+    {
+      "name": "y",
+      "wire_cap_farads": 2.5e-13
+    }
+  ]
+}
