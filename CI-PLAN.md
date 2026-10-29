@@ -1,5 +1,15 @@
 # Verification scope
 
+## Exclusive successful-analysis file save (R09)
+
+This is Node IO only. It calls the unchanged original analyze_json on the same file formats and preserves every result byte, including negative/unconstrained successful reports. Five fresh original CLI cases produced byte oracles before writer code; ordinary redirection losing a prior good file on error is preserved as consumer-gap evidence, not an original CLI bug.
+
+The relevant local sequence is `node --check tools/save-analysis.cjs` and `python3 tools/ci-save-analysis.py` on the actual Windows filesystem/Node runtime, using the accepted byte-identical compiled JS core. No MoonBit source/interface or compiler/dependency changes require new local builds or duplicated old112 tests/248 configured receivers. No old NLDM/scientific/setup-comparison trial is repeated.
+
+The new gate uses27 actual processes. Five complete old report byte oracles, three valid state profiles, existing destination/input-path protection, encoding/input/build/parent/directory failures, BOM, source-only help/arguments and the distributed example are checked. Controlled partial write/fsync/close/link/cleanup errors preserve complete actual streams and filesystem evidence. A two-process barrier observes both full candidates before release and checks exactly one new destination publication. Post-publication cleanup/stdout failures explicitly retain a complete destination; controlled residue is not erased. Tests do not claim real disk exhaustion, power-loss durability or unsupported filesystem portability.
+
+The required final-head quality job remains intact: its configured112 MoonBit tests/backends/builds and old gates run once remotely, plus one necessary exclusive-publication gate on Ubuntu. Local interpreted CLI source, the reused actually loaded compiled core, input/output copies and remote statuses are separate identities. Save all attempt streams/exits, frozen byte oracles, final sourceZIP/member identities and reports; stop after required verification/readback for independent acceptance.
+
 ## Existing-report setup regression comparison (R08)
 
 Two fresh original CLI calls on new self-authored constant-delay models produced existing moonbit.sta.v1 files before comparison code. Both original checks returned Met/exit0; independent hand arithmetic fixes0.25ns slack loss. Reports and producer inputs/runtime/raw streams remain frozen. This is a new relative gate, not a bug claim about absolute checking, a new input format or a timing rerun feature.

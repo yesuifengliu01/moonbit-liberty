@@ -284,6 +284,25 @@ node tools/check-pin-limits.cjs examples/sky130-demo.lib examples/pin-limits-rea
 
 不检查端口/SDC设计规则覆盖、最小值、fanout、动态/table上限或其他pin角色；不重算 slew/load、改变时序科学模型或声称 OpenSTA 等价。`examples/pin_limit_receiver` 与 `tools/ci-pin-limits.py` 分别执行公开 typed 包和任意三文件接收链，按 `examples/pin-limit-cases.json` 的完整冻结行核对结果；属于自编集成验证。
 
+## 把成功分析完整保存到新文件
+
+需要保留 CI 报告时，可直接保存完整的原分析 JSON。目标必须是新路径，父目录须已存在：
+
+```sh
+moon build --target js --release
+node tools/save-analysis.cjs examples/save-analysis.lib examples/save-analysis-request.json report.json
+```
+
+`save-analysis.cjs` 读取原有 Liberty/请求两个UTF-8文件，调用同一个公开 `analyze_json`，将完整成功报告的原 UTF-8 字节加 LF 保存到指定文件。请求中的范围策略、周期预算和setup摘要保持原样；负 slack 或未知 slack 的合法成功分析也可保存、退出0。它不增加输入/报告格式，不改变原时序模型或其他CLI。
+
+文件先写入同目录中专属的临时名称，刷盘并关闭后，通过硬链接原子创建目标名称，再清理自己的临时名称。已有目标、目录或输入文件都不会被覆盖；并发保存同一路径也只有一个进程能成功。没有覆盖/force模式、自动创建目录或复制覆盖回退；不支持硬链接的文件系统明确失败。这里保证进程级完整文件可见性，不保证断电后的目录持久性。
+
+分析错误保留原错误JSON stdout、退出2，不创建目标。参数/编码/输入IO/缺少构建/文件发布错误写stderr、退出2；发布前的写入/刷盘/关闭/链接失败不会把部分数据变成目标文件。发布后的临时清理或stdout失败可能退出2，但完整目标仍保留，stderr会说明已经提交的文件；不会假装回滚而删掉它。成功时stdout仍为完整原报告，退出0。
+
+两个输入沿用原严格UTF-8/单首BOM处理，路径按调用者cwd解释，源文件不改写；`--help`无需构建。普通 `sta.cjs` stdout/重定向用法保持原合同。新命令适合显式创建一份报告文件，调用者仍需保管它并核查下游接收。
+
+`examples/save-analysis-cases.json` 保存实现文件入口前由原CLI产生的5份完整字节预期；`python3 tools/ci-save-analysis.py` 用27次实际进程核对文件、stdout、错误和并发结果。部分写入/刷盘/关闭/链接/清理失败均为明确标注的受控故障，不是实测磁盘耗尽；初始重定向证据和故障残留均保留。测试只复用已构建的MoonBit核心，不重做物理参考或setup比较。它们是自编集成验证，范围见 [CI-PLAN.md](CI-PLAN.md)。
+
 ## 比较既有 setup 报告的相对退步
 
 两个设计都为 Met，候选的 slack 仍可能相对基线变差。比较门禁直接读取既有成功的 `moonbit.sta.v1` 分析报告，不增加输入格式，不重新执行时序：
@@ -439,6 +458,6 @@ python3 tools/verify-opensta.py --sta /path/to/sta --request examples/four_paths
 
 工作流执行全目标 check、格式检查、JS/Wasm-GC/native 测试及 release 构建，再以 `python3 tools/ci-consumers.py` 启动真实 CLI 验证示例、普通/检查退出码、BOM stdin、输入错误及关闭报告接收端。另运行 `python3 tools/ci-sdc-diagnostics.py`、`python3 tools/ci-netlist-diagnostics.py` 和 `python3 tools/ci-constraint-context.py`，验证 SDC 命令起点、Netlist 语义路径、缺失 launch 的因果见证及真实文件/API 消费。位置、路径和常数弧 SI 预期独立手工确定，原状态、计数与裕量预期来自示例直连约束；失败会使 job 失败，报告保存在 `_build/ci-*.json`。这不替代完整时序签核或历史外部 OpenSTA 对照。
 
-另有 `python3 tools/ci-cell-usage.py`、`python3 tools/ci-references.py` 与 `python3 tools/ci-setup-comparison.py` 门禁，分别核对完整面积/计数、标量引用问题、既有报告的完整setup比较及输入/输出错误，通过独立公开包和文件工具实际接收。执行范围与历史科学对照的边界见 [CI-PLAN.md](CI-PLAN.md)。
+另有 `python3 tools/ci-cell-usage.py`、`python3 tools/ci-references.py`、`python3 tools/ci-setup-comparison.py` 与 `python3 tools/ci-save-analysis.py` 门禁，分别核对完整面积/计数、标量引用问题、既有报告setup比较、完整文件独占保存及错误路径。执行范围与历史科学对照的边界见 [CI-PLAN.md](CI-PLAN.md)。
 
 `tools/bootstrap-ci.py`只把官方 SDK 安装到显式指定的新目录并验证归档 SHA，不覆盖已有 SDK。CI 在 runner 临时目录安装；已有本机工具链可直接运行以上常规命令。

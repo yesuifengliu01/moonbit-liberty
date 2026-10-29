@@ -68,5 +68,7 @@ jobs:
         run: python3 tools/ci-references.py
       - name: Exercise setup-comparison public-package and report receivers
         run: python3 tools/ci-setup-comparison.py
+      - name: Exercise exclusive analysis-report publication
+        run: python3 tools/ci-save-analysis.py
       - name: Ensure checks did not modify tracked sources
         run: git diff --exit-code

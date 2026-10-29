@@ -1,0 +1,53 @@
+{
+  "netlist": {
+    "ports": [
+      {
+        "name": "clk",
+        "net": "clk",
+        "direction": "input"
+      },
+      {
+        "name": "src",
+        "net": "src",
+        "direction": "input"
+      },
+      {
+        "name": "sink",
+        "net": "sink",
+        "direction": "output"
+      }
+    ],
+    "gates": [
+      {
+        "name": "capture/~😀",
+        "cell": "BUF",
+        "connections": [
+          {
+            "pin": "I",
+            "net": "src"
+          },
+          {
+            "pin": "Z",
+            "net": "sink"
+          }
+        ]
+      }
+    ],
+    "nets": [
+      {
+        "name": "clk",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "src",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "sink",
+        "wire_cap_farads": 0
+      }
+    ]
+  },
+  "sdc": "create_clock -name capture -period 3 [get_ports clk]\nset_clock_transition 0.1 [get_clocks capture]\nset_input_transition 0.1 [get_ports src]\nset_input_delay -clock capture 1 [get_ports src]\nset_output_delay -clock capture 0.25 [get_ports sink]\n",
+  "range_policy": "reject"
+}
