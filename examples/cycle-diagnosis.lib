@@ -1,0 +1,17 @@
+library (cycle_diagnosis) {
+  time_unit : "1ns";
+  capacitive_load_unit (1,pf);
+  delay_model : table_lookup;
+  lu_table_template (line) { variable_1 : input_net_transition; index_1 ("0,1"); }
+  cell (BUF) {
+    pin (A) { direction : input; capacitance : 0; }
+    pin (Z) { direction : output; function : "A";
+      timing () { related_pin : "A"; timing_sense : positive_unate;
+        cell_rise (line) { values ("0.25,0.25"); }
+        cell_fall (line) { values ("0.25,0.25"); }
+        rise_transition (line) { values ("0.1,0.1"); }
+        fall_transition (line) { values ("0.1,0.1"); }
+      }
+    }
+  }
+}

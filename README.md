@@ -88,6 +88,7 @@ Netlist、SDC 和结构化约束始终使用原始名字。报告的 `NodeTiming
 ## 明确模型
 
 - 单库、单角、单理想时钟，数据图按寄存器切开，寄存器反馈合法；真实组合环报错。组合 DAG 以实际 timing arc 和驱动输出 pin 建立，支持同一多输出实例的通道交错求值。
+- `CombinationalLoopDetected` 的实例名单只包含确实位于有向环中的输出任务所属实例，按原输出任务顺序去重；包括自环和多个环分量。环下游被阻塞的实例不会误列入，单实例多个输出通道仍按各自弧依赖分析。名单用于定位参与者；图的原校验、寄存器切开、拒绝类型/退出码和正常时序结果保持。可用 `node tools/sta.cjs examples/cycle-diagnosis.lib examples/cycle-diagnosis-request.json` 查看仅报告 `loop`、退出2的例程，其中 `tail` 确实只在环下游。
 - 集中负载 `Cwire + Σ Cpin(edge) + Cexternal(edge)`；优先使用 rise/fall capacitance，回退通用/声明的默认输入电容。R=0、net delay=0；无 SPEF、RC、OCV/PVT scaling。
 - 正/反单调展开对应边沿；多条反向/同向弧分别处理，non_unate 保守展开两种输入沿。缺省 timing_sense 时按 output function 的信号极性推断；显式声明优先，混合极性/XOR、缺函数或无法解析时保守保留双沿。when 条件弧明确拒绝，不假装完成 case analysis。
 - 单上升沿、无异步 set/reset 的 D/CLK/Q `ff`；支持真实 `sky130_fd_sc_hd__dfxtp_1` 的 rising_edge tCQ 和 setup_rising 数据/时钟 slew 约束表。setup 可为负数。传播与约束表可按单沿拆成 timing group；传播 delay/slew 仍须按沿配对，必要边沿的模型不能缺失。
@@ -427,6 +428,12 @@ node tools/check-sdc.cjs examples/sky130-demo.lib examples/sdc-diagnostic-netlis
 输出采用独立 `moonbit.sta.sdc.v1` JSON schema。有效约束退出 0 并返回 `constraints`；SDC/JSON/库错误退出 2 并返回原 `error` 和 `position`（无位置时为 `null`）。文件/编码/输出错误退出 2，诊断写入 stderr。输入须为合法 UTF-8；库和网表允许单个首 BOM，SDC 原文完整保留。`--help` 无需构建。JS 导出 `check_sdc_json(library, netlist, sdc)` 提供同一边界。
 
 此入口仅做已有受限 SDC 的解析和约束绑定，不执行时序分析、完整网表图校验或 Tcl；它的通过不代表完整 STA 能运行或时序满足。原 `analyze_json`、`tools/sta.cjs` 及其默认错误 JSON 保持原合同。
+
+## 组合环诊断验证
+
+旧诊断把 Kahn 拓扑排序后所有剩余任务当作环成员，导致 `loop→tail` 中只有 `loop` 自环时仍报告 `loop`、`tail`。失败分支现用迭代强连通分量遍历标记实际有向环成员；正常图跳过该遍历。类型、输入、时序数学和已有 JSON/JS/CLI 不增加新格式或新拒绝。
+
+`examples/cycle-diagnosis-cases.json` 在修复前冻结21份完整图与前后预期：15个环图、3个正常图和3个先行错误控制。它包含全部环分量、环间非循环桥、跨分支SCC、多输出/去重、原始名称/顺序及128级下游链；正常报告和先行错误保留完整原字节。独立公开包消费者通过原STAEngine调用21例，并检查 setup、周期预算、pin电气检查、因果上下文、指定路径5个受影响typed方法；4个附加JSON入口也核对完整错误。`python3 tools/ci-cycle-diagnosis.py` 执行25个实际进程，保存实际输入副本、全部流和退出；这些是自编诊断回归，不增加科学参考或声称外部采用。
 
 ## 验证
 

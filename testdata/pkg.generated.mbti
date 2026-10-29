@@ -6,6 +6,8 @@ pub fn cell_usage_cases() -> String
 
 pub fn constraint_context_library() -> String
 
+pub fn cycle_diagnosis_cases() -> String
+
 pub fn library() -> String
 
 pub fn path_query_cases() -> String

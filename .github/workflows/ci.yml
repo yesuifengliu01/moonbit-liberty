@@ -72,5 +72,7 @@ jobs:
         run: python3 tools/ci-save-analysis.py
       - name: Exercise distinct setup-endpoint priority consumers
         run: python3 tools/ci-setup-priority.py
+      - name: Verify exact combinational-cycle participants
+        run: python3 tools/ci-cycle-diagnosis.py
       - name: Ensure checks did not modify tracked sources
         run: git diff --exit-code

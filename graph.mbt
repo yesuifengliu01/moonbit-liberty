@@ -243,18 +243,20 @@ fn build_graph(
       }
     }
   }
-  let cyclic = []
-  let cyclic_seen : Map[String, Bool] = Map([])
-  for i in 0..<indegree.length() {
-    if indegree[i] > 0 {
-      let name = netlist.gates[tasks[i].0].name
-      if !cyclic_seen.contains(name) {
-        cyclic_seen[name] = true
-        cyclic.push(name)
+  if queue.length() != tasks.length() {
+    let members = graph_cyclic_members(next, indegree.map(value => value > 0))
+    let cyclic = []
+    let cyclic_seen : Map[String, Bool] = Map([])
+    for i in 0..<tasks.length() {
+      if members[i] {
+        let name = netlist.gates[tasks[i].0].name
+        if !cyclic_seen.contains(name) {
+          cyclic_seen[name] = true
+          cyclic.push(name)
+        }
       }
     }
-  }
-  if !cyclic.is_empty() {
+    // The original incomplete-order condition still always rejects the graph.
     raise CombinationalLoopDetected(cyclic)
   }
   { cells, registers, connections, loads, order: queue.map(i => tasks[i]), }

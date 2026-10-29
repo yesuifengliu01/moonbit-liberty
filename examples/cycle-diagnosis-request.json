@@ -1,0 +1,70 @@
+{
+  "netlist": {
+    "ports": [
+      {
+        "name": "clk",
+        "net": "clk",
+        "direction": "input"
+      },
+      {
+        "name": "a",
+        "net": "a",
+        "direction": "input"
+      },
+      {
+        "name": "out",
+        "net": "tail_n",
+        "direction": "output"
+      }
+    ],
+    "gates": [
+      {
+        "name": "loop",
+        "cell": "BUF",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "loop_n"
+          },
+          {
+            "pin": "Z",
+            "net": "loop_n"
+          }
+        ]
+      },
+      {
+        "name": "tail",
+        "cell": "BUF",
+        "connections": [
+          {
+            "pin": "A",
+            "net": "loop_n"
+          },
+          {
+            "pin": "Z",
+            "net": "tail_n"
+          }
+        ]
+      }
+    ],
+    "nets": [
+      {
+        "name": "clk",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "a",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "loop_n",
+        "wire_cap_farads": 0
+      },
+      {
+        "name": "tail_n",
+        "wire_cap_farads": 0
+      }
+    ]
+  },
+  "sdc": "create_clock -name clk -period 4 [get_ports clk]\nset_clock_transition 0.1 [get_clocks clk]\nset_input_delay -clock clk 1 [get_ports a]\nset_input_transition 0.1 [get_ports a]\nset_output_delay -clock clk 1 [get_ports out]\n"
+}

@@ -1,5 +1,13 @@
 # Verification scope
 
+## Exact combinational-cycle participant diagnostics (R11)
+
+The old CLI genuinely names a noncyclic tail in a self-loop error. Only the incomplete-topological-order diagnostic branch changes: private iterative component membership excludes blocked descendants/bridges and retains all true cyclic output tasks/instance order. No public signature/default success/report format, graph edges, earlier validation or timing math changes.21 complete named graphs and full before/after expected outputs were frozen before code; the initial primary repro and matching preparation captures are reused without repeating passed probes.3 healthy and3 earlier-error outputs remain byte-identical. Preparation failures (CRLF copy, illegal fixture name collision, old long Debug pretty formatting) are preserved and corrected before the freeze/fix; the collision input remains an unchanged-error control.
+
+Generate interfaces/format, verify root public .mbti and JS adapter/default JSON remain byte unchanged, then one clean relevant all-target check/fmt,6 focused `cycle diagnosis*` tests on JS/Wasm-GC/native, release JS/public receiver build and `python3 tools/ci-cycle-diagnosis.py`.25 real processes check21 complete CLI pairs, a public package with21 typed cases/5 affected methods,4 additional existing JSON calls, exact distributed inputs and explicit setup-check failure. Normal graph results and unrelated errors use full original byte oracles. No old118 tests/320 configured receiver processes, scientific/reference or completed R06-R10 batches rerun locally.
+
+Required fresh exact-head CI retains all existing steps/configured124 tests and adds the necessary cycle-diagnostic receiving gate once. Preserve actual streams/exits/copied inputs, all fresh compiled payload identities versus5 selected executed artifacts, canonical Git/blob/raw source, full current README/PROPOSAL and all-member source/compiled ZIP readback. No dependency/SDK/global identity/network change or external oracle. Freeze complete RESULT/REPORT and stop10/11 for independent root acceptance; no self count or R12.
+
 ## Distinct-endpoint setup priority query (R10)
 
 One existing result/report query, no timing or default-input/report change. Group exact pins, select their minimum known edge with deterministic source-order ties and a nonnegative limit; preserve unknown/omission accounting and original source indices/paths.35 full hand-authored facts were frozen before implementation, including one fresh old CLI producer from a new fixed-delay design with independent hand order/indices/coverage. Synthetic report envelopes test the consumed endpoint view, not timing solutions or external adoption.
