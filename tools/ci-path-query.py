@@ -120,6 +120,23 @@ assert results['losing-base']['result'] == results['losing-changed']['result']
 near(results['losing-base']['result']['worst_slack_seconds'], .3e-9)
 assert results['losing-base']['path_query']['queried_slack_seconds'] != results['losing-base']['result']['worst_slack_seconds']
 
+# The batch entry must preserve input order and return the same owned paths
+# and full timing report as independently executed public single queries.
+batch_cases = [next(c for c in catalog['cases'] if c['name'] == name)
+               for name in ['losing-base', 'clock-no-path']]
+batch_file = OUTPUT / 'inputs/batch-queries.json'
+batch_file.write_text(json.dumps({'queries': [c['query'] for c in batch_cases]}, ensure_ascii=False), encoding='utf8')
+batch_inputs = inputs['losing-base'].copy()
+batch_inputs[3] = batch_file
+batch_before = [digest(p.read_bytes()) for p in batch_inputs]
+process = invoke('batch-found-no-path', CLI + ['--batch'] + list(map(str, batch_inputs)), 0, OUTPUT)
+assert not process.stderr
+batch = json.loads(process.stdout)
+assert batch['ok'] is True and batch['schema'] == 'moonbit.sta.path-queries.v1'
+assert batch['result'] == results['losing-base']['result']
+assert batch['path_queries'] == [results[c['name']]['path_query'] for c in batch_cases]
+assert [digest(p.read_bytes()) for p in batch_inputs] == batch_before
+
 # Separate MoonBit executable package imports public @sta, never private graph.
 receiver = ROOT / '_build/js/release/build/examples/path_query_receiver/path_query_receiver.js'
 process = invoke('public-package', ['node', str(receiver)], 0, OUTPUT)

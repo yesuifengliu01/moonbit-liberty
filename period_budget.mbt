@@ -17,8 +17,8 @@ pub(all) struct EndpointPeriodBound {
 ///|
 pub(all) struct PeriodBudget {
   status : PeriodBudgetStatus
-  constrained_endpoint_edges : Int
-  unconstrained_endpoint_edges : Int
+  constrained_endpoint_edges : Int32
+  unconstrained_endpoint_edges : Int32
   endpoint_bounds : Array[EndpointPeriodBound]
   minimum_period_seconds : Double?
   maximum_frequency_hz : Double?
@@ -127,3 +127,30 @@ pub fn STAEngine::run_period_analysis(
     },
   }
 }
+
+///|
+pub extend PeriodBudgetStatus with Eq::{not_equal, equal}
+
+///|
+pub extend PeriodBudgetStatus with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend PeriodBudgetStatus with ToJson::{to_json}
+
+///|
+pub extend EndpointPeriodBound with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend EndpointPeriodBound with ToJson::{to_json}
+
+///|
+pub extend PeriodBudget with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend PeriodBudget with ToJson::{to_json}
+
+///|
+pub extend PeriodAnalysis with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend PeriodAnalysis with ToJson::{to_json}

@@ -47,6 +47,68 @@ pub(all) struct PathQueryAnalysis {
 } derive(Debug, ToJson)
 
 ///|
+/// Several exact path queries over one full-design timing analysis.
+/// Results retain input order and each returned path is independently owned.
+pub(all) struct PathQueriesAnalysis {
+  timing : STAResult
+  path_queries : Array[QueriedPath]
+} derive(Debug, ToJson)
+
+///|
+pub extend PathLaunch with Eq::{not_equal, equal}
+
+///|
+pub extend PathLaunch with Debug::{to_repr}
+
+///|
+pub extend PathLaunch with ToJson::{to_json}
+
+///|
+pub extend PathCapture with Eq::{not_equal, equal}
+
+///|
+pub extend PathCapture with Debug::{to_repr}
+
+///|
+pub extend PathCapture with ToJson::{to_json}
+
+///|
+pub extend PathQuery with Eq::{not_equal, equal}
+
+///|
+pub extend PathQuery with Debug::{to_repr}
+
+///|
+pub extend PathQuery with ToJson::{to_json}
+
+///|
+pub extend PathQueryStatus with Eq::{not_equal, equal}
+
+///|
+pub extend PathQueryStatus with Debug::{to_repr}
+
+///|
+pub extend PathQueryStatus with ToJson::{to_json}
+
+///|
+pub extend QueriedPath with Debug::{to_repr}
+
+///|
+pub extend QueriedPath with ToJson::{to_json}
+
+///|
+pub extend PathQueryAnalysis with Debug::{to_repr}
+
+///|
+pub extend PathQueryAnalysis with ToJson::{to_json}
+
+///|
+pub extend PathQueriesAnalysis with Debug::{to_repr}
+
+///|
+pub extend PathQueriesAnalysis with ToJson::{to_json}
+
+///|
 priv struct QuerySeed {
   net : String
   state : NodeTiming
@@ -324,4 +386,23 @@ pub fn STAEngine::run_setup_path_query(
   let timing = self.analyze_setup(path_query=trace).timing
   let path_query = resolve_path_query(trace, query, self.constraints.clock)
   { timing, path_query, }
+}
+
+///|
+/// Evaluate up to 1024 exact launch/capture queries against one setup pass.
+/// The same path model and per-query validation order as the single-query API
+/// apply. A bad query fails the entire batch at its first input index.
+pub fn STAEngine::run_setup_path_queries(
+  self : STAEngine,
+  queries : Array[PathQuery],
+) -> PathQueriesAnalysis raise STAError {
+  if queries.length() > 1024 {
+    raise InvalidInput("path query batch limit exceeded")
+  }
+  let trace : PathQueryTrace = { seeds: Map([]), arcs: [], captures: Map([]), }
+  let timing = self.analyze_setup(path_query=trace).timing
+  let path_queries = queries.map(query => {
+    resolve_path_query(trace, query, self.constraints.clock)
+  })
+  { timing, path_queries, }
 }

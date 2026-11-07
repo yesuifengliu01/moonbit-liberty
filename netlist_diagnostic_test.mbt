@@ -51,8 +51,8 @@ fn njson_items(value : Json, key : String) -> Array[Json] {
 ///|
 fn njson_connection(
   value : Json,
-  gate : Int,
-  connection : Int,
+  gate : Int32,
+  connection : Int32,
 ) -> Map[String, Json] {
   njson_fields(
     njson_items(njson_items(value, "gates")[gate], "connections")[connection],

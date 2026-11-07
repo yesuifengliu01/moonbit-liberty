@@ -15,6 +15,8 @@ pub fn analyze_constraint_context_json(String, String, String) -> String
 
 pub fn analyze_json(String, String) -> String
 
+pub fn analyze_path_queries_json(String, String, String, String) -> String
+
 pub fn analyze_path_query_json(String, String, String, String) -> String
 
 pub fn analyze_pin_limits_json(String, String, String, String) -> String
@@ -45,6 +47,7 @@ pub fn prioritize_setup_json(String, Double) -> String
 pub suberror NetlistJsonDiagnostic {
   NetlistJsonDiagnostic(STAError, String)
 } derive(@debug.Debug)
+pub fn NetlistJsonDiagnostic::to_repr(Self) -> @debug.Repr
 
 pub suberror STAError {
   InvalidInput(String)
@@ -55,10 +58,12 @@ pub suberror STAError {
   MissingTimingArc(String, String, String)
   LibraryFailure(String)
 } derive(@debug.Debug)
+pub fn STAError::to_repr(Self) -> @debug.Repr
 
 pub suberror SdcDiagnostic {
   SdcDiagnostic(STAError, SdcSourcePosition?)
 } derive(@debug.Debug)
+pub fn SdcDiagnostic::to_repr(Self) -> @debug.Repr
 
 // Types and methods
 pub(all) enum CellAreaState {
@@ -67,10 +72,14 @@ pub(all) enum CellAreaState {
   InvalidArea
   UnmappedCell
 } derive(Eq, ToJson, @debug.Debug)
+pub fn CellAreaState::equal(Self, Self) -> Bool
+pub fn CellAreaState::not_equal(Self, Self) -> Bool
+pub fn CellAreaState::to_json(Self) -> Json
+pub fn CellAreaState::to_repr(Self) -> @debug.Repr
 
 pub(all) struct CellUsage {
   cell : String
-  instance_count : Int
+  instance_count : Int32
   area_state : CellAreaState
   declared_area : Double?
   raw_area : String?
@@ -78,28 +87,36 @@ pub(all) struct CellUsage {
   area_overflow : Bool
   total_declared_area : Double?
 } derive(ToJson, @debug.Debug)
+pub fn CellUsage::to_json(Self) -> Json
+pub fn CellUsage::to_repr(Self) -> @debug.Repr
 
 pub(all) struct CellUsageReport {
   status : CellUsageStatus
   unit : String
   library : String
-  instance_count : Int
-  mapped_instances : Int
-  unmapped_instances : Int
-  known_area_instances : Int
-  missing_area_instances : Int
-  invalid_area_instances : Int
+  instance_count : Int32
+  mapped_instances : Int32
+  unmapped_instances : Int32
+  known_area_instances : Int32
+  missing_area_instances : Int32
+  invalid_area_instances : Int32
   area_overflow : Bool
   known_area_subtotal : Double?
   total_declared_area : Double?
   cells : Array[CellUsage]
   instances : Array[InstanceUsage]
 } derive(ToJson, @debug.Debug)
+pub fn CellUsageReport::to_json(Self) -> Json
+pub fn CellUsageReport::to_repr(Self) -> @debug.Repr
 
 pub(all) enum CellUsageStatus {
   UsageComplete
   UsageIncomplete
 } derive(Eq, @debug.Debug)
+pub fn CellUsageStatus::equal(Self, Self) -> Bool
+pub fn CellUsageStatus::not_equal(Self, Self) -> Bool
+pub fn CellUsageStatus::to_json(Self) -> Json
+pub fn CellUsageStatus::to_repr(Self) -> @debug.Repr
 pub impl ToJson for CellUsageStatus
 
 pub(all) struct Clock {
@@ -111,16 +128,22 @@ pub(all) struct Clock {
   latency_seconds : Double
   uncertainty_seconds : Double
 } derive(ToJson, @debug.Debug)
+pub fn Clock::to_json(Self) -> Json
+pub fn Clock::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Connection {
   pin : String
   net : String
 } derive(ToJson, @debug.Debug)
+pub fn Connection::to_json(Self) -> Json
+pub fn Connection::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ConstraintContextAnalysis {
   timing : STAResult
   constraint_context : Array[EndpointConstraintContext]
 } derive(ToJson, @debug.Debug)
+pub fn ConstraintContextAnalysis::to_json(Self) -> Json
+pub fn ConstraintContextAnalysis::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ConstraintWitnessStep {
   pin : String
@@ -128,16 +151,26 @@ pub(all) struct ConstraintWitnessStep {
   arc : String
   delay_seconds : Double?
 } derive(ToJson, @debug.Debug)
+pub fn ConstraintWitnessStep::to_json(Self) -> Json
+pub fn ConstraintWitnessStep::to_repr(Self) -> @debug.Repr
 
 pub(all) enum Direction {
   Input
   Output
 } derive(Eq, ToJson, @debug.Debug)
+pub fn Direction::equal(Self, Self) -> Bool
+pub fn Direction::not_equal(Self, Self) -> Bool
+pub fn Direction::to_json(Self) -> Json
+pub fn Direction::to_repr(Self) -> @debug.Repr
 
 pub(all) enum Edge {
   Rise
   Fall
 } derive(Eq, ToJson, @debug.Debug)
+pub fn Edge::equal(Self, Self) -> Bool
+pub fn Edge::not_equal(Self, Self) -> Bool
+pub fn Edge::to_json(Self) -> Json
+pub fn Edge::to_repr(Self) -> @debug.Repr
 
 pub(all) struct EndpointConstraintContext {
   pin : String
@@ -145,12 +178,16 @@ pub(all) struct EndpointConstraintContext {
   missing_output_delay_port : String?
   launch_witness : MissingLaunchWitness?
 } derive(ToJson, @debug.Debug)
+pub fn EndpointConstraintContext::to_json(Self) -> Json
+pub fn EndpointConstraintContext::to_repr(Self) -> @debug.Repr
 
 pub(all) struct EndpointPeriodBound {
   pin : String
   edge : Edge
   bound_seconds : Double?
 } derive(ToJson, @debug.Debug)
+pub fn EndpointPeriodBound::to_json(Self) -> Json
+pub fn EndpointPeriodBound::to_repr(Self) -> @debug.Repr
 
 pub(all) struct EndpointTiming {
   pin : String
@@ -161,15 +198,19 @@ pub(all) struct EndpointTiming {
   setup_seconds : Double?
   path : Array[PathStep]
 } derive(ToJson, @debug.Debug)
+pub fn EndpointTiming::to_json(Self) -> Json
+pub fn EndpointTiming::to_repr(Self) -> @debug.Repr
 
 pub(all) struct GateInstance {
   name : String
   cell : String
   connections : Array[Connection]
 } derive(ToJson, @debug.Debug)
+pub fn GateInstance::to_json(Self) -> Json
+pub fn GateInstance::to_repr(Self) -> @debug.Repr
 
 pub(all) struct InstanceUsage {
-  index : Int
+  index : Int32
   instance : String
   cell : String
   area_state : CellAreaState
@@ -177,11 +218,17 @@ pub(all) struct InstanceUsage {
   raw_area : String?
   issue : String?
 } derive(ToJson, @debug.Debug)
+pub fn InstanceUsage::to_json(Self) -> Json
+pub fn InstanceUsage::to_repr(Self) -> @debug.Repr
 
 pub(all) enum MissingLaunchKind {
   MissingInputDelay
   IdealClockNoDataArrival
 } derive(Eq, ToJson, @debug.Debug)
+pub fn MissingLaunchKind::equal(Self, Self) -> Bool
+pub fn MissingLaunchKind::not_equal(Self, Self) -> Bool
+pub fn MissingLaunchKind::to_json(Self) -> Json
+pub fn MissingLaunchKind::to_repr(Self) -> @debug.Repr
 
 pub(all) struct MissingLaunchWitness {
   kind : MissingLaunchKind
@@ -190,17 +237,23 @@ pub(all) struct MissingLaunchWitness {
   edge : Edge
   path : Array[ConstraintWitnessStep]
 } derive(ToJson, @debug.Debug)
+pub fn MissingLaunchWitness::to_json(Self) -> Json
+pub fn MissingLaunchWitness::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Net {
   name : String
   wire_cap_farads : Double
 } derive(ToJson, @debug.Debug)
+pub fn Net::to_json(Self) -> Json
+pub fn Net::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Netlist {
   ports : Array[Port]
   gates : Array[GateInstance]
   nets : Array[Net]
 } derive(ToJson, @debug.Debug)
+pub fn Netlist::to_json(Self) -> Json
+pub fn Netlist::to_repr(Self) -> @debug.Repr
 
 pub(all) struct NetlistReferenceIssue {
   code : ReferenceIssueCode
@@ -208,20 +261,24 @@ pub(all) struct NetlistReferenceIssue {
   name : String
   first_pointer : String?
 } derive(ToJson, @debug.Debug)
+pub fn NetlistReferenceIssue::to_json(Self) -> Json
+pub fn NetlistReferenceIssue::to_repr(Self) -> @debug.Repr
 
 pub(all) struct NetlistReferenceReport {
   status : ReferenceCheckStatus
   scope : String
   library : String
-  port_count : Int
-  instance_count : Int
-  net_count : Int
-  connection_count : Int
-  matched_instances : Int
-  matched_pin_connections : Int
-  issue_count : Int
+  port_count : Int32
+  instance_count : Int32
+  net_count : Int32
+  connection_count : Int32
+  matched_instances : Int32
+  matched_pin_connections : Int32
+  issue_count : Int32
   issues : Array[NetlistReferenceIssue]
 } derive(ToJson, @debug.Debug)
+pub fn NetlistReferenceReport::to_json(Self) -> Json
+pub fn NetlistReferenceReport::to_repr(Self) -> @debug.Repr
 
 pub(all) struct NodeTiming {
   pin : String
@@ -232,32 +289,59 @@ pub(all) struct NodeTiming {
   path : Array[PathStep]
   slew_contributor : String
 } derive(ToJson, @debug.Debug)
+pub fn NodeTiming::to_json(Self) -> Json
+pub fn NodeTiming::to_repr(Self) -> @debug.Repr
 
 pub(all) enum PathCapture {
   OutputPort(String, Edge)
   RegisterD(String, String, Edge)
 } derive(Eq, ToJson, @debug.Debug)
+pub fn PathCapture::equal(Self, Self) -> Bool
+pub fn PathCapture::not_equal(Self, Self) -> Bool
+pub fn PathCapture::to_json(Self) -> Json
+pub fn PathCapture::to_repr(Self) -> @debug.Repr
 
 pub(all) enum PathLaunch {
   InputPort(String, Edge)
   RegisterQ(String, String, Edge)
 } derive(Eq, ToJson, @debug.Debug)
+pub fn PathLaunch::equal(Self, Self) -> Bool
+pub fn PathLaunch::not_equal(Self, Self) -> Bool
+pub fn PathLaunch::to_json(Self) -> Json
+pub fn PathLaunch::to_repr(Self) -> @debug.Repr
+
+pub(all) struct PathQueriesAnalysis {
+  timing : STAResult
+  path_queries : Array[QueriedPath]
+} derive(ToJson, @debug.Debug)
+pub fn PathQueriesAnalysis::to_json(Self) -> Json
+pub fn PathQueriesAnalysis::to_repr(Self) -> @debug.Repr
 
 pub(all) struct PathQuery {
   launch : PathLaunch
   capture : PathCapture
 } derive(Eq, ToJson, @debug.Debug)
+pub fn PathQuery::equal(Self, Self) -> Bool
+pub fn PathQuery::not_equal(Self, Self) -> Bool
+pub fn PathQuery::to_json(Self) -> Json
+pub fn PathQuery::to_repr(Self) -> @debug.Repr
 
 pub(all) struct PathQueryAnalysis {
   timing : STAResult
   path_query : QueriedPath
 } derive(ToJson, @debug.Debug)
+pub fn PathQueryAnalysis::to_json(Self) -> Json
+pub fn PathQueryAnalysis::to_repr(Self) -> @debug.Repr
 
 pub(all) enum PathQueryStatus {
   Found
   NoPath
   UnconstrainedLaunch
 } derive(Eq, ToJson, @debug.Debug)
+pub fn PathQueryStatus::equal(Self, Self) -> Bool
+pub fn PathQueryStatus::not_equal(Self, Self) -> Bool
+pub fn PathQueryStatus::to_json(Self) -> Json
+pub fn PathQueryStatus::to_repr(Self) -> @debug.Repr
 
 pub(all) struct PathStep {
   pin : String
@@ -266,21 +350,27 @@ pub(all) struct PathStep {
   arrival_seconds : Double
   arc : String
 } derive(ToJson, @debug.Debug)
+pub fn PathStep::to_json(Self) -> Json
+pub fn PathStep::to_repr(Self) -> @debug.Repr
 
 pub(all) struct PeriodAnalysis {
   timing : STAResult
   budget : PeriodBudget
 } derive(ToJson, @debug.Debug)
+pub fn PeriodAnalysis::to_json(Self) -> Json
+pub fn PeriodAnalysis::to_repr(Self) -> @debug.Repr
 
 pub(all) struct PeriodBudget {
   status : PeriodBudgetStatus
-  constrained_endpoint_edges : Int
-  unconstrained_endpoint_edges : Int
+  constrained_endpoint_edges : Int32
+  unconstrained_endpoint_edges : Int32
   endpoint_bounds : Array[EndpointPeriodBound]
   minimum_period_seconds : Double?
   maximum_frequency_hz : Double?
   limiting_endpoints : Array[EndpointPeriodBound]
 } derive(ToJson, @debug.Debug)
+pub fn PeriodBudget::to_json(Self) -> Json
+pub fn PeriodBudget::to_repr(Self) -> @debug.Repr
 
 pub(all) enum PeriodBudgetStatus {
   Complete
@@ -289,11 +379,17 @@ pub(all) enum PeriodBudgetStatus {
   NoPositiveLimit
   FrequencyOverflow
 } derive(Eq, ToJson, @debug.Debug)
+pub fn PeriodBudgetStatus::equal(Self, Self) -> Bool
+pub fn PeriodBudgetStatus::not_equal(Self, Self) -> Bool
+pub fn PeriodBudgetStatus::to_json(Self) -> Json
+pub fn PeriodBudgetStatus::to_repr(Self) -> @debug.Repr
 
 pub(all) struct PinLimitAnalysis {
   timing : STAResult
   pin_limits : PinLimitReport
 } derive(ToJson, @debug.Debug)
+pub fn PinLimitAnalysis::to_json(Self) -> Json
+pub fn PinLimitAnalysis::to_repr(Self) -> @debug.Repr
 
 pub(all) struct PinLimitCheck {
   instance : String
@@ -312,20 +408,28 @@ pub(all) struct PinLimitCheck {
   margin_si : Double?
   issue : String?
 } derive(ToJson, @debug.Debug)
+pub fn PinLimitCheck::to_json(Self) -> Json
+pub fn PinLimitCheck::to_repr(Self) -> @debug.Repr
 
 pub(all) enum PinLimitKind {
   MaxCapacitance
   MaxTransition
 } derive(Eq, ToJson, @debug.Debug)
+pub fn PinLimitKind::equal(Self, Self) -> Bool
+pub fn PinLimitKind::not_equal(Self, Self) -> Bool
+pub fn PinLimitKind::to_json(Self) -> Json
+pub fn PinLimitKind::to_repr(Self) -> @debug.Repr
 
 pub(all) struct PinLimitReport {
   status : PinLimitReportStatus
-  checked_rules : Int
-  violated_rules : Int
-  unspecified_rules : Int
-  invalid_rules : Int
+  checked_rules : Int32
+  violated_rules : Int32
+  unspecified_rules : Int32
+  invalid_rules : Int32
   checks : Array[PinLimitCheck]
 } derive(ToJson, @debug.Debug)
+pub fn PinLimitReport::to_json(Self) -> Json
+pub fn PinLimitReport::to_repr(Self) -> @debug.Repr
 
 pub(all) enum PinLimitReportStatus {
   LimitsMet
@@ -333,12 +437,20 @@ pub(all) enum PinLimitReportStatus {
   InvalidLimits
   NoDeclaredLimits
 } derive(Eq, @debug.Debug)
+pub fn PinLimitReportStatus::equal(Self, Self) -> Bool
+pub fn PinLimitReportStatus::not_equal(Self, Self) -> Bool
+pub fn PinLimitReportStatus::to_json(Self) -> Json
+pub fn PinLimitReportStatus::to_repr(Self) -> @debug.Repr
 pub impl ToJson for PinLimitReportStatus
 
 pub(all) enum PinLimitSource {
   PinAttribute
   LibraryDefault
 } derive(Eq, ToJson, @debug.Debug)
+pub fn PinLimitSource::equal(Self, Self) -> Bool
+pub fn PinLimitSource::not_equal(Self, Self) -> Bool
+pub fn PinLimitSource::to_json(Self) -> Json
+pub fn PinLimitSource::to_repr(Self) -> @debug.Repr
 
 pub(all) enum PinLimitState {
   Satisfied
@@ -346,18 +458,26 @@ pub(all) enum PinLimitState {
   NotSpecified
   InvalidLimit
 } derive(Eq, ToJson, @debug.Debug)
+pub fn PinLimitState::equal(Self, Self) -> Bool
+pub fn PinLimitState::not_equal(Self, Self) -> Bool
+pub fn PinLimitState::to_json(Self) -> Json
+pub fn PinLimitState::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Port {
   name : String
   net : String
   direction : Direction
 } derive(ToJson, @debug.Debug)
+pub fn Port::to_json(Self) -> Json
+pub fn Port::to_repr(Self) -> @debug.Repr
 
 pub(all) struct PortValue {
   port : String
   rise : Double?
   fall : Double?
 } derive(ToJson, @debug.Debug)
+pub fn PortValue::to_json(Self) -> Json
+pub fn PortValue::to_repr(Self) -> @debug.Repr
 
 pub(all) struct QueriedPath {
   status : PathQueryStatus
@@ -370,11 +490,17 @@ pub(all) struct QueriedPath {
   queried_slack_seconds : Double?
   path : Array[PathStep]
 } derive(ToJson, @debug.Debug)
+pub fn QueriedPath::to_json(Self) -> Json
+pub fn QueriedPath::to_repr(Self) -> @debug.Repr
 
 pub(all) enum ReferenceCheckStatus {
   ReferencesResolved
   ReferenceIssuesFound
 } derive(Eq, ToJson, @debug.Debug)
+pub fn ReferenceCheckStatus::equal(Self, Self) -> Bool
+pub fn ReferenceCheckStatus::not_equal(Self, Self) -> Bool
+pub fn ReferenceCheckStatus::to_json(Self) -> Json
+pub fn ReferenceCheckStatus::to_repr(Self) -> @debug.Repr
 
 pub(all) enum ReferenceIssueCode {
   RefEmptyNetName
@@ -389,6 +515,10 @@ pub(all) enum ReferenceIssueCode {
   RefMissingPin
   RefUnresolvedNet
 } derive(Eq, ToJson, @debug.Debug)
+pub fn ReferenceIssueCode::equal(Self, Self) -> Bool
+pub fn ReferenceIssueCode::not_equal(Self, Self) -> Bool
+pub fn ReferenceIssueCode::to_json(Self) -> Json
+pub fn ReferenceIssueCode::to_repr(Self) -> @debug.Repr
 
 pub struct STAEngine {
   library : @moon-liberty.Library
@@ -400,6 +530,7 @@ pub fn STAEngine::new(@moon-liberty.Library, Netlist, TimingConstraints, policy?
 pub fn STAEngine::run_period_analysis(Self) -> PeriodAnalysis raise STAError
 pub fn STAEngine::run_pin_limit_analysis(Self) -> PinLimitAnalysis raise STAError
 pub fn STAEngine::run_setup_analysis(Self) -> STAResult raise STAError
+pub fn STAEngine::run_setup_path_queries(Self, Array[PathQuery]) -> PathQueriesAnalysis raise STAError
 pub fn STAEngine::run_setup_path_query(Self, PathQuery) -> PathQueryAnalysis raise STAError
 pub fn STAEngine::run_setup_with_constraint_context(Self) -> ConstraintContextAnalysis raise STAError
 
@@ -410,14 +541,20 @@ pub(all) struct STAResult {
   diagnostics : Array[String]
   topological_order : Array[String]
 } derive(ToJson, @debug.Debug)
-pub fn STAResult::prioritize_setup_endpoints(Self, max_endpoints? : Int) -> SetupEndpointPriorities raise STAError
+pub fn STAResult::prioritize_setup_endpoints(Self, max_endpoints? : Int32) -> SetupEndpointPriorities raise STAError
 pub fn STAResult::setup_summary(Self) -> SetupSummary raise STAError
+pub fn STAResult::to_json(Self) -> Json
+pub fn STAResult::to_repr(Self) -> @debug.Repr
 
 pub(all) struct SdcSourcePosition {
-  line : Int
-  column : Int
-  offset : Int
+  line : Int32
+  column : Int32
+  offset : Int32
 } derive(Eq, ToJson, @debug.Debug)
+pub fn SdcSourcePosition::equal(Self, Self) -> Bool
+pub fn SdcSourcePosition::not_equal(Self, Self) -> Bool
+pub fn SdcSourcePosition::to_json(Self) -> Json
+pub fn SdcSourcePosition::to_repr(Self) -> @debug.Repr
 
 pub(all) enum SetupChangeStatus {
   SetupDeltaRegressed
@@ -431,51 +568,65 @@ pub(all) enum SetupChangeStatus {
   SetupDeltaBothUnknown
   SetupDeltaOverflow
 } derive(Eq, ToJson, @debug.Debug)
+pub fn SetupChangeStatus::equal(Self, Self) -> Bool
+pub fn SetupChangeStatus::not_equal(Self, Self) -> Bool
+pub fn SetupChangeStatus::to_json(Self) -> Json
+pub fn SetupChangeStatus::to_repr(Self) -> @debug.Repr
 
 pub(all) struct SetupComparison {
   status : SetupComparisonStatus
   unit : String
   max_slack_loss_seconds : Double
-  baseline_endpoint_edges : Int
-  candidate_endpoint_edges : Int
-  matched_endpoint_edges : Int
-  compared_endpoint_edges : Int
-  regressed_endpoint_edges : Int
-  incomplete_endpoint_edges : Int
+  baseline_endpoint_edges : Int32
+  candidate_endpoint_edges : Int32
+  matched_endpoint_edges : Int32
+  compared_endpoint_edges : Int32
+  regressed_endpoint_edges : Int32
+  incomplete_endpoint_edges : Int32
   rows : Array[SetupSlackChange]
 } derive(ToJson, @debug.Debug)
+pub fn SetupComparison::to_json(Self) -> Json
+pub fn SetupComparison::to_repr(Self) -> @debug.Repr
 
 pub(all) enum SetupComparisonStatus {
   NoSetupRegression
   SetupRegressed
   SetupComparisonIncomplete
 } derive(Eq, ToJson, @debug.Debug)
+pub fn SetupComparisonStatus::equal(Self, Self) -> Bool
+pub fn SetupComparisonStatus::not_equal(Self, Self) -> Bool
+pub fn SetupComparisonStatus::to_json(Self) -> Json
+pub fn SetupComparisonStatus::to_repr(Self) -> @debug.Repr
 
 pub(all) struct SetupEndpointPriorities {
   unit : String
-  max_endpoints : Int
-  endpoint_count : Int
-  endpoint_edges : Int
-  known_endpoint_edges : Int
-  unknown_endpoint_edges : Int
-  rankable_endpoints : Int
-  unrankable_endpoints : Int
-  selected_endpoints : Int
-  omitted_rankable_endpoints : Int
+  max_endpoints : Int32
+  endpoint_count : Int32
+  endpoint_edges : Int32
+  known_endpoint_edges : Int32
+  unknown_endpoint_edges : Int32
+  rankable_endpoints : Int32
+  unrankable_endpoints : Int32
+  selected_endpoints : Int32
+  omitted_rankable_endpoints : Int32
   rows : Array[SetupEndpointPriority]
   unranked_endpoints : Array[SetupEndpointPriority]
 } derive(ToJson, @debug.Debug)
+pub fn SetupEndpointPriorities::to_json(Self) -> Json
+pub fn SetupEndpointPriorities::to_repr(Self) -> @debug.Repr
 
 pub(all) struct SetupEndpointPriority {
   pin : String
-  first_source_index : Int
-  endpoint_edges : Int
-  known_edges : Int
-  unknown_edges : Int
-  worst_source_index : Int?
+  first_source_index : Int32
+  endpoint_edges : Int32
+  known_edges : Int32
+  unknown_edges : Int32
+  worst_source_index : Int32?
   worst_edge : Edge?
   worst_slack_seconds : Double?
 } derive(ToJson, @debug.Debug)
+pub fn SetupEndpointPriority::to_json(Self) -> Json
+pub fn SetupEndpointPriority::to_repr(Self) -> @debug.Repr
 
 pub(all) struct SetupSlackChange {
   pin : String
@@ -485,17 +636,21 @@ pub(all) struct SetupSlackChange {
   candidate_slack_seconds : Double?
   slack_delta_seconds : Double?
 } derive(ToJson, @debug.Debug)
+pub fn SetupSlackChange::to_json(Self) -> Json
+pub fn SetupSlackChange::to_repr(Self) -> @debug.Repr
 
 pub(all) struct SetupSummary {
   status : SetupSummaryStatus
-  endpoint_count : Int
-  constrained_endpoint_edges : Int
-  unconstrained_endpoint_edges : Int
-  violating_endpoint_edges : Int
-  violating_endpoints : Int
+  endpoint_count : Int32
+  constrained_endpoint_edges : Int32
+  unconstrained_endpoint_edges : Int32
+  violating_endpoint_edges : Int32
+  violating_endpoints : Int32
   worst_slack_seconds : Double?
   worst_negative_slack_seconds : Double?
 } derive(ToJson, @debug.Debug)
+pub fn SetupSummary::to_json(Self) -> Json
+pub fn SetupSummary::to_repr(Self) -> @debug.Repr
 
 pub(all) enum SetupSummaryStatus {
   Met
@@ -504,6 +659,10 @@ pub(all) enum SetupSummaryStatus {
   NoCoverage
   NoEndpoints
 } derive(Eq, ToJson, @debug.Debug)
+pub fn SetupSummaryStatus::equal(Self, Self) -> Bool
+pub fn SetupSummaryStatus::not_equal(Self, Self) -> Bool
+pub fn SetupSummaryStatus::to_json(Self) -> Json
+pub fn SetupSummaryStatus::to_repr(Self) -> @debug.Repr
 
 pub(all) struct TimingConstraints {
   clock : Clock
@@ -512,6 +671,8 @@ pub(all) struct TimingConstraints {
   input_slews : Array[PortValue]
   output_loads : Array[PortValue]
 } derive(ToJson, @debug.Debug)
+pub fn TimingConstraints::to_json(Self) -> Json
+pub fn TimingConstraints::to_repr(Self) -> @debug.Repr
 
 // Type aliases
 

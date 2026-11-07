@@ -82,6 +82,22 @@ pub fn analyze_path_query_json(
 }
 
 ///|
+/// Batch path queries share one timing analysis; SDC remains verbatim.
+pub fn analyze_path_queries_json(
+  library : String,
+  netlist : String,
+  sdc : String,
+  queries : String,
+) -> String {
+  @sta.analyze_path_queries_json(
+    without_initial_bom(library),
+    without_initial_bom(netlist),
+    sdc,
+    without_initial_bom(queries),
+  )
+}
+
+///|
 /// Standalone Netlist structural checking with optional initial file BOM.
 pub fn check_netlist_json(netlist : String) -> String {
   @sta.check_netlist_json(without_initial_bom(netlist))

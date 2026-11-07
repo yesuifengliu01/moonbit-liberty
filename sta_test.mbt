@@ -45,7 +45,7 @@ fn sdc() -> String {
 }
 
 ///|
-fn near(x : Double, y : Double, tolerance? : Double = 1.0e-15) -> Unit raise {
+fn near(x : Double, y : Double, tolerance~ : Double = 1.0e-15) -> Unit raise {
   assert_true((x - y).abs() <= tolerance, msg="actual \{x}, expected \{y}")
 }
 
@@ -67,7 +67,7 @@ fn endpoint(
 fn run(
   n : @sta.Netlist,
   c : @sta.TimingConstraints,
-  lib? : @liberty.Library = @liberty.load_library(@testdata.library()),
+  lib~ : @liberty.Library = @liberty.load_library(@testdata.library()),
 ) -> @sta.STAResult raise {
   @sta.STAEngine::new(lib, n, c).run_setup_analysis()
 }
@@ -264,7 +264,7 @@ test "restricted SDC rejects scripting unknown commands flags clocks and objects
     extra in [
       "set foo 1", "create_clock -name other -period 1 [get_ports clk]", "set_input_delay -clock clk -min 0.1 [get_ports a]",
       "set_load 0.1 [get_ports missing]", "set_input_delay -clock wrong 0.1 [get_ports a]",
-      "set_load $foo [get_ports y]", "set_load 0.1 [get_ports y",
+      "set_load $foo [get_ports y]", "set_load 0.1 [get_ports y", "set_load -min 0.1 [get_ports y]",
     ] {
     try @sta.parse_sdc(sdc() + "\n" + extra, lib, n) catch {
       _ => ()
@@ -292,6 +292,23 @@ test "SDC rise/fall overrides wildcard and explicit waveform" {
       "create_clock -name clk -period 2 -waveform {0 1} [get_ports clk]", lib, n,
     ),
   )
+}
+
+///|
+test "SDC edge-specific output loads reach the timing graph" {
+  let lib = @liberty.load_library(@testdata.library())
+  let n = sequential()
+  let c = @sta.parse_sdc(
+    sdc() +
+    "\nset_load -rise 0.02 [get_ports y]\nset_load -fall 0.03 [get_ports y]",
+    lib,
+    n,
+  )
+  near(c.output_loads[0].rise.unwrap(), 0.02e-12, tolerance=1.0e-27)
+  near(c.output_loads[0].fall.unwrap(), 0.03e-12, tolerance=1.0e-27)
+  let result = run(n, c, lib~)
+  near(node(result, "y", Rise).load_farads, 0.02e-12, tolerance=1.0e-27)
+  near(node(result, "y", Fall).load_farads, 0.03e-12, tolerance=1.0e-27)
 }
 
 ///|

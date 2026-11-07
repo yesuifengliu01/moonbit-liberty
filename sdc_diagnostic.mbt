@@ -4,9 +4,9 @@
 /// Offset is 0-based in the original String. LF starts a new line, CRLF
 /// contributes two offset units, and a tab contributes one column unit.
 pub(all) struct SdcSourcePosition {
-  line : Int
-  column : Int
-  offset : Int
+  line : Int32
+  column : Int32
+  offset : Int32
 } derive(Debug, Eq, ToJson)
 
 ///|
@@ -34,3 +34,15 @@ pub fn parse_sdc_with_diagnostics(
     error => raise SdcDiagnostic(error, cursor.position)
   }
 }
+
+///|
+pub extend SdcSourcePosition with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend SdcSourcePosition with Eq::{not_equal, equal}
+
+///|
+pub extend SdcSourcePosition with ToJson::{to_json}
+
+///|
+pub extend SdcDiagnostic with @moonbitlang/core/debug.Debug::{to_repr}

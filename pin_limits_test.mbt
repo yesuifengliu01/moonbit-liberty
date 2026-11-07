@@ -42,10 +42,10 @@ fn plt_library(catalog : Json, name : String) -> String {
 ///|
 fn plt_engine(
   catalog : Json,
-  library? : String = "strict",
-  netlist? : String = "base",
-  sdc? : String = "base",
-  policy? : @liberty.RangePolicy = @liberty.Reject,
+  library~ : String = "strict",
+  netlist~ : String = "base",
+  sdc~ : String = "base",
+  policy~ : @liberty.RangePolicy = @liberty.Reject,
 ) -> @sta.STAEngine raise {
   let library = @liberty.load_library(plt_library(catalog, library))
   let netlist = @sta.netlist_from_json(

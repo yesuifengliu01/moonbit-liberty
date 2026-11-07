@@ -39,13 +39,13 @@ pub(all) struct NetlistReferenceReport {
   status : ReferenceCheckStatus
   scope : String
   library : String
-  port_count : Int
-  instance_count : Int
-  net_count : Int
-  connection_count : Int
-  matched_instances : Int
-  matched_pin_connections : Int
-  issue_count : Int
+  port_count : Int32
+  instance_count : Int32
+  net_count : Int32
+  connection_count : Int32
+  matched_instances : Int32
+  matched_pin_connections : Int32
+  issue_count : Int32
   issues : Array[NetlistReferenceIssue]
 } derive(Debug, ToJson)
 
@@ -54,7 +54,7 @@ fn reference_issue(
   code : ReferenceIssueCode,
   pointer : String,
   name : String,
-  first_pointer? : String? = None,
+  first_pointer~ : String? = None,
 ) -> NetlistReferenceIssue {
   { code, pointer, name, first_pointer, }
 }
@@ -209,3 +209,33 @@ pub fn check_netlist_references(
     issues,
   }
 }
+
+///|
+pub extend ReferenceIssueCode with Eq::{not_equal, equal}
+
+///|
+pub extend ReferenceIssueCode with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend ReferenceIssueCode with ToJson::{to_json}
+
+///|
+pub extend ReferenceCheckStatus with Eq::{not_equal, equal}
+
+///|
+pub extend ReferenceCheckStatus with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend ReferenceCheckStatus with ToJson::{to_json}
+
+///|
+pub extend NetlistReferenceIssue with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend NetlistReferenceIssue with ToJson::{to_json}
+
+///|
+pub extend NetlistReferenceReport with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend NetlistReferenceReport with ToJson::{to_json}

@@ -168,3 +168,40 @@ pub fn STAEngine::run_setup_with_constraint_context(
   let timing = self.analyze_setup(context~).timing
   { timing, constraint_context: context.endpoints, }
 }
+
+///|
+pub extend MissingLaunchKind with Eq::{not_equal, equal}
+
+///|
+pub extend MissingLaunchKind with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend MissingLaunchKind with ToJson::{to_json}
+
+///|
+pub extend ConstraintWitnessStep with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend ConstraintWitnessStep with ToJson::{to_json}
+
+///|
+pub extend MissingLaunchWitness with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend MissingLaunchWitness with ToJson::{to_json}
+
+///|
+pub extend EndpointConstraintContext with @moonbitlang/core/debug.Debug::{
+  to_repr,
+}
+
+///|
+pub extend EndpointConstraintContext with ToJson::{to_json}
+
+///|
+pub extend ConstraintContextAnalysis with @moonbitlang/core/debug.Debug::{
+  to_repr,
+}
+
+///|
+pub extend ConstraintContextAnalysis with ToJson::{to_json}
