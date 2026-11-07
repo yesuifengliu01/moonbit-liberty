@@ -61,7 +61,7 @@ with tempfile.TemporaryDirectory(prefix='ci-sdc-', dir=build) as temporary:
     assert not process.stderr and bom == bad
 
     lexical = work / 'lexical.sdc'
-    lexical.write_text('# 😀\n\tset_load 0.1 [get_ports y];', encoding='utf8')
+    lexical.write_text('# 😀\n\tset_load 0.1 [get_ports y];', encoding='utf8', newline='\n')
     process, payload = invoke('lf-lexical-last-line', [LIBRARY, NETLIST, lexical], 2)
     assert not process.stderr
     diagnostic(payload, 'Unsupported("SDC scripting/quoting is outside the restricted profile")', {'line': 2, 'column': 2, 'offset': 6})

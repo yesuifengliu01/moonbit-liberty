@@ -6,18 +6,21 @@
 
 ## 运行
 
-已验证 MoonBit SDK `0.10.13+cbb11c36f` / moon `0.1.20260915`、Node.js，WSL Ubuntu 环境。构建/测试命令在本目录执行；CLI 可从其他目录调用：
+本轮已在 Windows 使用 MoonBit SDK `0.10.19+97801ee1b`（moonc `v0.10.19`、moon `0.1.20261029`）及 Node.js `24.18.0` 验证；原 WSL Ubuntu 基线见 [VALIDATION.md](VALIDATION.md)。构建/测试命令在本目录执行；CLI 可从其他目录调用：
 
 首次使用可运行 `node tools/sta.cjs --help`，查看参数、输入要求、退出码与模型边界；无需预先构建或提供输入，也不等待 stdin。只有单独的 `--help` 进入帮助模式，正常输出退出 0；帮助输出失败仍报 stderr、退出 2。分析命令需要下面的 JS 构建。
 
 ```sh
 moon update
-moon check --target all --deny-warn
+moon check --target all --deny-warn --warn-list '-79'
 moon build --target js --release
 node tools/sta.cjs examples/sky130-demo.lib examples/sequential.json
-moon test --target js --deny-warn
-moon test --target wasm-gc --deny-warn
+moon test --target js --deny-warn --warn-list '-79'
+moon test --target wasm-gc --deny-warn --warn-list '-79'
+moon test --target native --deny-warn --warn-list '-79'
 ```
+
+`-79` 暂时关闭新版编译器对现有隐式 trait 方法附加的弃用警告；其他编译器警告仍按错误处理。CI 还执行全目标 release 构建、格式检查和真实文件消费者。新代码应使用显式 `extend`，逐步移除此兼容选项。
 
 消费者成功输出 `{"ok":true,"schema":"moonbit.sta.v1","result":...}`。分析/参数/IO 错误退出码 2；默认模式正常分析即使存在负 slack 仍退出 0，调用者应检查 `worst_slack_seconds`。`tools/sta.cjs` 负责请求 IO、调用 MoonBit 导出及映射检查退出码；时序计算在 MoonBit 核心。
 
@@ -232,6 +235,7 @@ let analysis = engine.run_setup_path_query(query)
 ```sh
 node tools/path-query.cjs examples/path-query.lib examples/path-query-netlist.json examples/path-query.sdc examples/path-query.json
 node tools/path-query.cjs examples/path-query-changed.lib examples/path-query-netlist.json examples/path-query.sdc examples/path-query.json
+node tools/path-query.cjs --batch examples/path-query.lib examples/path-query-netlist.json examples/path-query.sdc examples/path-queries.json
 ```
 
 查询 JSON 为 `{"from":{"kind":"input_port","name":"b","edge":"rise"},"to":{"kind":"output_port","name":"out","edge":"rise"}}`。寄存器 kind 分别是 `register_q` / `register_d`，用 `instance`、`pin` 代替 `name`；edge 只接受 `rise` / `fall`。顶层可选 `range_policy` 沿用 `extrapolate`（默认）/`reject`/`clamp`。
@@ -239,6 +243,8 @@ node tools/path-query.cjs examples/path-query-changed.lib examples/path-query-ne
 示例中 A 以1ns发射，经过0.2+0.3ns，全局 arrival1.5ns、slack0.3ns；B 以0.1ns发射，经过0.4+0.3ns，查询 arrival0.8ns、required1.8ns、slack1ns。第二个库仅把落选 B 弧改为0.6ns，原完整报告相同，查询 arrival 变为1ns、slack0.8ns。输入与逐步独立期望见 `examples/path-query-cases.json`。
 
 四文本核心/JS 入口 `analyze_path_query_json(library, netlist, sdc, query)` 返回独立 `moonbit.sta.path-query.v1`，包含原 `result` 与 `path_query`。查询结果明确使用 `queried_arrival_seconds`、`queried_slack_seconds`，还有 `required_seconds`、身份和一条 owned `path`；全为秒，未知数值省略。
+
+批量入口 `engine.run_setup_path_queries(queries)` 和 `analyze_path_queries_json(library, netlist, sdc, queries_json)` 在一次完整 STA 分析后按输入顺序处理最多 1024 条精确查询。JSON 输入为 `{"queries":[{"from":...,"to":...}, ...]}`，顶层同样可选 `range_policy`；响应 schema 为 `moonbit.sta.path-queries.v1`，包含一份原 `result` 和同序 `path_queries`。空数组返回完整报告和空查询列表。每条查询保留单查询的 Found/NoPath/UnconstrainedLaunch 语义；任一查询点非法会使整个批量请求失败。完整文件样例见 `examples/path-queries.json`。
 
 | status | 含义 |
 | --- | --- |
@@ -248,7 +254,7 @@ node tools/path-query.cjs examples/path-query-changed.lib examples/path-query-ne
 
 新 JSON 边界先解析 Netlist、库、SDC，再解析 query 形状/范围策略；typed 引擎先完成原 setup 分析，再按 launch、capture 顺序验证点，最后判可达性。不可达优先 NoPath，可达且 launch 未知才是 UnconstrainedLaunch。坏原输入与非法查询是错误。三种有效状态均退出0，包括负查询 slack；参数/编码/IO/分析/查询/输出失败退出2。`--help` 无需构建或输入。文件入口严格 UTF-8，库/网表/query 允许单个首 BOM，SDC 保持原文，源文件不改写，相对路径以调用者 cwd 为准。
 
-每条弧权使用完整原设计的 GBA worst-slew 和实际负载，捕获 setup 也沿用原分析；不沿指定路径重算 slew/load。Q 使用原 clock-latency/tCQ 前缀独立发射，数据图没有 D→Q 边。查询 slack 不能当全局 WNS或签核结论。同值沿用原 timing-group/related-pin/edge 遍历顺序取一条；不支持 all paths/top-K、through、批量、内部端点、路径异常或新的时序模型。默认报告、诊断、数学和原可选入口保持。
+每条弧权使用完整原设计的 GBA worst-slew 和实际负载，捕获 setup 也沿用原分析；不沿指定路径重算 slew/load。Q 使用原 clock-latency/tCQ 前缀独立发射，数据图没有 D→Q 边。查询 slack 不能当全局 WNS或签核结论。同值沿用原 timing-group/related-pin/edge 遍历顺序取一条；不支持 all paths/top-K、through、内部端点、路径异常或新的时序模型。默认报告、诊断、数学和原可选入口保持。
 
 `examples/path_query_receiver` 是单独编译、只调用公开 typed API 的自编消费包；`python3 tools/ci-path-query.py` 从其他 cwd 用真实四文件调用并核对冻结的完整路径/时间/状态，保留原始 stdout/stderr。它们属于自编集成验证，不代表第三方采用。
 
@@ -403,12 +409,19 @@ node tools/cell-usage.cjs examples/cell-usage.lib examples/cell-usage-netlist.js
 | create_clock | -name、-period、可选 -waveform |
 | set_input_delay / set_output_delay | -clock 必填；-max、-rise、-fall |
 | set_input_transition | -rise、-fall |
-| set_load | 输出端口外部总电容，无其他 flag；net wire cap 在 Netlist |
+| set_load | 输出端口外部总电容；可用 -rise、-fall 分别设置边沿负载；net wire cap 在 Netlist |
 | set_clock_transition | -rise、-fall |
 | set_clock_latency | 共同 ideal latency，允许有限负值，无其他 flag |
 | set_clock_uncertainty | -setup |
 
 无边沿 flag 表示两沿；同字段重复命令覆盖，其他边沿保留。允许整行注释及空白后、分组外的行尾 `#` 注释；名称词中的 `#` 和选择器列表内的 `#` 保留为名称，例如 `[get_ports {a#b}]`、`[get_ports {#data}]`、`[get_clocks core#clk]`。含方括号的独立标量名称需放在花括号中，例如 `[get_ports {data[0]}]`、`[get_ports {data[0] data[1]}]`；花括号内的方括号按名称字符保留，不作嵌套命令解释。此处没有向量声明、位展开或总线运算。这是受限 profile 的名称/注释规则，不执行完整 Tcl。允许空白，不允许变量、引号、续行、分号脚本和嵌套命令。未知命令/flag、-min、-add_delay、第二时钟、错误对象、空选择器、错误方向都拒绝；create_clock 在解析时检查真实输入端口与非空 plain name。未设置 clock slew 为 0 并按选定范围策略查询；实际例子显式给出 clock/input slew。
+
+例如，以下两条命令为输出端口 `y` 的上升沿和下降沿分别指定负载，数值采用 Liberty 库的电容单位：
+
+```tcl
+set_load -rise 0.02 [get_ports y]
+set_load -fall 0.03 [get_ports y]
+```
 
 ### SDC 源位置诊断与文件检查
 
@@ -481,7 +494,7 @@ python3 tools/verify-opensta.py --sta /path/to/sta --request examples/four_paths
 
 ## GitHub Actions
 
-[CI 工作流](https://github.com/yesuifengliu01/moonbit-liberty/actions/workflows/ci.yml)使用普通 Ubuntu 24.04 runner，固定 MoonBit `0.10.13+cbb11c36f`、对应 core 及 Node `24.11.0`。SDK/core 官方下载地址与 SHA256 在 `tools/ci-toolchain.json`，Actions 引用也固定到提交。
+[CI 工作流](https://github.com/yesuifengliu01/moonbit-liberty/actions/workflows/ci.yml)使用普通 Ubuntu 24.04 runner，固定 MoonBit `0.10.19+97801ee1b`、对应 core 及 Node `24.11.0`。SDK/core 官方下载地址与 SHA256 在 `tools/ci-toolchain.json`，Actions 引用也固定到提交；版本门禁核对实际 `moonc` 不低于 `0.10.16`。
 
 工作流执行全目标 check、格式检查、JS/Wasm-GC/native 测试及 release 构建，再以 `python3 tools/ci-consumers.py` 启动真实 CLI 验证示例、普通/检查退出码、BOM stdin、输入错误及关闭报告接收端。另运行 `python3 tools/ci-sdc-diagnostics.py`、`python3 tools/ci-netlist-diagnostics.py` 和 `python3 tools/ci-constraint-context.py`，验证 SDC 命令起点、Netlist 语义路径、缺失 launch 的因果见证及真实文件/API 消费。位置、路径和常数弧 SI 预期独立手工确定，原状态、计数与裕量预期来自示例直连约束；失败会使 job 失败，报告保存在 `_build/ci-*.json`。这不替代完整时序签核或历史外部 OpenSTA 对照。
 
