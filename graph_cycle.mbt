@@ -2,16 +2,16 @@
 // Only tasks in a directed cycle are members; Kahn's blocked descendants are
 // not. Both passes are iterative, using the existing output-pin task graph.
 fn graph_cyclic_members(
-  next : Array[Array[Int]],
+  next : Array[Array[Int32]],
   active : Array[Bool],
 ) -> Array[Bool] {
   let seen = Array::make(next.length(), false)
-  let postorder : Array[Int] = []
+  let postorder : Array[Int32] = []
   for root in 0..<next.length() {
     if !active[root] || seen[root] {
       continue
     }
-    let stack : Array[(Int, Int)] = [(root, 0)]
+    let stack : Array[(Int32, Int32)] = [(root, 0)]
     seen[root] = true
     while !stack.is_empty() {
       let top = stack.length() - 1
@@ -29,7 +29,7 @@ fn graph_cyclic_members(
       }
     }
   }
-  let reverse : Array[Array[Int]] = Array::makei(next.length(), _ => [])
+  let reverse : Array[Array[Int32]] = Array::makei(next.length(), _ => [])
   for node in 0..<next.length() {
     if active[node] {
       for child in next[node] {

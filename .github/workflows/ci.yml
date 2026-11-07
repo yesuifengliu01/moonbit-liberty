@@ -34,22 +34,26 @@ jobs:
           git rev-parse HEAD
           moon version --all
           node --version
+      - name: Enforce contest minimum compiler version
+        run: python3 tools/check-moonc-version.py
       - name: Resolve declared dependencies
         run: |
           moon update
           moon tree
+      # moonc 0.10.19 deprecates implicit trait-method attachment in existing
+      # data types. Keep every other compiler warning fatal during migration.
       - name: Check supported targets
-        run: moon check --target all --deny-warn
+        run: moon check --target all --deny-warn --warn-list '-79'
       - name: Verify formatting
         run: moon fmt --check
       - name: Test JavaScript
-        run: moon test --target js --deny-warn
+        run: moon test --target js --deny-warn --warn-list '-79'
       - name: Test Wasm GC
-        run: moon test --target wasm-gc --deny-warn
+        run: moon test --target wasm-gc --deny-warn --warn-list '-79'
       - name: Test native
-        run: moon test --target native --deny-warn
+        run: moon test --target native --deny-warn --warn-list '-79'
       - name: Build release targets
-        run: moon build --target all --release --deny-warn
+        run: moon build --target all --release --deny-warn --warn-list '-79'
       - name: Exercise real CLI consumers
         run: python3 tools/ci-consumers.py
       - name: Exercise SDC file diagnostics

@@ -38,12 +38,12 @@ pub(all) struct SetupComparison {
   status : SetupComparisonStatus
   unit : String
   max_slack_loss_seconds : Double
-  baseline_endpoint_edges : Int
-  candidate_endpoint_edges : Int
-  matched_endpoint_edges : Int
-  compared_endpoint_edges : Int
-  regressed_endpoint_edges : Int
-  incomplete_endpoint_edges : Int
+  baseline_endpoint_edges : Int32
+  candidate_endpoint_edges : Int32
+  matched_endpoint_edges : Int32
+  compared_endpoint_edges : Int32
+  regressed_endpoint_edges : Int32
+  incomplete_endpoint_edges : Int32
   rows : Array[SetupSlackChange]
 } derive(Debug, ToJson)
 
@@ -58,8 +58,8 @@ priv struct SetupSnapshot {
 fn setup_snapshot_index(
   values : Array[SetupSnapshot],
   side : String,
-) -> Array[Map[String, Int]] raise STAError {
-  let maps : Array[Map[String, Int]] = [Map([]), Map([])]
+) -> Array[Map[String, Int32]] raise STAError {
+  let maps : Array[Map[String, Int32]] = [Map([]), Map([])]
   for index, value in values {
     let names = maps[edge_index(value.edge)]
     if value.pin.is_empty() || names.contains(value.pin) {
@@ -197,7 +197,7 @@ fn compare_setup_snapshots(
 pub fn compare_setup_results(
   baseline : STAResult,
   candidate : STAResult,
-  max_slack_loss_seconds? : Double = 0.0,
+  max_slack_loss_seconds~ : Double = 0.0,
 ) -> SetupComparison raise STAError {
   let before : Array[SetupSnapshot] = baseline.endpoints.map(endpoint => {
     pin: endpoint.pin,

@@ -66,10 +66,10 @@ pub(all) struct PinLimitCheck {
 /// declared supported bounds; unspecified pins are not a coverage certificate.
 pub(all) struct PinLimitReport {
   status : PinLimitReportStatus
-  checked_rules : Int
-  violated_rules : Int
-  unspecified_rules : Int
-  invalid_rules : Int
+  checked_rules : Int32
+  violated_rules : Int32
+  unspecified_rules : Int32
+  invalid_rules : Int32
   checks : Array[PinLimitCheck]
 } derive(Debug, ToJson)
 

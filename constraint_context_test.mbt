@@ -19,7 +19,7 @@ fn cc_netlist() -> @sta.Netlist {
 }
 
 ///|
-fn cc_sdc(complete? : Bool = false) -> String {
+fn cc_sdc(complete~ : Bool = false) -> String {
   "create_clock -name c -period 2 [get_ports clk]\n" +
   "set_clock_transition 0.1 [get_clocks c]\n" +
   "set_input_transition 0.1 [get_ports {a/~😀}]\n" +

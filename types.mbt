@@ -134,13 +134,13 @@ pub fn STAEngine::new(
   library : @liberty.Library,
   netlist : Netlist,
   constraints : TimingConstraints,
-  policy? : @liberty.RangePolicy = Extrapolate,
+  policy~ : @liberty.RangePolicy = Extrapolate,
 ) -> STAEngine {
   { library, netlist, constraints, policy, }
 }
 
 ///|
-fn edge_index(edge : Edge) -> Int {
+fn edge_index(edge : Edge) -> Int32 {
   match edge {
     Rise => 0
     Fall => 1

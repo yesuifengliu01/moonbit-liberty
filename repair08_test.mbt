@@ -21,7 +21,7 @@ fn r08_net(input : String, output : String, gate : String) -> @sta.Netlist {
 fn r08_constraints(
   lib : @liberty.Library,
   n : @sta.Netlist,
-  clock? : String = "clk",
+  clock~ : String = "clk",
 ) -> @sta.TimingConstraints raise {
   let mut text = "create_clock -name clk -period 2 [get_ports \{clock}]\nset_clock_transition 0.1 [get_clocks clk]\n"
   for p in n.ports {

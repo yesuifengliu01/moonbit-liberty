@@ -4,9 +4,9 @@
 /// Offset is 0-based in the original String. LF starts a new line, CRLF
 /// contributes two offset units, and a tab contributes one column unit.
 pub(all) struct SdcSourcePosition {
-  line : Int
-  column : Int
-  offset : Int
+  line : Int32
+  column : Int32
+  offset : Int32
 } derive(Debug, Eq, ToJson)
 
 ///|

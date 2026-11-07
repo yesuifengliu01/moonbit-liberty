@@ -1,6 +1,6 @@
 ///|
 // Self-authored scalar/1D NLDM fixture, also run through an independent OpenSTA process.
-fn r07_lib(linear? : Bool = false) -> @liberty.Library raise {
+fn r07_lib(linear~ : Bool = false) -> @liberty.Library raise {
   let text =
     #|library (dual_demo) {
     #|  delay_model : table_lookup;

@@ -48,9 +48,9 @@ fn pqt_optional_number(
 ///|
 fn pqt_engine(
   catalog : Json,
-  library? : String = "base",
-  netlist? : String = "base",
-  sdc? : String = "base",
+  library~ : String = "base",
+  netlist~ : String = "base",
+  sdc~ : String = "base",
 ) -> @sta.STAEngine raise {
   let library = @liberty.load_library(
     pqt_text(pqt_field(pqt_field(catalog, "libraries"), library)),
@@ -259,4 +259,126 @@ test "path query owned path leaves original report and subsequent calls intact" 
   assert_eq(node(analysis.timing, "b", Rise).path[0].pin, "b")
   assert_eq(engine.run_setup_path_query(query).path_query.path[0].pin, "b")
   assert_eq(endpoint(analysis.timing, "out", Rise).path[0].pin, "a")
+}
+
+///|
+test "batch path queries share one report and retain single-query results" {
+  let catalog = @json.parse(@testdata.path_query_cases())
+  let engine = pqt_engine(catalog, sdc="unknown_launch")
+  let queries : Array[@sta.PathQuery] = [
+    { launch: InputPort("a", Rise), capture: OutputPort("out", Rise), },
+    { launch: InputPort("b", Rise), capture: OutputPort("out", Fall), },
+    { launch: InputPort("b", Rise), capture: OutputPort("out", Rise), },
+  ]
+  let batch = engine.run_setup_path_queries(queries)
+  assert_eq(batch.path_queries.length(), 3)
+  assert_eq(batch.path_queries.map(path => path.status), [
+    @sta.Found,
+    @sta.NoPath,
+    @sta.UnconstrainedLaunch,
+  ])
+  for index, query in queries {
+    let single = engine.run_setup_path_query(query)
+    assert_eq(
+      ToJson::to_json(batch.path_queries[index]),
+      ToJson::to_json(single.path_query),
+    )
+    assert_eq(ToJson::to_json(batch.timing), ToJson::to_json(single.timing))
+  }
+}
+
+///|
+test "batch path query paths are independent and first invalid point wins" {
+  let catalog = @json.parse(@testdata.path_query_cases())
+  let engine = pqt_engine(catalog)
+  let query : @sta.PathQuery = {
+    launch: InputPort("b", Rise),
+    capture: OutputPort("out", Rise),
+  }
+  let batch = engine.run_setup_path_queries([query, query])
+  batch.path_queries[0].path[0] = {
+    ..batch.path_queries[0].path[0],
+    pin: "changed",
+  }
+  assert_eq(batch.path_queries[1].path[0].pin, "b")
+  assert_eq(node(batch.timing, "b", Rise).path[0].pin, "b")
+  try
+    engine.run_setup_path_queries([
+      { launch: InputPort("absent", Rise), capture: OutputPort("out", Rise), },
+      { launch: InputPort("b", Rise), capture: OutputPort("absent", Rise), },
+    ])
+  catch {
+    e =>
+      assert_true("\{@debug.Debug::to_repr(e)}".contains("invalid path launch"))
+  } noraise {
+    _ => fail("batch accepted invalid launch")
+  }
+  let oversized : Array[@sta.PathQuery] = []
+  for _ in 0..<1025 {
+    oversized.push(query)
+  }
+  try engine.run_setup_path_queries(oversized) catch {
+    e =>
+      assert_true(
+        "\{@debug.Debug::to_repr(e)}".contains("batch limit exceeded"),
+      )
+  } noraise {
+    _ => fail("batch accepted more than 1024 queries")
+  }
+}
+
+///|
+test "batch path query JSON preserves the single-query schema values" {
+  let catalog = @json.parse(@testdata.path_query_cases())
+  let library = pqt_text(pqt_field(pqt_field(catalog, "libraries"), "base"))
+  let netlist = pqt_field(pqt_field(catalog, "netlists"), "base").stringify()
+  let sdc = pqt_text(pqt_field(pqt_field(catalog, "sdc"), "base"))
+  let query : Json = {
+    "from": { "kind": "input_port", "name": "b", "edge": "rise" },
+    "to": { "kind": "output_port", "name": "out", "edge": "rise" },
+  }
+  let request : Json = { "queries": [query, query] }
+  let batch = @json.parse(
+    @sta.analyze_path_queries_json(library, netlist, sdc, request.stringify()),
+  )
+  let single = @json.parse(
+    @sta.analyze_path_query_json(library, netlist, sdc, query.stringify()),
+  )
+  assert_eq(pqt_field(batch, "ok"), true)
+  assert_eq(pqt_field(batch, "schema"), "moonbit.sta.path-queries.v1")
+  assert_eq(pqt_field(batch, "result"), pqt_field(single, "result"))
+  let paths = pqt_array(pqt_field(batch, "path_queries"))
+  assert_eq(paths.length(), 2)
+  assert_eq(paths[0], pqt_field(single, "path_query"))
+  assert_eq(paths[1], pqt_field(single, "path_query"))
+  let empty_request : Json = { "queries": [] }
+  let empty = @json.parse(
+    @sta.analyze_path_queries_json(
+      library,
+      netlist,
+      sdc,
+      empty_request.stringify(),
+    ),
+  )
+  assert_eq(pqt_array(pqt_field(empty, "path_queries")).length(), 0)
+  assert_eq(pqt_field(empty, "result"), pqt_field(single, "result"))
+  let bad_request : Json = {
+    "queries": [
+      query,
+      {
+        "from": { "kind": "input_port", "name": "absent", "edge": "rise" },
+        "to": { "kind": "output_port", "name": "out", "edge": "rise" },
+      },
+    ],
+  }
+  let bad = @json.parse(
+    @sta.analyze_path_queries_json(
+      library,
+      netlist,
+      sdc,
+      bad_request.stringify(),
+    ),
+  )
+  assert_eq(pqt_field(bad, "ok"), false)
+  assert_true(pqt_text(pqt_field(bad, "error")).contains("invalid path launch"))
 }

@@ -10,11 +10,11 @@ pub(all) enum SetupSummaryStatus {
 ///|
 pub(all) struct SetupSummary {
   status : SetupSummaryStatus
-  endpoint_count : Int
-  constrained_endpoint_edges : Int
-  unconstrained_endpoint_edges : Int
-  violating_endpoint_edges : Int
-  violating_endpoints : Int
+  endpoint_count : Int32
+  constrained_endpoint_edges : Int32
+  unconstrained_endpoint_edges : Int32
+  violating_endpoint_edges : Int32
+  violating_endpoints : Int32
   worst_slack_seconds : Double?
   worst_negative_slack_seconds : Double?
 } derive(Debug, ToJson)

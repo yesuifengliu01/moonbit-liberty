@@ -24,7 +24,7 @@ pub impl ToJson for CellUsageStatus with fn to_json(self : CellUsageStatus) -> J
 ///|
 /// One declared instance, in input order. Names are raw, without pin escaping.
 pub(all) struct InstanceUsage {
-  index : Int
+  index : Int32
   instance : String
   cell : String
   area_state : CellAreaState
@@ -37,7 +37,7 @@ pub(all) struct InstanceUsage {
 /// One used cell, in first-use order. No missing area is replaced with zero.
 pub(all) struct CellUsage {
   cell : String
-  instance_count : Int
+  instance_count : Int32
   area_state : CellAreaState
   declared_area : Double?
   raw_area : String?
@@ -53,12 +53,12 @@ pub(all) struct CellUsageReport {
   status : CellUsageStatus
   unit : String
   library : String
-  instance_count : Int
-  mapped_instances : Int
-  unmapped_instances : Int
-  known_area_instances : Int
-  missing_area_instances : Int
-  invalid_area_instances : Int
+  instance_count : Int32
+  mapped_instances : Int32
+  unmapped_instances : Int32
+  known_area_instances : Int32
+  missing_area_instances : Int32
+  invalid_area_instances : Int32
   area_overflow : Bool
   known_area_subtotal : Double?
   total_declared_area : Double?
@@ -117,7 +117,7 @@ pub fn analyze_cell_usage(
   netlist : Netlist,
 ) -> CellUsageReport raise STAError {
   let names : Map[String, Bool] = Map([])
-  let by_cell : Map[String, Int] = Map([])
+  let by_cell : Map[String, Int32] = Map([])
   let cells : Array[CellUsage] = []
   let instances : Array[InstanceUsage] = []
   let mut known = 0

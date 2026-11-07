@@ -15,6 +15,8 @@ pub fn analyze_constraint_context_json(String, String, String) -> String
 
 pub fn analyze_json(String, String) -> String
 
+pub fn analyze_path_queries_json(String, String, String, String) -> String
+
 pub fn analyze_path_query_json(String, String, String, String) -> String
 
 pub fn analyze_pin_limits_json(String, String, String, String) -> String
@@ -70,7 +72,7 @@ pub(all) enum CellAreaState {
 
 pub(all) struct CellUsage {
   cell : String
-  instance_count : Int
+  instance_count : Int32
   area_state : CellAreaState
   declared_area : Double?
   raw_area : String?
@@ -83,12 +85,12 @@ pub(all) struct CellUsageReport {
   status : CellUsageStatus
   unit : String
   library : String
-  instance_count : Int
-  mapped_instances : Int
-  unmapped_instances : Int
-  known_area_instances : Int
-  missing_area_instances : Int
-  invalid_area_instances : Int
+  instance_count : Int32
+  mapped_instances : Int32
+  unmapped_instances : Int32
+  known_area_instances : Int32
+  missing_area_instances : Int32
+  invalid_area_instances : Int32
   area_overflow : Bool
   known_area_subtotal : Double?
   total_declared_area : Double?
@@ -169,7 +171,7 @@ pub(all) struct GateInstance {
 } derive(ToJson, @debug.Debug)
 
 pub(all) struct InstanceUsage {
-  index : Int
+  index : Int32
   instance : String
   cell : String
   area_state : CellAreaState
@@ -213,13 +215,13 @@ pub(all) struct NetlistReferenceReport {
   status : ReferenceCheckStatus
   scope : String
   library : String
-  port_count : Int
-  instance_count : Int
-  net_count : Int
-  connection_count : Int
-  matched_instances : Int
-  matched_pin_connections : Int
-  issue_count : Int
+  port_count : Int32
+  instance_count : Int32
+  net_count : Int32
+  connection_count : Int32
+  matched_instances : Int32
+  matched_pin_connections : Int32
+  issue_count : Int32
   issues : Array[NetlistReferenceIssue]
 } derive(ToJson, @debug.Debug)
 
@@ -242,6 +244,11 @@ pub(all) enum PathLaunch {
   InputPort(String, Edge)
   RegisterQ(String, String, Edge)
 } derive(Eq, ToJson, @debug.Debug)
+
+pub(all) struct PathQueriesAnalysis {
+  timing : STAResult
+  path_queries : Array[QueriedPath]
+} derive(ToJson, @debug.Debug)
 
 pub(all) struct PathQuery {
   launch : PathLaunch
@@ -274,8 +281,8 @@ pub(all) struct PeriodAnalysis {
 
 pub(all) struct PeriodBudget {
   status : PeriodBudgetStatus
-  constrained_endpoint_edges : Int
-  unconstrained_endpoint_edges : Int
+  constrained_endpoint_edges : Int32
+  unconstrained_endpoint_edges : Int32
   endpoint_bounds : Array[EndpointPeriodBound]
   minimum_period_seconds : Double?
   maximum_frequency_hz : Double?
@@ -320,10 +327,10 @@ pub(all) enum PinLimitKind {
 
 pub(all) struct PinLimitReport {
   status : PinLimitReportStatus
-  checked_rules : Int
-  violated_rules : Int
-  unspecified_rules : Int
-  invalid_rules : Int
+  checked_rules : Int32
+  violated_rules : Int32
+  unspecified_rules : Int32
+  invalid_rules : Int32
   checks : Array[PinLimitCheck]
 } derive(ToJson, @debug.Debug)
 
@@ -400,6 +407,7 @@ pub fn STAEngine::new(@moon-liberty.Library, Netlist, TimingConstraints, policy?
 pub fn STAEngine::run_period_analysis(Self) -> PeriodAnalysis raise STAError
 pub fn STAEngine::run_pin_limit_analysis(Self) -> PinLimitAnalysis raise STAError
 pub fn STAEngine::run_setup_analysis(Self) -> STAResult raise STAError
+pub fn STAEngine::run_setup_path_queries(Self, Array[PathQuery]) -> PathQueriesAnalysis raise STAError
 pub fn STAEngine::run_setup_path_query(Self, PathQuery) -> PathQueryAnalysis raise STAError
 pub fn STAEngine::run_setup_with_constraint_context(Self) -> ConstraintContextAnalysis raise STAError
 
@@ -410,13 +418,13 @@ pub(all) struct STAResult {
   diagnostics : Array[String]
   topological_order : Array[String]
 } derive(ToJson, @debug.Debug)
-pub fn STAResult::prioritize_setup_endpoints(Self, max_endpoints? : Int) -> SetupEndpointPriorities raise STAError
+pub fn STAResult::prioritize_setup_endpoints(Self, max_endpoints? : Int32) -> SetupEndpointPriorities raise STAError
 pub fn STAResult::setup_summary(Self) -> SetupSummary raise STAError
 
 pub(all) struct SdcSourcePosition {
-  line : Int
-  column : Int
-  offset : Int
+  line : Int32
+  column : Int32
+  offset : Int32
 } derive(Eq, ToJson, @debug.Debug)
 
 pub(all) enum SetupChangeStatus {
@@ -436,12 +444,12 @@ pub(all) struct SetupComparison {
   status : SetupComparisonStatus
   unit : String
   max_slack_loss_seconds : Double
-  baseline_endpoint_edges : Int
-  candidate_endpoint_edges : Int
-  matched_endpoint_edges : Int
-  compared_endpoint_edges : Int
-  regressed_endpoint_edges : Int
-  incomplete_endpoint_edges : Int
+  baseline_endpoint_edges : Int32
+  candidate_endpoint_edges : Int32
+  matched_endpoint_edges : Int32
+  compared_endpoint_edges : Int32
+  regressed_endpoint_edges : Int32
+  incomplete_endpoint_edges : Int32
   rows : Array[SetupSlackChange]
 } derive(ToJson, @debug.Debug)
 
@@ -453,26 +461,26 @@ pub(all) enum SetupComparisonStatus {
 
 pub(all) struct SetupEndpointPriorities {
   unit : String
-  max_endpoints : Int
-  endpoint_count : Int
-  endpoint_edges : Int
-  known_endpoint_edges : Int
-  unknown_endpoint_edges : Int
-  rankable_endpoints : Int
-  unrankable_endpoints : Int
-  selected_endpoints : Int
-  omitted_rankable_endpoints : Int
+  max_endpoints : Int32
+  endpoint_count : Int32
+  endpoint_edges : Int32
+  known_endpoint_edges : Int32
+  unknown_endpoint_edges : Int32
+  rankable_endpoints : Int32
+  unrankable_endpoints : Int32
+  selected_endpoints : Int32
+  omitted_rankable_endpoints : Int32
   rows : Array[SetupEndpointPriority]
   unranked_endpoints : Array[SetupEndpointPriority]
 } derive(ToJson, @debug.Debug)
 
 pub(all) struct SetupEndpointPriority {
   pin : String
-  first_source_index : Int
-  endpoint_edges : Int
-  known_edges : Int
-  unknown_edges : Int
-  worst_source_index : Int?
+  first_source_index : Int32
+  endpoint_edges : Int32
+  known_edges : Int32
+  unknown_edges : Int32
+  worst_source_index : Int32?
   worst_edge : Edge?
   worst_slack_seconds : Double?
 } derive(ToJson, @debug.Debug)
@@ -488,11 +496,11 @@ pub(all) struct SetupSlackChange {
 
 pub(all) struct SetupSummary {
   status : SetupSummaryStatus
-  endpoint_count : Int
-  constrained_endpoint_edges : Int
-  unconstrained_endpoint_edges : Int
-  violating_endpoint_edges : Int
-  violating_endpoints : Int
+  endpoint_count : Int32
+  constrained_endpoint_edges : Int32
+  unconstrained_endpoint_edges : Int32
+  violating_endpoint_edges : Int32
+  violating_endpoints : Int32
   worst_slack_seconds : Double?
   worst_negative_slack_seconds : Double?
 } derive(ToJson, @debug.Debug)

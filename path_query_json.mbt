@@ -96,3 +96,60 @@ pub fn analyze_path_query_json(
   }
   result.stringify()
 }
+
+///|
+/// A JSON object with a queries array and optional range_policy. Each array
+/// item has the same from/to shape as the single-query JSON entry point.
+pub fn analyze_path_queries_json(
+  liberty_text : String,
+  netlist_text : String,
+  sdc_text : String,
+  queries_text : String,
+) -> String {
+  let result : Json = try {
+    let decoded = @json.parse(netlist_text) catch {
+      _ => raise InvalidInput("invalid netlist JSON")
+    }
+    let netlist = netlist_from_json(decoded)
+    let library = @liberty.load_library(liberty_text) catch {
+      @liberty.LibertyError(code, message, _) =>
+        raise LibraryFailure(code + ": " + message)
+    }
+    let constraints = parse_sdc(sdc_text, library, netlist)
+    let decoded_batch = @json.parse(queries_text) catch {
+      _ => raise InvalidInput("invalid path queries JSON")
+    }
+    let items = json_array(json_field(decoded_batch, "queries"))
+    if items.length() > 1024 {
+      raise InvalidInput("path query batch limit exceeded")
+    }
+    let queries : Array[PathQuery] = items.map(item => {
+      launch: query_json_launch(json_field(item, "from")),
+      capture: query_json_capture(json_field(item, "to")),
+    })
+    let policy = match decoded_batch {
+      { "range_policy": String("reject"), .. } => @liberty.Reject
+      { "range_policy": String("clamp"), .. } => @liberty.Clamp
+      { "range_policy": String("extrapolate"), .. } => @liberty.Extrapolate
+      { "range_policy": _, .. } => raise InvalidInput("unknown range_policy")
+      _ => @liberty.Extrapolate
+    }
+    let analysis = STAEngine::new(library, netlist, constraints, policy~).run_setup_path_queries(
+      queries,
+    )
+    {
+      "ok": true,
+      "schema": "moonbit.sta.path-queries.v1",
+      "result": ToJson::to_json(analysis.timing),
+      "path_queries": ToJson::to_json(analysis.path_queries),
+    }
+  } catch {
+    error =>
+      {
+        "ok": false,
+        "schema": "moonbit.sta.path-queries.v1",
+        "error": "\{@debug.Debug::to_repr(error)}",
+      }
+  }
+  result.stringify()
+}

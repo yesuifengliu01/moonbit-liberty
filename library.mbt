@@ -157,7 +157,7 @@ fn inferred_senses(
       return result
     }
   }
-  let polarity : Map[String, Int] = Map([])
+  let polarity : Map[String, Int32] = Map([])
   // Bit 1: positive occurrence; bit 2: negative occurrence. XOR permits both.
   let pending = [(logic, false, false)]
   while pending.pop() is Some((expr, inverted, mixed)) {

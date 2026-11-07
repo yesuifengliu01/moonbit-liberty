@@ -47,6 +47,14 @@ pub(all) struct PathQueryAnalysis {
 } derive(Debug, ToJson)
 
 ///|
+/// Several exact path queries over one full-design timing analysis.
+/// Results retain input order and each returned path is independently owned.
+pub(all) struct PathQueriesAnalysis {
+  timing : STAResult
+  path_queries : Array[QueriedPath]
+} derive(Debug, ToJson)
+
+///|
 priv struct QuerySeed {
   net : String
   state : NodeTiming
@@ -324,4 +332,23 @@ pub fn STAEngine::run_setup_path_query(
   let timing = self.analyze_setup(path_query=trace).timing
   let path_query = resolve_path_query(trace, query, self.constraints.clock)
   { timing, path_query, }
+}
+
+///|
+/// Evaluate up to 1024 exact launch/capture queries against one setup pass.
+/// The same path model and per-query validation order as the single-query API
+/// apply. A bad query fails the entire batch at its first input index.
+pub fn STAEngine::run_setup_path_queries(
+  self : STAEngine,
+  queries : Array[PathQuery],
+) -> PathQueriesAnalysis raise STAError {
+  if queries.length() > 1024 {
+    raise InvalidInput("path query batch limit exceeded")
+  }
+  let trace : PathQueryTrace = { seeds: Map([]), arcs: [], captures: Map([]), }
+  let timing = self.analyze_setup(path_query=trace).timing
+  let path_queries = queries.map(query => {
+    resolve_path_query(trace, query, self.constraints.clock)
+  })
+  { timing, path_queries, }
 }

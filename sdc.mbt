@@ -1,8 +1,8 @@
 ///|
 fn sdc_tokens(
   line : String,
-  comments? : Bool = true,
-  brackets? : Bool = true,
+  comments~ : Bool = true,
+  brackets~ : Bool = true,
 ) -> Array[String] raise STAError {
   let result = []
   let mut word = ""
@@ -184,7 +184,7 @@ fn parse_sdc_impl(
       "set_input_delay" | "set_output_delay" =>
         ["-clock", "-max", "-rise", "-fall"]
       "set_input_transition" => ["-rise", "-fall"]
-      "set_load" => []
+      "set_load" => ["-rise", "-fall"]
       "set_clock_transition" => ["-rise", "-fall"]
       "set_clock_latency" => []
       "set_clock_uncertainty" => ["-setup"]

@@ -4,7 +4,7 @@ priv struct Graph {
   registers : Array[Register?]
   connections : Array[Map[String, String]]
   loads : Map[String, Array[Double]]
-  order : Array[(Int, String)]
+  order : Array[(Int32, String)]
 }
 
 ///|
@@ -50,8 +50,8 @@ fn build_graph(
     }
     loads[n.name] = [n.wire_cap_farads, n.wire_cap_farads]
   }
-  let drivers : Map[String, (Int, String)] = Map([])
-  fn drive(net : String, driver : (Int, String)) -> Unit raise STAError {
+  let drivers : Map[String, (Int32, String)] = Map([])
+  fn drive(net : String, driver : (Int32, String)) -> Unit raise STAError {
     if !loads.contains(net) {
       raise UnresolvedNet(net)
     }
@@ -185,8 +185,8 @@ fn build_graph(
   }
   // Vertices are driven output pins. Collapsing a multioutput cell into one
   // vertex can create a false cycle between otherwise independent channels.
-  let tasks : Array[(Int, String)] = []
-  let task_by_net : Map[String, Int] = Map([])
+  let tasks : Array[(Int32, String)] = []
+  let task_by_net : Map[String, Int32] = Map([])
   for i, cell in cells {
     if registers[i] is Some(_) {
       continue
@@ -199,11 +199,11 @@ fn build_graph(
     }
   }
   let indegree = Array::make(tasks.length(), 0)
-  let next : Array[Array[Int]] = Array::makei(tasks.length(), _ => [])
+  let next : Array[Array[Int32]] = Array::makei(tasks.length(), _ => [])
   for task, (i, output_name) in tasks {
     let cell = cells[i]
     let output = cell.pin(output_name).unwrap()
-    let deps : Map[Int, Bool] = Map([])
+    let deps : Map[Int32, Bool] = Map([])
     for arc in output.timings {
       if arc.timing_type != None &&
         !["combinational", "combinational_rise", "combinational_fall"].contains(

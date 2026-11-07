@@ -17,8 +17,8 @@ pub(all) struct EndpointPeriodBound {
 ///|
 pub(all) struct PeriodBudget {
   status : PeriodBudgetStatus
-  constrained_endpoint_edges : Int
-  unconstrained_endpoint_edges : Int
+  constrained_endpoint_edges : Int32
+  unconstrained_endpoint_edges : Int32
   endpoint_bounds : Array[EndpointPeriodBound]
   minimum_period_seconds : Double?
   maximum_frequency_hz : Double?

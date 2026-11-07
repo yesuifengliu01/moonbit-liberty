@@ -3,11 +3,11 @@
 /// Source indices refer to the unchanged original STAResult.endpoints array.
 pub(all) struct SetupEndpointPriority {
   pin : String
-  first_source_index : Int
-  endpoint_edges : Int
-  known_edges : Int
-  unknown_edges : Int
-  worst_source_index : Int?
+  first_source_index : Int32
+  endpoint_edges : Int32
+  known_edges : Int32
+  unknown_edges : Int32
+  worst_source_index : Int32?
   worst_edge : Edge?
   worst_slack_seconds : Double?
 } derive(Debug, ToJson)
@@ -17,15 +17,15 @@ pub(all) struct SetupEndpointPriority {
 /// All-unknown pins remain visible even when the known selection limit is zero.
 pub(all) struct SetupEndpointPriorities {
   unit : String
-  max_endpoints : Int
-  endpoint_count : Int
-  endpoint_edges : Int
-  known_endpoint_edges : Int
-  unknown_endpoint_edges : Int
-  rankable_endpoints : Int
-  unrankable_endpoints : Int
-  selected_endpoints : Int
-  omitted_rankable_endpoints : Int
+  max_endpoints : Int32
+  endpoint_count : Int32
+  endpoint_edges : Int32
+  known_endpoint_edges : Int32
+  unknown_endpoint_edges : Int32
+  rankable_endpoints : Int32
+  unrankable_endpoints : Int32
+  selected_endpoints : Int32
+  omitted_rankable_endpoints : Int32
   rows : Array[SetupEndpointPriority]
   unranked_endpoints : Array[SetupEndpointPriority]
 } derive(Debug, ToJson)
@@ -33,7 +33,7 @@ pub(all) struct SetupEndpointPriorities {
 ///|
 fn prioritize_setup_snapshots(
   values : Array[SetupSnapshot],
-  max_endpoints : Int,
+  max_endpoints : Int32,
 ) -> SetupEndpointPriorities raise STAError {
   if max_endpoints < 0 {
     raise InvalidInput("max_endpoints must be nonnegative")
@@ -41,7 +41,7 @@ fn prioritize_setup_snapshots(
   // Validate the full source, including rows outside the requested selection.
   let _ = setup_snapshot_index(values, "source")
   let groups : Array[SetupEndpointPriority] = []
-  let by_pin : Map[String, Int] = Map([])
+  let by_pin : Map[String, Int32] = Map([])
   let mut known = 0
   for index, value in values {
     let group_index = match by_pin.get(value.pin) {
@@ -143,7 +143,7 @@ fn prioritize_setup_snapshots(
 /// This reads only endpoint pin/edge/slack; the caller retains original paths.
 pub fn STAResult::prioritize_setup_endpoints(
   self : STAResult,
-  max_endpoints? : Int = 10,
+  max_endpoints~ : Int32 = 10,
 ) -> SetupEndpointPriorities raise STAError {
   prioritize_setup_snapshots(
     self.endpoints.map(endpoint => {
