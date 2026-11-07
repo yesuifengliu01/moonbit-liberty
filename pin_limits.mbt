@@ -295,3 +295,57 @@ pub fn STAEngine::run_pin_limit_analysis(
     },
   }
 }
+
+///|
+pub extend PinLimitKind with Eq::{not_equal, equal}
+
+///|
+pub extend PinLimitKind with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend PinLimitKind with ToJson::{to_json}
+
+///|
+pub extend PinLimitSource with Eq::{not_equal, equal}
+
+///|
+pub extend PinLimitSource with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend PinLimitSource with ToJson::{to_json}
+
+///|
+pub extend PinLimitState with Eq::{not_equal, equal}
+
+///|
+pub extend PinLimitState with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend PinLimitState with ToJson::{to_json}
+
+///|
+pub extend PinLimitReportStatus with Eq::{not_equal, equal}
+
+///|
+pub extend PinLimitReportStatus with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend PinLimitReportStatus with ToJson::{to_json}
+
+///|
+pub extend PinLimitCheck with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend PinLimitCheck with ToJson::{to_json}
+
+///|
+pub extend PinLimitReport with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend PinLimitReport with ToJson::{to_json}
+
+///|
+pub extend PinLimitAnalysis with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend PinLimitAnalysis with ToJson::{to_json}

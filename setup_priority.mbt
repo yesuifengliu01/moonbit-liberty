@@ -154,3 +154,15 @@ pub fn STAResult::prioritize_setup_endpoints(
     max_endpoints,
   )
 }
+
+///|
+pub extend SetupEndpointPriority with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend SetupEndpointPriority with ToJson::{to_json}
+
+///|
+pub extend SetupEndpointPriorities with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend SetupEndpointPriorities with ToJson::{to_json}

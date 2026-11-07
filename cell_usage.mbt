@@ -214,3 +214,39 @@ pub fn analyze_cell_usage(
     instances,
   }
 }
+
+///|
+pub extend CellAreaState with Eq::{not_equal, equal}
+
+///|
+pub extend CellAreaState with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend CellAreaState with ToJson::{to_json}
+
+///|
+pub extend CellUsageStatus with Eq::{not_equal, equal}
+
+///|
+pub extend CellUsageStatus with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend CellUsageStatus with ToJson::{to_json}
+
+///|
+pub extend InstanceUsage with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend InstanceUsage with ToJson::{to_json}
+
+///|
+pub extend CellUsage with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend CellUsage with ToJson::{to_json}
+
+///|
+pub extend CellUsageReport with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend CellUsageReport with ToJson::{to_json}

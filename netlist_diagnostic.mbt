@@ -73,3 +73,6 @@ pub fn check_netlist_json(text : String) -> String {
   }
   result.stringify()
 }
+
+///|
+pub extend NetlistJsonDiagnostic with @moonbitlang/core/debug.Debug::{to_repr}

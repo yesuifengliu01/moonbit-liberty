@@ -12,15 +12,15 @@
 
 ```sh
 moon update
-moon check --target all --deny-warn --warn-list '-79'
+moon check --target all --deny-warn
 moon build --target js --release
 node tools/sta.cjs examples/sky130-demo.lib examples/sequential.json
-moon test --target js --deny-warn --warn-list '-79'
-moon test --target wasm-gc --deny-warn --warn-list '-79'
-moon test --target native --deny-warn --warn-list '-79'
+moon test --target js --deny-warn
+moon test --target wasm-gc --deny-warn
+moon test --target native --deny-warn
 ```
 
-`-79` 暂时关闭新版编译器对现有隐式 trait 方法附加的弃用警告；其他编译器警告仍按错误处理。CI 还执行全目标 release 构建、格式检查和真实文件消费者。新代码应使用显式 `extend`，逐步移除此兼容选项。
+新版编译器要求 trait 方法以显式 `extend` 附加；源码已完成迁移，检查与 CI 对所有编译器警告继续按错误处理。CI 还执行全目标 release 构建、格式检查和真实文件消费者。
 
 消费者成功输出 `{"ok":true,"schema":"moonbit.sta.v1","result":...}`。分析/参数/IO 错误退出码 2；默认模式正常分析即使存在负 slack 仍退出 0，调用者应检查 `worst_slack_seconds`。`tools/sta.cjs` 负责请求 IO、调用 MoonBit 导出及映射检查退出码；时序计算在 MoonBit 核心。
 

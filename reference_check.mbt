@@ -209,3 +209,33 @@ pub fn check_netlist_references(
     issues,
   }
 }
+
+///|
+pub extend ReferenceIssueCode with Eq::{not_equal, equal}
+
+///|
+pub extend ReferenceIssueCode with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend ReferenceIssueCode with ToJson::{to_json}
+
+///|
+pub extend ReferenceCheckStatus with Eq::{not_equal, equal}
+
+///|
+pub extend ReferenceCheckStatus with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend ReferenceCheckStatus with ToJson::{to_json}
+
+///|
+pub extend NetlistReferenceIssue with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend NetlistReferenceIssue with ToJson::{to_json}
+
+///|
+pub extend NetlistReferenceReport with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend NetlistReferenceReport with ToJson::{to_json}

@@ -55,6 +55,60 @@ pub(all) struct PathQueriesAnalysis {
 } derive(Debug, ToJson)
 
 ///|
+pub extend PathLaunch with Eq::{not_equal, equal}
+
+///|
+pub extend PathLaunch with Debug::{to_repr}
+
+///|
+pub extend PathLaunch with ToJson::{to_json}
+
+///|
+pub extend PathCapture with Eq::{not_equal, equal}
+
+///|
+pub extend PathCapture with Debug::{to_repr}
+
+///|
+pub extend PathCapture with ToJson::{to_json}
+
+///|
+pub extend PathQuery with Eq::{not_equal, equal}
+
+///|
+pub extend PathQuery with Debug::{to_repr}
+
+///|
+pub extend PathQuery with ToJson::{to_json}
+
+///|
+pub extend PathQueryStatus with Eq::{not_equal, equal}
+
+///|
+pub extend PathQueryStatus with Debug::{to_repr}
+
+///|
+pub extend PathQueryStatus with ToJson::{to_json}
+
+///|
+pub extend QueriedPath with Debug::{to_repr}
+
+///|
+pub extend QueriedPath with ToJson::{to_json}
+
+///|
+pub extend PathQueryAnalysis with Debug::{to_repr}
+
+///|
+pub extend PathQueryAnalysis with ToJson::{to_json}
+
+///|
+pub extend PathQueriesAnalysis with Debug::{to_repr}
+
+///|
+pub extend PathQueriesAnalysis with ToJson::{to_json}
+
+///|
 priv struct QuerySeed {
   net : String
   state : NodeTiming

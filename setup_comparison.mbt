@@ -211,3 +211,33 @@ pub fn compare_setup_results(
   })
   compare_setup_snapshots(before, after, max_slack_loss_seconds)
 }
+
+///|
+pub extend SetupChangeStatus with Eq::{not_equal, equal}
+
+///|
+pub extend SetupChangeStatus with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend SetupChangeStatus with ToJson::{to_json}
+
+///|
+pub extend SetupComparisonStatus with Eq::{not_equal, equal}
+
+///|
+pub extend SetupComparisonStatus with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend SetupComparisonStatus with ToJson::{to_json}
+
+///|
+pub extend SetupSlackChange with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend SetupSlackChange with ToJson::{to_json}
+
+///|
+pub extend SetupComparison with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend SetupComparison with ToJson::{to_json}

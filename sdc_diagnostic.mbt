@@ -34,3 +34,15 @@ pub fn parse_sdc_with_diagnostics(
     error => raise SdcDiagnostic(error, cursor.position)
   }
 }
+
+///|
+pub extend SdcSourcePosition with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend SdcSourcePosition with Eq::{not_equal, equal}
+
+///|
+pub extend SdcSourcePosition with ToJson::{to_json}
+
+///|
+pub extend SdcDiagnostic with @moonbitlang/core/debug.Debug::{to_repr}

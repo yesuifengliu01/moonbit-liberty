@@ -78,3 +78,18 @@ pub fn STAResult::setup_summary(
     worst_negative_slack_seconds: worst.map(s => if s < 0.0 { s } else { 0.0 }),
   }
 }
+
+///|
+pub extend SetupSummaryStatus with Eq::{not_equal, equal}
+
+///|
+pub extend SetupSummaryStatus with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend SetupSummaryStatus with ToJson::{to_json}
+
+///|
+pub extend SetupSummary with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend SetupSummary with ToJson::{to_json}

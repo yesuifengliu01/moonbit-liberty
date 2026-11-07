@@ -207,3 +207,96 @@ fn nonnegative(v : Double, label : String) -> Unit raise STAError {
     raise InvalidInput(label + " must be finite and nonnegative")
   }
 }
+
+///|
+pub extend Direction with Eq::{not_equal, equal}
+
+///|
+pub extend Direction with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend Direction with ToJson::{to_json}
+
+///|
+pub extend Edge with Eq::{not_equal, equal}
+
+///|
+pub extend Edge with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend Edge with ToJson::{to_json}
+
+///|
+pub extend Port with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend Port with ToJson::{to_json}
+
+///|
+pub extend Connection with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend Connection with ToJson::{to_json}
+
+///|
+pub extend GateInstance with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend GateInstance with ToJson::{to_json}
+
+///|
+pub extend Net with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend Net with ToJson::{to_json}
+
+///|
+pub extend Netlist with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend Netlist with ToJson::{to_json}
+
+///|
+pub extend Clock with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend Clock with ToJson::{to_json}
+
+///|
+pub extend PortValue with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend PortValue with ToJson::{to_json}
+
+///|
+pub extend TimingConstraints with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend TimingConstraints with ToJson::{to_json}
+
+///|
+pub extend PathStep with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend PathStep with ToJson::{to_json}
+
+///|
+pub extend NodeTiming with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend NodeTiming with ToJson::{to_json}
+
+///|
+pub extend EndpointTiming with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend EndpointTiming with ToJson::{to_json}
+
+///|
+pub extend STAResult with @moonbitlang/core/debug.Debug::{to_repr}
+
+///|
+pub extend STAResult with ToJson::{to_json}
+
+///|
+pub extend STAError with @moonbitlang/core/debug.Debug::{to_repr}
