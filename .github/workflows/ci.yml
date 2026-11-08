@@ -52,6 +52,8 @@ jobs:
         run: moon test --target native --deny-warn
       - name: Build release targets
         run: moon build --target all --release --deny-warn
+      - name: Build publishable Mooncakes archive
+        run: moon package --list
       - name: Exercise real CLI consumers
         run: python3 tools/ci-consumers.py
       - name: Exercise SDC file diagnostics
