@@ -102,7 +102,9 @@ fn setup_slack_change(
         (Some(b), Some(c)) => {
           let delta = c - b
           if !finite(delta) {
-            (SetupDeltaOverflow, None)
+            // Both inputs are finite, so an unrepresentable difference has a
+            // definite sign. Its magnitude exceeds every finite loss limit.
+            (if c < b { SetupDeltaRegressed } else { SetupDeltaImproved }, None)
           } else {
             let status = if delta < -limit {
               SetupDeltaRegressed

@@ -22,8 +22,9 @@ Compare endpoint/edge setup slack in two existing moonbit.sta.v1 success reports
 Default allowed loss is zero; SECONDS must be finite and nonnegative.
 Delta is candidate minus baseline; a loss equal to the threshold is allowed.
 All rows follow baseline order then candidate-only order, with exact pin/edge names.
-Missing/added endpoints, unknown slack and subtraction overflow are explicit;
-unknown values are not zero and overflowing deltas are omitted.
+Missing/added endpoints and unknown slack are explicit; unknown is not zero.
+Finite slack subtraction overflow retains the known regression/improvement
+direction and omits only its unrepresentable delta.
 JSON stdout: moonbit.sta.setup-compare.v1, complete comparison counts and rows.
 Exit 0 fully comparable/no regression; 3 any known regression; 4 incomplete;
 2 args/encoding/IO/report/settings/output error. Known regression takes precedence.
