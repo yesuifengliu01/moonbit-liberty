@@ -99,16 +99,16 @@ preload=OUTPUT/'controlled-filesystem.cjs'
 preload.write_text('''const fs=require('node:fs'),path=require('node:path');
 const mode=process.env.STA_IO_TEST_MODE,trace=process.env.STA_IO_TEST_TRACE;
 const open=fs.openSync,write=fs.writeFileSync,sync=fs.fsyncSync,close=fs.closeSync,link=fs.linkSync,unlink=fs.unlinkSync;
-const descriptors=new Set(),names=new Set();
+const descriptors=new Set(),names=new Set();let closeBeforeFailed=false;
 function fault(site,code='EIO'){write(path.join(trace,site+'.json'),JSON.stringify({site,synthetic:true,realFilesystemCalls:true})+'\\n');return Object.assign(new Error('controlled '+site+' failure'),{code});}
 fs.openSync=function(file,flags,...rest){const fd=open(file,flags,...rest);if(flags==='wx'){descriptors.add(fd);names.add(String(file));}return fd;};
 fs.writeFileSync=function(file,data,...rest){if(mode==='partial-write'&&descriptors.has(file)){const part=Buffer.from(data).subarray(0,17);const n=fs.writeSync(file,part);write(path.join(trace,'actual-partial.bin'),part.subarray(0,n));throw fault('partial-write','ENOSPC');}return write(file,data,...rest);};
 fs.fsyncSync=function(fd){if(descriptors.has(fd)&&mode==='fsync')throw fault('fsync');const value=sync(fd);if(descriptors.has(fd)&&mode==='barrier'){write(path.join(trace,process.pid+'.ready'),JSON.stringify({pid:process.pid,candidate:[...names][0]})+'\\n');const until=Date.now()+30000;while(!fs.existsSync(path.join(trace,'release'))){if(Date.now()>until)throw fault('barrier-timeout');Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,20);}}return value;};
-fs.closeSync=function(fd){const ours=descriptors.has(fd);const value=close(fd);descriptors.delete(fd);if(ours&&mode==='close')throw fault('close');return value;};
+fs.closeSync=function(fd){const ours=descriptors.has(fd);if(ours&&mode==='close-before'&&!closeBeforeFailed){closeBeforeFailed=true;throw fault('close-before');}const value=close(fd);descriptors.delete(fd);if(ours&&mode==='close')throw fault('close');if(ours&&mode==='close-before')write(path.join(trace,'retry-close.json'),JSON.stringify({retried:true})+'\\n');return value;};
 fs.linkSync=function(from,to){if(names.has(String(from))&&mode==='link')throw fault('link');return link(from,to);};
 fs.unlinkSync=function(file){if(names.has(String(file))&&mode==='cleanup-after-publication')throw fault('cleanup','EACCES');return unlink(file);};
 ''',encoding='utf8')
-for mode in catalog['controlled_faults']:
+for mode in [*catalog['controlled_faults'], 'close-before']:
     directory,files,target,expected=fixture('fault-'+mode);trace=directory/'trace';trace.mkdir()
     env=os.environ.copy();env.update(STA_IO_TEST_MODE=mode,STA_IO_TEST_TRACE=str(trace))
     p=invoke('fault-'+mode,[NODE,'-r',str(preload),*CLI[1:]]+[file.name for file in files]+[target.name],2,directory,files,env)
@@ -121,6 +121,7 @@ for mode in catalog['controlled_faults']:
         assert len(state['temporary_files'])==1
         assert (ROOT/state['temporary_files'][0]['path']).read_bytes()==expected
     if mode=='partial-write':assert (trace/'actual-partial.bin').read_bytes()==expected[:17]
+    if mode=='close-before':assert json.loads((trace/'retry-close.json').read_text(encoding='utf8'))['retried'] is True
 directory,files,target,expected=fixture('stdout-closed')
 command=CLI+[file.name for file in files]+[target.name];before=[identity(file) for file in files]
 p=subprocess.Popen(command,cwd=directory,stdout=subprocess.PIPE,stderr=subprocess.PIPE);p.stdout.close();p.stdout=None
@@ -154,7 +155,7 @@ for p,stdout,stderr in race_results:
     else:assert not stdout and b'EEXIST' in stderr
 assert sorted(p.returncode for p in processes)==[0,2] and target.read_bytes()==expected
 assert [identity(file) for file in files]==before;snapshot('concurrent',directory,target)
-assert len(rows)==27,len(rows)
+assert len(rows)==28,len(rows)
 assert all(sha(file.read_bytes())==value for file,value in source_hashes.items())
 save(True)
-print(json.dumps({'all_passed':True,'real_process_invocations':27,'frozen_original_reports':5,'concurrent_winners':1,'controlled_faults':5,'self_authored_integration':True,'third_party_adoption':False,'timing_science_or_old_suite_rerun':False},sort_keys=True))
+print(json.dumps({'all_passed':True,'real_process_invocations':28,'frozen_original_reports':5,'concurrent_winners':1,'controlled_faults':6,'self_authored_integration':True,'third_party_adoption':False,'timing_science_or_old_suite_rerun':False},sort_keys=True))
