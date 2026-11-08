@@ -44,8 +44,8 @@ def record(name, process, stdout, stderr):
     save_receipt()
 
 
-def invoke(name, command, expected_exit, cwd):
-    process = subprocess.run(command, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=45)
+def invoke(name, command, expected_exit, cwd, data=None):
+    process = subprocess.run(command, input=data, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=45)
     record(name, process, process.stdout, process.stderr)
     assert process.returncode == expected_exit, (name, process.returncode, process.stderr)
     return process
@@ -136,6 +136,38 @@ assert batch['ok'] is True and batch['schema'] == 'moonbit.sta.path-queries.v1'
 assert batch['result'] == results['losing-base']['result']
 assert batch['path_queries'] == [results[c['name']]['path_query'] for c in batch_cases]
 assert [digest(p.read_bytes()) for p in batch_inputs] == batch_before
+
+# Pipe one query or a batch without creating a query file. The two flags are
+# independent of ordering, and a file BOM retains the same core semantics.
+single_inputs = list(map(str, inputs['losing-base']))
+single_query = inputs['losing-base'][3].read_bytes()
+process = invoke('stdin-single', CLI + ['--query-stdin', *single_inputs[:3], '-'], 0, OUTPUT,
+                 b'\xef\xbb\xbf' + single_query)
+assert not process.stderr and json.loads(process.stdout) == results['losing-base']
+literal_dash = OUTPUT / '-'
+literal_dash.write_bytes(single_query)
+process = invoke('literal-dash-filename', CLI + single_inputs[:3] + ['-'], 0, OUTPUT)
+assert not process.stderr and json.loads(process.stdout) == results['losing-base']
+for name, flags in [('stdin-batch-first', ['--batch', '--query-stdin']),
+                    ('stdin-batch-last', ['--query-stdin', '--batch'])]:
+    process = invoke(name, CLI + flags + list(map(str, batch_inputs[:3])) + ['-'], 0, OUTPUT,
+                     batch_file.read_bytes())
+    assert not process.stderr and json.loads(process.stdout) == batch
+
+process = invoke('stdin-invalid-utf8', CLI + ['--query-stdin'] + single_inputs[:3] + ['-'], 2,
+                 OUTPUT, b'\xff')
+assert not process.stdout and b'Invalid UTF-8 in query input' in process.stderr
+process = invoke('stdin-invalid-json', CLI + ['--query-stdin'] + single_inputs[:3] + ['-'], 2,
+                 OUTPUT, b'{')
+assert not process.stderr and 'invalid path query JSON' in json.loads(process.stdout)['error']
+for name, arguments in [
+    ('stdin-wrong-placeholder', ['--query-stdin', *single_inputs]),
+    ('stdin-repeated-option', ['--query-stdin', '--query-stdin', *single_inputs[:3], '-']),
+    ('batch-repeated-option', ['--batch', '--batch', *single_inputs]),
+    ('unknown-option', ['--unknown', *single_inputs]),
+]:
+    process = invoke(name, CLI + arguments, 2, OUTPUT)
+    assert not process.stdout and b'Usage:' in process.stderr
 
 # Separate MoonBit executable package imports public @sta, never private graph.
 receiver = ROOT / '_build/js/release/build/examples/path_query_receiver/path_query_receiver.js'

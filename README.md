@@ -4,9 +4,16 @@
 
 独立实现网表校验/拓扑排序、集中负载聚合、rise/fall 图传播、clock-to-Q、建立时间约束和可解释路径。Liberty 文本解析、领域模型、Boolean AST 与查表复用 **SongYZZZ/moon-liberty 0.4.1**；OpenSTA 仅作独立验证进程，运行时不依赖它。
 
-## 运行
+## 安装与运行
 
-本轮已在 Windows 使用 MoonBit SDK `0.10.19+97801ee1b`（moonc `v0.10.19`、moon `0.1.20261029`）及 Node.js `24.18.0` 验证；原 WSL Ubuntu 基线见 [VALIDATION.md](VALIDATION.md)。构建/测试命令在本目录执行；CLI 可从其他目录调用：
+按 [MoonBit 官方安装教程](https://docs.moonbitlang.com/en/stable/tutorial/tour.html)安装工具链（要求 `moonc` 不低于 `0.10.16`），并从 [Node.js 官网](https://nodejs.org/en/download/)安装 Node.js 24。运行 `moon version --all` 与 `node --version` 确认实际版本。本项目在 Windows 使用 MoonBit SDK `0.10.19+97801ee1b`（moonc `v0.10.19`、moon `0.1.20261029`）及 Node.js `24.18.0` 验证；CI 固定的 SDK/core 下载和 SHA256 见 `tools/ci-toolchain.json`，原 WSL Ubuntu 基线见 [VALIDATION.md](VALIDATION.md)。
+
+从公开仓库获取源码后，在仓库根目录执行下方命令；`moon update` 下载 `moon.mod` 声明的 MoonLiberty 0.4.1 依赖。分析 CLI 也可从其他目录调用：
+
+```sh
+git clone https://github.com/yesuifengliu01/moonbit-liberty.git
+cd moonbit-liberty
+```
 
 首次使用可运行 `node tools/sta.cjs --help`，查看参数、输入要求、退出码与模型边界；无需预先构建或提供输入，也不等待 stdin。只有单独的 `--help` 进入帮助模式，正常输出退出 0；帮助输出失败仍报 stderr、退出 2。分析命令需要下面的 JS 构建。
 
@@ -20,7 +27,7 @@ moon test --target wasm-gc --deny-warn
 moon test --target native --deny-warn
 ```
 
-新版编译器要求 trait 方法以显式 `extend` 附加；源码已完成迁移，检查与 CI 对所有编译器警告继续按错误处理。CI 还执行全目标 release 构建、格式检查和真实文件消费者。
+新版编译器要求 trait 方法以显式 `extend` 附加；源码已完成迁移，检查与 CI 对所有编译器警告继续按错误处理。CI 还执行全目标 release 构建、Mooncakes 归档生成、格式检查和真实文件消费者。
 
 消费者成功输出 `{"ok":true,"schema":"moonbit.sta.v1","result":...}`。分析/参数/IO 错误退出码 2；默认模式正常分析即使存在负 slack 仍退出 0，调用者应检查 `worst_slack_seconds`。`tools/sta.cjs` 负责请求 IO、调用 MoonBit 导出及映射检查退出码；时序计算在 MoonBit 核心。
 
@@ -236,6 +243,7 @@ let analysis = engine.run_setup_path_query(query)
 node tools/path-query.cjs examples/path-query.lib examples/path-query-netlist.json examples/path-query.sdc examples/path-query.json
 node tools/path-query.cjs examples/path-query-changed.lib examples/path-query-netlist.json examples/path-query.sdc examples/path-query.json
 node tools/path-query.cjs --batch examples/path-query.lib examples/path-query-netlist.json examples/path-query.sdc examples/path-queries.json
+cat examples/path-queries.json | node tools/path-query.cjs --batch --query-stdin examples/path-query.lib examples/path-query-netlist.json examples/path-query.sdc -
 ```
 
 查询 JSON 为 `{"from":{"kind":"input_port","name":"b","edge":"rise"},"to":{"kind":"output_port","name":"out","edge":"rise"}}`。寄存器 kind 分别是 `register_q` / `register_d`，用 `instance`、`pin` 代替 `name`；edge 只接受 `rise` / `fall`。顶层可选 `range_policy` 沿用 `extrapolate`（默认）/`reject`/`clamp`。
@@ -252,7 +260,7 @@ node tools/path-query.cjs --batch examples/path-query.lib examples/path-query-ne
 | NoPath | 两个合法查询点之间不存在该边沿数据路径；path为空，无数值查询字段 |
 | UnconstrainedLaunch | 路径存在但发射 arrival 未知；path为空，无数值查询字段 |
 
-新 JSON 边界先解析 Netlist、库、SDC，再解析 query 形状/范围策略；typed 引擎先完成原 setup 分析，再按 launch、capture 顺序验证点，最后判可达性。不可达优先 NoPath，可达且 launch 未知才是 UnconstrainedLaunch。坏原输入与非法查询是错误。三种有效状态均退出0，包括负查询 slack；参数/编码/IO/分析/查询/输出失败退出2。`--help` 无需构建或输入。文件入口严格 UTF-8，库/网表/query 允许单个首 BOM，SDC 保持原文，源文件不改写，相对路径以调用者 cwd 为准。
+新 JSON 边界先解析 Netlist、库、SDC，再解析 query 形状/范围策略；typed 引擎先完成原 setup 分析，再按 launch、capture 顺序验证点，最后判可达性。不可达优先 NoPath，可达且 launch 未知才是 UnconstrainedLaunch。坏原输入与非法查询是错误。三种有效状态均退出0，包括负查询 slack；参数/编码/IO/分析/查询/输出失败退出2。`--help` 无需构建或输入。`--query-stdin` 把末尾 `-` 作为标准输入的查询 JSON（读到 EOF）；可与 `--batch` 任意顺序组合，未加该选项时 `-` 仍是文件名。入口严格 UTF-8，库/网表/query 允许单个首 BOM，SDC 保持原文，源文件不改写，相对路径以调用者 cwd 为准。
 
 每条弧权使用完整原设计的 GBA worst-slew 和实际负载，捕获 setup 也沿用原分析；不沿指定路径重算 slew/load。Q 使用原 clock-latency/tCQ 前缀独立发射，数据图没有 D→Q 边。查询 slack 不能当全局 WNS或签核结论。同值沿用原 timing-group/related-pin/edge 遍历顺序取一条；不支持 all paths/top-K、through、内部端点、路径异常或新的时序模型。默认报告、诊断、数学和原可选入口保持。
 
@@ -346,7 +354,7 @@ node tools/compare-setup.cjs --max-slack-loss 5e-10 examples/setup-baseline.json
 
 公共 `compare_setup_results(baseline, candidate, max_slack_loss_seconds=0.0)` 接受现有 `STAResult`，返回 owned 的 `SetupComparison`。只消费端点的原报告 pin、edge、slack；不解析、改名或规范化标识，Rise/Fall分开匹配。输出行按基线顺序，再追加仅在候选中出现的端点；两份输入和路径数组不改写。空/重复的端点身份和非有限 slack 会在新比较入口明确报错，原分析与解码入口不变。
 
-`slack_delta_seconds = candidate - baseline`，严格小于 `-max_slack_loss_seconds` 才算退步，等于容差时允许。逐行区分退步、改善、不变、允许的损失、单侧端点、单/双侧未知 slack 以及差值溢出；未知值不补零，溢出时省略 delta。报告含 SI 秒、阈值、两侧端点/沿数、匹配/可比较/退步/不完整计数和完整行列表。已知退步优先为 `SetupRegressed`；无已知退步但有集合变化、未知、溢出或没有可比较端点时为 `SetupComparisonIncomplete`；其余为 `NoSetupRegression`。两份空报告不作为通过。
+`slack_delta_seconds = candidate - baseline`，严格小于 `-max_slack_loss_seconds` 才算退步，等于容差时允许。逐行区分退步、改善、不变、允许的损失、单侧端点及单/双侧未知 slack；未知值不补零。两个有限 slack 的差值若超出 Double 表示范围，仍按确定的方向判定退步或改善，并省略无法表示的 delta；负向溢出的损失必然超过任何有限容差。报告含 SI 秒、阈值、两侧端点/沿数、匹配/可比较/退步/不完整计数和完整行列表。已知退步优先为 `SetupRegressed`；无已知退步但有集合变化、未知或没有可比较端点时为 `SetupComparisonIncomplete`；其余为 `NoSetupRegression`。两份空报告不作为通过。
 
 核心/JS `compare_setup_json(baseline, candidate, max_slack_loss_seconds)` 输出独立 `moonbit.sta.setup-compare.v1`、`ok/comparison`；输入/设置错误为 `ok:false/error`。输入必须是原 `moonbit.sta.v1` 成功报告；只验证消费的端点身份/slack视图，其余字段与扩展键忽略。未知 slack 可省略或为null。JS第三个参数是Number，阈值必须有限、非负；文件工具默认0，只读严格UTF-8，允许各单首BOM和调用者相对路径。退出0完整且无相对退步、3已知退步、4比较不完整、2参数/编码/IO/报告/设置/输出错误；`--help`无须构建。
 

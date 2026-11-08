@@ -3,7 +3,7 @@
 pub fn setup_comparison_cases() -> String {
   let text =
     #|{
-    #|  "basis": "Full hand binary64 arithmetic/identity/order/coverage facts before comparator code. Actual two original CLI outputs are verbatim, separately checked against1ns+0.25/0.5ns and2ns hand timing. Synthetic canonical existing report envelopes are endpoint-view test states, not new timing solutions/signoff.",
+    #|  "basis": "Original 30 hand binary64 arithmetic/identity/order/coverage cases preceded comparator code. The two overflow-direction expectations were corrected after identifying that finite inputs with an infinite difference have a definite sign and exceed any finite loss tolerance; all input reports and other expectations remain unchanged. Actual two original CLI outputs are verbatim, separately checked against 1ns+0.25/0.5ns and 2ns hand timing. Synthetic canonical existing report envelopes are endpoint-view test states, not new timing solutions/signoff.",
     #|  "relative_tolerance": 1e-14,
     #|  "absolute_tolerance": 1e-21,
     #|  "reports": {
@@ -523,20 +523,20 @@ pub fn setup_comparison_cases() -> String {
     #|      "candidate": "negative-huge",
     #|      "max_slack_loss_seconds": 0,
     #|      "expected": {
-    #|        "status": "SetupComparisonIncomplete",
+    #|        "status": "SetupRegressed",
     #|        "unit": "seconds",
     #|        "max_slack_loss_seconds": 0,
     #|        "baseline_endpoint_edges": 1,
     #|        "candidate_endpoint_edges": 1,
     #|        "matched_endpoint_edges": 1,
-    #|        "compared_endpoint_edges": 0,
-    #|        "regressed_endpoint_edges": 0,
-    #|        "incomplete_endpoint_edges": 1,
+    #|        "compared_endpoint_edges": 1,
+    #|        "regressed_endpoint_edges": 1,
+    #|        "incomplete_endpoint_edges": 0,
     #|        "rows": [
     #|          {
     #|            "pin": "h",
     #|            "edge": "Rise",
-    #|            "status": "SetupDeltaOverflow",
+    #|            "status": "SetupDeltaRegressed",
     #|            "baseline_slack_seconds": 1e+308,
     #|            "candidate_slack_seconds": -1e+308
     #|          }
@@ -549,20 +549,20 @@ pub fn setup_comparison_cases() -> String {
     #|      "candidate": "huge",
     #|      "max_slack_loss_seconds": 0,
     #|      "expected": {
-    #|        "status": "SetupComparisonIncomplete",
+    #|        "status": "NoSetupRegression",
     #|        "unit": "seconds",
     #|        "max_slack_loss_seconds": 0,
     #|        "baseline_endpoint_edges": 1,
     #|        "candidate_endpoint_edges": 1,
     #|        "matched_endpoint_edges": 1,
-    #|        "compared_endpoint_edges": 0,
+    #|        "compared_endpoint_edges": 1,
     #|        "regressed_endpoint_edges": 0,
-    #|        "incomplete_endpoint_edges": 1,
+    #|        "incomplete_endpoint_edges": 0,
     #|        "rows": [
     #|          {
     #|            "pin": "h",
     #|            "edge": "Rise",
-    #|            "status": "SetupDeltaOverflow",
+    #|            "status": "SetupDeltaImproved",
     #|            "baseline_slack_seconds": -1e+308,
     #|            "candidate_slack_seconds": 1e+308
     #|          }

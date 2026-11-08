@@ -28,9 +28,10 @@ function publishNew(bytes) {
     created = true;
     fs.writeFileSync(descriptor, bytes);
     fs.fsyncSync(descriptor);
-    const closing = descriptor;
+    // Keep the descriptor until close succeeds: a close failure may happen
+    // before the OS releases it, so cleanup needs a chance to retry.
+    fs.closeSync(descriptor);
     descriptor = undefined;
-    fs.closeSync(closing);
     // link creates a new name only: no check-then-overwrite race or copy fallback.
     fs.linkSync(temporary, destination);
     published = true;

@@ -168,17 +168,28 @@ test "setup comparison full identity union keeps known regressions and incomplet
 }
 
 ///|
-test "setup comparison finite huge boundary and overflow retain honest unknown delta" {
+test "setup comparison finite huge boundary classifies overflow direction" {
   let catalog = @json.parse(@testdata.setup_comparison_cases())
   let huge = sct_result(catalog, "huge")
   let half = sct_result(catalog, "half")
   let negative = sct_result(catalog, "negative-huge")
   let report = @sta.compare_setup_results(huge, negative)
-  assert_eq(report.status, @sta.SetupComparisonIncomplete)
-  assert_eq(report.rows[0].status, @sta.SetupDeltaOverflow)
+  assert_eq(report.status, @sta.SetupRegressed)
+  assert_eq(report.rows[0].status, @sta.SetupDeltaRegressed)
   assert_true(report.rows[0].slack_delta_seconds is None)
   assert_eq(report.rows[0].baseline_slack_seconds, Some(1.0e308))
   assert_true(!ToJson::to_json(report).stringify().contains("Infinity"))
+  let max_tolerance = @sta.compare_setup_results(
+    huge,
+    negative,
+    max_slack_loss_seconds=1.7976931348623157e308,
+  )
+  assert_eq(max_tolerance.status, @sta.SetupRegressed)
+  assert_eq(max_tolerance.regressed_endpoint_edges, 1)
+  let improvement = @sta.compare_setup_results(negative, huge)
+  assert_eq(improvement.status, @sta.NoSetupRegression)
+  assert_eq(improvement.rows[0].status, @sta.SetupDeltaImproved)
+  assert_true(improvement.rows[0].slack_delta_seconds is None)
   let finite = @sta.compare_setup_results(
     huge,
     half,

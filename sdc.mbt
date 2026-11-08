@@ -346,12 +346,15 @@ fn parse_sdc_impl(
       if port.direction != direction || name == clk.port {
         raise InvalidInput("wrong SDC port direction " + name)
       }
-      let v = value *
+      let v = checked_finite(
+        value *
         (if cmd == "set_load" {
           units.capacitance_farads
         } else {
           units.time_seconds
-        })
+        }),
+        cmd + " value",
+      )
       match cmd {
         "set_input_delay" => set_port_value(inputs, name, v, rise, fall)
         "set_output_delay" => set_port_value(outputs, name, v, rise, fall)

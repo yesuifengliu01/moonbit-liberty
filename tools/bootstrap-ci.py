@@ -7,6 +7,7 @@ import pathlib
 import stat
 import subprocess
 import tarfile
+import tempfile
 import urllib.request
 
 parser = argparse.ArgumentParser()
@@ -21,15 +22,32 @@ if destination.exists() and any(destination.iterdir()):
 destination.mkdir(parents=True, exist_ok=True)
 downloads = (args.archive_cache or destination.parent / 'liberty-sdk-downloads').resolve()
 downloads.mkdir(parents=True, exist_ok=True)
+
+
+def sha256_file(path: pathlib.Path) -> str:
+    digest = hashlib.sha256()
+    with path.open('rb') as source:
+        while block := source.read(1024 * 1024):
+            digest.update(block)
+    return digest.hexdigest()
+
+
 for name, target in [('sdk', destination), ('core', destination / 'lib')]:
     archive = downloads / (name + '.tar.gz')
     if not archive.exists():
         request = urllib.request.Request(spec[name + '_url'], headers={'User-Agent': 'liberty-ci'})
-        with urllib.request.urlopen(request, timeout=120) as response, archive.open('xb') as output:
-            while block := response.read(1024 * 1024):
-                output.write(block)
-    digest = hashlib.sha256(archive.read_bytes()).hexdigest()
-    if digest != spec[name + '_sha256']:
+        fd, partial_name = tempfile.mkstemp(dir=downloads, prefix=name + '-', suffix='.partial')
+        partial = pathlib.Path(partial_name)
+        try:
+            with os.fdopen(fd, 'wb') as output, urllib.request.urlopen(request, timeout=120) as response:
+                while block := response.read(1024 * 1024):
+                    output.write(block)
+            if sha256_file(partial) != spec[name + '_sha256']:
+                raise SystemExit(name + ' archive SHA256 mismatch')
+            partial.replace(archive)
+        finally:
+            partial.unlink(missing_ok=True)
+    if sha256_file(archive) != spec[name + '_sha256']:
         raise SystemExit(name + ' archive SHA256 mismatch')
     target.mkdir(parents=True, exist_ok=True)
     with tarfile.open(archive) as package:
