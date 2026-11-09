@@ -93,7 +93,29 @@ pub fn analyze_json(liberty_text : String, request_text : String) -> String {
     let request = @json.parse(request_text) catch {
       _ => raise InvalidInput("invalid request JSON")
     }
-    let netlist = netlist_from_json(json_field(request, "netlist"))
+    let netlist = match request {
+      Object(fields) => {
+        let native = fields.get("netlist")
+        let yosys = fields.get("yosys_netlist")
+        match (native, yosys) {
+          (Some(_), Some(_)) =>
+            raise InvalidInput("choose one of netlist or yosys_netlist")
+          (None, Some(value)) =>
+            netlist_from_yosys_json(
+              value,
+              json_string(json_field(request, "yosys_module")),
+            )
+          (Some(value), None) => {
+            if fields.contains("yosys_module") {
+              raise InvalidInput("yosys_module requires yosys_netlist")
+            }
+            netlist_from_json(value)
+          }
+          (None, None) => netlist_from_json(json_field(request, "netlist"))
+        }
+      }
+      _ => netlist_from_json(json_field(request, "netlist"))
+    }
     let library = @liberty.load_library(liberty_text) catch {
       @liberty.LibertyError(code, message, _) =>
         raise LibraryFailure(code + ": " + message)

@@ -1,0 +1,25 @@
+{
+  "yosys_module": "chain",
+  "yosys_netlist": {
+    "creator": "MoonBit STA write_json-compatible example",
+    "modules": {
+      "chain": {
+        "ports": {
+          "clk": {"direction": "input", "bits": [2]},
+          "a": {"direction": "input", "bits": [3]},
+          "y": {"direction": "output", "bits": [6]}
+        },
+        "cells": {
+          "b0": {"type": "sky130_fd_sc_hd__inv_1", "connections": {"A": [3], "Y": [4]}},
+          "b1": {"type": "sky130_fd_sc_hd__inv_1", "connections": {"A": [4], "Y": [5]}},
+          "b2": {"type": "sky130_fd_sc_hd__inv_1", "connections": {"A": [5], "Y": [6]}}
+        },
+        "netnames": {
+          "n0": {"bits": [4]},
+          "n1": {"bits": [5]}
+        }
+      }
+    }
+  },
+  "sdc": "create_clock -name clk -period 2 [get_ports clk]\nset_clock_transition 0.1 [get_clocks clk]\nset_clock_uncertainty -setup 0.02 [get_clocks clk]\nset_input_delay -clock clk -max 0.0300 [get_ports a]\nset_input_transition 0.0800 [get_ports a]\nset_output_delay -clock clk -max 0.1 [get_ports y]\nset_load 0.01 [get_ports y]\n"
+}

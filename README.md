@@ -4,6 +4,8 @@
 
 独立实现网表校验/拓扑排序、集中负载聚合、rise/fall 图传播、clock-to-Q、建立时间约束和可解释路径。Liberty 文本解析、领域模型、Boolean AST 与查表复用 **SongYZZZ/moon-liberty 0.4.1**；OpenSTA 仅作独立验证进程，运行时不依赖它。
 
+生态定位（2026-11-09 检索 Mooncakes，结论限于已查包）：[SongYZZZ/moon-liberty](https://github.com/SongYZZZ/moon-liberty) 提供 Liberty 解析与 NLDM 查询；[dtzrttp/moonbit-rtl](https://github.com/dtzrttp/moonbit-rtl) 和 [yzfyzf12345678/moonbit-rtl](https://github.com/yzfyzf12345678/moonbit-rtl) 侧重 Verilog/RTL 前端；[moonrcinspect](https://github.com/alicedhaha/RCInspect) 侧重 SPEF 寄生 RC。本项目复用 Liberty 解析，在已映射单元网表上做 setup STA，并以受限 Yosys `write_json` 导入衔接综合输出。没有发现同一 MoonBit 导入与分析链路的现成包；这不是对整个生态的唯一性声明。
+
 ## 安装与运行
 
 按 [MoonBit 官方安装教程](https://docs.moonbitlang.com/en/stable/tutorial/tour.html)安装工具链（要求 `moonc` 不低于 `0.10.16`），并从 [Node.js 官网](https://nodejs.org/en/download/)安装 Node.js 24。运行 `moon version --all` 与 `node --version` 确认实际版本。本项目在 Windows 使用 MoonBit SDK `0.10.19+97801ee1b`（moonc `v0.10.19`、moon `0.1.20261029`）及 Node.js `24.18.0` 验证；CI 固定的 SDK/core 下载和 SHA256 见 `tools/ci-toolchain.json`，原 WSL Ubuntu 基线见 [VALIDATION.md](VALIDATION.md)。
@@ -27,7 +29,7 @@ moon test --target wasm-gc --deny-warn
 moon test --target native --deny-warn
 ```
 
-新版编译器要求 trait 方法以显式 `extend` 附加；源码已完成迁移，检查与 CI 对所有编译器警告继续按错误处理。CI 还执行全目标 release 构建、Mooncakes 归档生成、格式检查和真实文件消费者。
+新版编译器要求 trait 方法以显式 `extend` 附加；源码已完成迁移，检查与 CI 对所有编译器警告继续按错误处理。CI 还执行全目标 release 构建、Mooncakes 归档生成与内容校验、格式检查和真实文件消费者。`tools/ci-package.py` 核对归档中的 README、许可证、示例与源码，并拒绝凭据、构建缓存和不安全路径。
 
 消费者成功输出 `{"ok":true,"schema":"moonbit.sta.v1","result":...}`。分析/参数/IO 错误退出码 2；默认模式正常分析即使存在负 slack 仍退出 0，调用者应检查 `worst_slack_seconds`。`tools/sta.cjs` 负责请求 IO、调用 MoonBit 导出及映射检查退出码；时序计算在 MoonBit 核心。
 
@@ -85,7 +87,18 @@ let report = @sta.STAEngine::new(library, netlist, constraints)
 }
 ```
 
-该片段仅说明字段形状；完整可运行输入见 examples。`range_policy` 支持 `extrapolate`（默认）、`reject`、`clamp`。外推是上游端区间延拓，会返回诊断；不是切平面外推。NaN/Inf、坏坐标或缺模型不能静默绕过；有限输入若使最终派生 arrival/required/slack 溢出，返回明确错误，不输出 Infinity。仍可表示的大数继续支持。
+该片段仅说明字段形状；完整可运行输入见 examples。`range_policy` 支持 `extrapolate`（默认）、`reject`、`clamp`。外推是上游端区间延拓，会返回诊断；不是切平面外推。NaN/Inf、坏坐标或缺模型不能静默绕过；有限输入若使最终派生 arrival/required/slack 溢出，返回明确错误，不输出 Infinity。SDC 非零数值若在解析或 SI 单位换算时下溢为零也会拒绝，字面零仍接受。仍可表示的大数继续支持。
+
+### 导入已映射的 Yosys JSON 网表
+
+可将请求中的 `netlist` 换成 `yosys_netlist`（完整的 Yosys `write_json` 对象）与必填的 `yosys_module`（模块名），原有 `sdc`、`range_policy`、`period_budget` 和 `setup_summary` 用法不变。两种网表入口不能同时提供。核心提供 `netlist_from_yosys_json(value, module)`，转换为同一个 `Netlist` 后再做相同的约束绑定和时序分析。
+
+```sh
+moon build --target js --release
+node tools/sta.cjs examples/sky130-demo.lib examples/yosys-chain.json
+```
+
+`examples/yosys-chain.json` 是按 [Yosys 官方 `write_json` 格式](https://yosyshq.readthedocs.io/projects/yosys/en/v0.64/cmd/index_backends.html#write-json-write-design-to-a-json-file)手写的最小已映射样例，与 `examples/chain.json` 表示同一条三反相器链。CI 运行两者并按 pin/edge 对齐比较时序结果。在 Yosys 中完成技术映射后，用 `write_json -noscopeinfo mapped.json` 导出，再把完整对象放入请求的 `yosys_netlist`；默认导出中可能出现的 `$scopeinfo` 不属于可分析单元，会被拒绝。入口只接收平坦的单比特端口和单比特已映射单元连接；Yosys 整数 bit ID 负责连接及别名，单元类型仍必须存在于所给 Liberty 库，综合和分析须使用匹配的 cell/pin 接口。向量、常量位、`inout`、存储器和未映射/层次单元不能作为受支持的时序网表，遇到时返回错误。Yosys 导出不含线寄生，本导入器将线电容设为 0；需要实际线电容时可使用原生 `Netlist` 入口。该入口不运行综合，也不解析 Verilog。
 
 `STAResult` 含：每 pin/edge 的 arrival、slew、driver net 总 load；每端点 required/slack/setup；最坏 slack；拓扑次序和诊断；带 pin/edge/单弧 delay 的 predecessor 路径。DFF launch 在非零 ideal latency 时先列出 CLK 的 `clock_latency` 步，再列 tCQ，使路径 delay 求和等于 arrival。JSON 的 Option 无值字段被省略，表示未约束，不是 0。`slew_contributor` 与 arrival path 分列，因为图分析分别合并最坏 slew 与最晚 arrival，不能把结果解释为精确相关的单路径波形。零 slew 仍记录真实贡献来源；NLDM 外推得到的负 slew 按物理下限取 0。`topological_order` 是按输出求值的实例序列，连续同名合并，交错时可重复实例名（如 pair→invert→pair）；按 pin/edge 查询节点。
 
@@ -141,7 +154,7 @@ required、稳定 slack 和周期下界中的三／四项有限约束先精确�
 
 ## Setup 违例摘要
 
-已有报告可调用 `report.setup_summary()`，直接从端点 slack 派生摘要，无需再次传播或读取库。返回 `SetupSummary`：端点数（按报告 pin 身份去重）、已约束/未约束沿数、违例沿数、违例端点数、最坏 slack 与 WNS。一个端点的 rise/fall 都负时，计两个违例沿、一个违例端点；别名输出端口各自是独立端点。负值严格 `< 0`，零不算违例；WNS 为 `min(0, worst_slack)`，没有已知 slack 时无值。公开手工构造的报告若含非有限 slack，此方法用现有 `STAError` 拒绝。
+已有报告可调用 `report.setup_summary()`，直接从端点 slack 派生摘要，无需再次传播或读取库。返回 `SetupSummary`：端点数（按报告 pin 身份去重）、已约束/未约束沿数、违例沿数、违例端点数、最坏 slack 与 WNS。一个端点的 rise/fall 都负时，计两个违例沿、一个违例端点；别名输出端口各自是独立端点。负值严格 `< 0`，零不算违例；WNS 为 `min(0, worst_slack)`，没有已知 slack 时无值。公开手工构造的报告若含非有限 slack、空 pin 或重复 pin/edge 身份，此方法用现有 `STAError` 拒绝，以免重复行被计作多个端点沿。
 
 | status | 含义 |
 | --- | --- |

@@ -37,6 +37,8 @@ pub fn netlist_from_json(Json) -> Netlist raise STAError
 
 pub fn netlist_from_json_with_diagnostics(Json) -> Netlist raise NetlistJsonDiagnostic
 
+pub fn netlist_from_yosys_json(Json, String) -> Netlist raise STAError
+
 pub fn parse_sdc(String, @moon-liberty.Library, Netlist) -> TimingConstraints raise STAError
 
 pub fn parse_sdc_with_diagnostics(String, @moon-liberty.Library, Netlist) -> TimingConstraints raise SdcDiagnostic
