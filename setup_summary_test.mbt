@@ -105,6 +105,23 @@ test "setup summary keeps finite extremes and rejects nonfinite public slack obj
 }
 
 ///|
+test "setup summary rejects duplicate or empty public endpoint identities" {
+  for
+    values in [
+      [("x", @sta.Rise, Some(0.1)), ("x", @sta.Rise, Some(-0.2))],
+      [("", @sta.Fall, Some(0.1))],
+    ] {
+    try summary_report(values).setup_summary() catch {
+      @sta.InvalidInput(message) =>
+        assert_true(message.contains("duplicate/empty summary endpoint"))
+      _ => fail("wrong summary error")
+    } noraise {
+      _ => fail("ambiguous endpoint identity was accepted")
+    }
+  }
+}
+
+///|
 test "setup summary applies to the real DFF report without a second analysis" {
   let lib = @liberty.load_library(@testdata.library())
   let n = sequential()

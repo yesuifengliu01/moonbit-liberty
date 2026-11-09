@@ -46,8 +46,9 @@ The two analysis flags may be given in either order, once each.
 Without --request-stdin, - is a literal filename. Positional --help is also a file.
 
 Inputs: valid UTF-8, optionally one initial BOM; internal characters are preserved.
-The JSON request contains netlist and sdc; range_policy, period_budget and
-setup_summary are optional. Full schema and examples: README.md and examples/.
+The JSON request contains sdc and either netlist or yosys_netlist plus
+yosys_module; range_policy, period_budget and setup_summary are optional.
+Full schema and examples: README.md and examples/.
 Default successful analysis exits 0 even with negative slack.
 Check exits: 0 Met; 3 Violated; 4 PartialCoverage, NoCoverage or NoEndpoints.
 Errors exit 2: arguments, input/encoding, JSON/analysis or stdout writing.

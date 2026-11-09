@@ -85,7 +85,32 @@ fn sdc_number(s : String) -> Double raise STAError {
   if !finite(v) {
     raise InvalidInput("SDC value must be finite")
   }
+  if v == 0.0 {
+    // A parser may round a tiny nonzero literal to zero before unit scaling.
+    // Scan only the significand: exponent digits do not make 0e-400 nonzero.
+    for ch in s.to_array() {
+      if ch == 'e' || ch == 'E' || ch == 'p' || ch == 'P' {
+        break
+      }
+      if ch >= '1' && ch <= '9' {
+        raise InvalidInput("underflowed SDC number: " + s)
+      }
+    }
+  }
   v
+}
+
+///|
+// A zero product from two nonzero finite inputs would silently erase a delay,
+// transition, latency, uncertainty or load constraint.
+fn sdc_reject_underflow(
+  value : Double,
+  converted : Double,
+  label : String,
+) -> Unit raise STAError {
+  if value != 0.0 && converted == 0.0 {
+    raise InvalidInput("underflowed " + label + " value")
+  }
 }
 
 ///|
@@ -298,6 +323,7 @@ fn parse_sdc_impl(
       } else {
         nonnegative(v, cmd)
       }
+      sdc_reject_underflow(value, v, cmd)
       clock = Some(
         match cmd {
           "set_clock_transition" =>
@@ -355,6 +381,7 @@ fn parse_sdc_impl(
         }),
         cmd + " value",
       )
+      sdc_reject_underflow(value, v, cmd)
       match cmd {
         "set_input_delay" => set_port_value(inputs, name, v, rise, fall)
         "set_output_delay" => set_port_value(outputs, name, v, rise, fall)

@@ -22,10 +22,12 @@ pub(all) struct SetupSummary {
 ///|
 /// Summarize the endpoint slacks already in this report, without rerunning STA.
 /// Violated includes known violations in a report that also has unknown edges.
+/// Publicly constructed reports must have nonempty, unique pin/edge identities.
 pub fn STAResult::setup_summary(
   self : STAResult,
 ) -> SetupSummary raise STAError {
   let pins : Map[String, Bool] = Map([])
+  let seen : Array[Map[String, Bool]] = [Map([]), Map([])]
   let failing : Map[String, Bool] = Map([])
   let mut endpoint_count = 0
   let mut constrained = 0
@@ -34,6 +36,11 @@ pub fn STAResult::setup_summary(
   let mut violating_pins = 0
   let mut worst : Double? = None
   for e in self.endpoints {
+    let names = seen[edge_index(e.edge)]
+    if e.pin.is_empty() || names.contains(e.pin) {
+      raise InvalidInput("duplicate/empty summary endpoint " + e.pin)
+    }
+    names[e.pin] = true
     if !pins.contains(e.pin) {
       pins[e.pin] = true
       endpoint_count += 1

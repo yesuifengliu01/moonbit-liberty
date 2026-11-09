@@ -54,8 +54,12 @@ jobs:
         run: moon build --target all --release --deny-warn
       - name: Build publishable Mooncakes archive
         run: moon package --list
+      - name: Verify archive contents and provenance
+        run: python3 tools/ci-package.py
       - name: Exercise real CLI consumers
         run: python3 tools/ci-consumers.py
+      - name: Exercise mapped Yosys JSON import
+        run: python3 tools/ci-yosys.py
       - name: Exercise SDC file diagnostics
         run: python3 tools/ci-sdc-diagnostics.py
       - name: Exercise Netlist field diagnostics

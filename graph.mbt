@@ -85,6 +85,12 @@ fn build_graph(
   if ports.get(c.clock.port) != Some(Input) {
     raise InvalidInput("clock must name one input port")
   }
+  // The clock port is already known to exist and be an input. Resolve its net
+  // once rather than scanning all ports for every sequential instance.
+  let clock_net = netlist.ports
+    .iter()
+    .find_first(p => p.name == c.clock.port)
+    .unwrap().net
   for
     (values, direction, label) in [
       (c.input_delays, Input, "input delay"),
@@ -115,14 +121,24 @@ fn build_graph(
   let cells = []
   let registers = []
   let connections = []
+  // MoonLiberty::cell performs a linear scan. Preserve its first-match
+  // behavior while reusing resolved cells across repeated instances.
+  let cached_cells : Map[String, @liberty.Cell] = Map([])
   for index, gate in netlist.gates {
     if gate.name.is_empty() || names.contains(gate.name) {
       raise InvalidInput("duplicate/empty instance " + gate.name)
     }
     names[gate.name] = true
-    let cell = match library.cell(gate.cell) {
+    let cell = match cached_cells.get(gate.cell) {
       Some(v) => v
-      None => raise InvalidInput("unknown cell " + gate.cell)
+      None => {
+        let v = match library.cell(gate.cell) {
+          Some(v) => v
+          None => raise InvalidInput("unknown cell " + gate.cell)
+        }
+        cached_cells[gate.cell] = v
+        v
+      }
     }
     let reg = register(cell)
     let conn : Map[String, String] = Map([])
@@ -158,11 +174,7 @@ fn build_graph(
       }
     }
     if reg is Some(reg) {
-      let clock_port = netlist.ports
-        .iter()
-        .find_first(p => p.name == c.clock.port)
-        .unwrap()
-      if conn[reg.clock] != clock_port.net {
+      if conn[reg.clock] != clock_net {
         raise Unsupported(
           "all registers must use the single ideal clock directly",
         )
